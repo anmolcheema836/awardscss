@@ -1,155 +1,231 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwardsCSS | Complete Developer API</title>
-    <link rel="stylesheet" href="../dist/awardscss.css">
+    <title>AwardsCSS | Official Developer Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/awardscss/dist/awardscss.css" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=space-mono@400&f[]=inter@400,500&display=swap" rel="stylesheet">
     <style>
-        .code-wrap { background: #0a0a0a; border: 1px solid var(--color-border); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0 3rem 0; overflow-x: auto; font-family: var(--aw-font-mono); font-size: 13px; line-height: 1.6; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);}
-        .v-tag { color: #f28b82; } .v-attr { color: #bb86fc; } .v-str { color: #8bc34a; } .v-comment { color: #666; font-style: italic;}
+        /* Base / Architecture */
+        html, body { overflow-x: clip; scroll-behavior: smooth; }
         
+        /* Parallax Footer Structure */
+        .main-content { background: var(--color-bg); z-index: 2; position: relative; padding-bottom: 6rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        
+        /* Code Blocks & Copy UI */
+        .code-container { position: relative; margin: 1.5rem 0 3rem 0; }
+        .code-wrap { background: #0a0a0a; border: 1px solid var(--color-border); padding: 1.5rem; padding-right: 3.5rem; border-radius: 12px; overflow-x: auto; font-family: var(--aw-font-mono); font-size: 13px; line-height: 1.6; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); margin: 0; white-space: pre; }
+        
+        /* Copy Button Styles */
+        .copy-btn { position: absolute; top: 1rem; right: 1rem; background: #1a1a1a; border: 1px solid var(--color-border); color: #888; border-radius: 6px; padding: 0.5rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; z-index: 10; backdrop-filter: blur(4px); }
+        .copy-btn:hover { background: #2a2a2a; color: var(--color-accent); border-color: var(--color-accent); transform: scale(1.05); }
+        .copy-btn:active { transform: scale(0.95); }
+        .copy-btn svg { width: 16px; height: 16px; transition: 0.2s ease; }
+        .copy-btn.copied { color: #8bc34a; border-color: #8bc34a; background: rgba(139, 195, 74, 0.1); }
+        
+        /* Syntax Highlighting */
+        .v-tag { color: #f28b82; } .v-attr { color: #bb86fc; } .v-str { color: #8bc34a; } .v-comment { color: #666; font-style: italic;} .v-cmd { color: #00F0FF; font-weight: bold; }
+        
+        /* Grid Layouts */
         .docs-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-8); padding-top: var(--space-24);}
         @media(min-width: 1024px){ .docs-grid { grid-template-columns: 260px 1fr; gap: var(--space-32); } }
         
+        /* Sidebar */
         aside { height: max-content; }
         aside a { display: block; padding: 0.5rem 0; color: #888; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;}
         aside a:hover { color: var(--color-accent); padding-left: 0.5rem;}
         
+        /* Typography Elements */
         .api-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 3rem;}
         .api-table th { padding: 1rem; border-bottom: 1px solid var(--color-border); font-family: var(--aw-font-mono); color: #fff;}
         .api-table td { padding: 1rem; border-bottom: 1px solid var(--color-border); color: #aaa; font-size: 0.9rem;}
         .class-badge { display: inline-block; background: #1a1a1a; padding: 0.2rem 0.6rem; border-radius: 4px; color: var(--color-accent); font-family: var(--aw-font-mono); font-size: 12px; border: 1px solid var(--color-border);}
         
         h2 { margin-top: 5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); font-size: var(--text-4xl); font-family: var(--aw-font-display); }
-
-        /* =================================================================
-           NEW AWARDS CSS PREMIUM ADDITIONS 
-           (In production, migrate these to src/ files)
-           ================================================================= */
-        .aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
-        .aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; object-fit: cover; height: 0.9em; margin: 0; }
-        .aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }
-        .aw-tracing-border { position: relative; border-radius: 16px; padding: 1px; overflow: hidden; background: var(--color-border); }
-        .aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
-        .aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
-        @keyframes spinTrace { 100% { transform: rotate(360deg); } }
-        .aw-grid-floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 40vh; perspective: 1000px; z-index: 0; overflow: hidden; mask-image: linear-gradient(to top, black, transparent); -webkit-mask-image: linear-gradient(to top, black, transparent); pointer-events: none;}
-        .aw-grid-floor-inner { position: absolute; width: 200%; height: 200%; left: -50%; top: 0; transform: rotateX(80deg); background-size: 80px 80px; background-image: linear-gradient(to right, var(--color-border) 1px, transparent 1px), linear-gradient(to bottom, var(--color-border) 1px, transparent 1px); animation: floorMove 3s linear infinite; }
-        @keyframes floorMove { 0% { transform: rotateX(80deg) translateY(0); } 100% { transform: rotateX(80deg) translateY(80px); } }
-        .aw-liquid-fill { position: relative; color: transparent; -webkit-text-stroke: 1px var(--color-border); display: inline-block; overflow: hidden; padding-bottom: 0.1em; line-height: 1; }
-        .aw-liquid-fill::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; height: 100%; color: var(--color-fg); -webkit-text-stroke: 0; transform: translateY(100%); transition: transform 0.6s var(--ease-bounce-soft); }
-        .aw-liquid-fill:hover::after { transform: translateY(0); }
-        .aw-roller { display: inline-flex; flex-direction: column; overflow: hidden; height: 1em; vertical-align: top; }
-        .aw-roller-inner { transition: transform 0.6s var(--ease-expo); display: flex; flex-direction: column; }
-        .aw-roller:hover .aw-roller-inner { transform: translateY(-50%); }
-        .aw-roller-text { line-height: 1; }
-        .aw-layered-glass { position: relative; perspective: 1000px; transform-style: preserve-3d; width: 100%; height: 100%; cursor: pointer;}
-        .aw-layered-pane { position: absolute; inset: 0; border: 1px solid var(--color-border); border-radius: 16px; transition: transform 0.8s var(--ease-expo); background: var(--glass-bg); backdrop-filter: var(--blur-md); box-shadow: var(--shadow-main); }
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(1) { transform: translateZ(-40px) translateX(-20px) translateY(-20px); opacity: 0.5;}
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(2) { transform: translateZ(0px); }
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(3) { transform: translateZ(40px) translateX(20px) translateY(20px); }
-        .aw-mask-reveal-container { position: relative; overflow: hidden; cursor: crosshair; }
-        .aw-mask-reveal-layer { position: absolute; inset: 0; background: var(--color-fg); color: var(--color-bg); z-index: 10; -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%); mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%); pointer-events: none; }
-        .aw-blob { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transition: border-radius 1.2s ease-in-out; overflow: hidden; width: 100%; height: 100%; }
-        .aw-blob:hover { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-        .aw-diagonal-reveal img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); transition: clip-path 1.2s var(--ease-expo); }
-        .aw-diagonal-reveal:hover img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .aw-cylinder-wrap { perspective: 1000px; display: flex; justify-content: center; align-items: center; height: 120px; overflow: hidden; }
-        .aw-cylinder { transform-style: preserve-3d; animation: spinCylinder 8s linear infinite; position: relative; width: 100%; height: 100%; }
-        .aw-cylinder span { position: absolute; top: 50%; left: 50%; transform-origin: center; white-space: nowrap; font-family: var(--aw-font-display); font-size: 3rem; font-weight: 600; text-transform: uppercase; }
-        .aw-cylinder span:nth-child(1) { transform: translate(-50%, -50%) rotateX(0deg) translateZ(60px); }
-        .aw-cylinder span:nth-child(2) { transform: translate(-50%, -50%) rotateX(120deg) translateZ(60px); }
-        .aw-cylinder span:nth-child(3) { transform: translate(-50%, -50%) rotateX(240deg) translateZ(60px); }
-        @keyframes spinCylinder { to { transform: rotateX(-360deg); } }
-        .aw-stack-container { position: relative; width: 100%; display: flex; flex-direction: column; padding-bottom: var(--space-32); }
-        .aw-stack-card { position: sticky; top: 15vh; height: 70vh; width: 100%; border-radius: 24px; overflow: hidden; transform-origin: top center; border: 1px solid var(--color-border); box-shadow: 0 -20px 40px rgba(0,0,0,0.6); margin-bottom: var(--space-8); }
-        .aw-stack-card:nth-child(1) { z-index: 1; }
-        .aw-stack-card:nth-child(2) { z-index: 2; }
-        .aw-stack-card:nth-child(3) { z-index: 3; margin-bottom: 0; }
-        @supports (animation-timeline: view()) { .aw-stack-card { animation: scaleStackDown linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; } }
-        @keyframes scaleStackDown { to { transform: scale(0.85); filter: brightness(0.2); } }
+        h3 { font-family: var(--aw-font-display); font-size: var(--text-2xl); margin-top: 2rem; margin-bottom: 1rem; color: var(--color-fg); }
     </style>
 </head>
-<body class="theme-dark pb-section aw-noise-animated" style="overflow-x: clip;">
+<body class="theme-dark aw-noise-animated">
 
-    <nav class="aw-nav" id="mainNav">
-        <div class="container flex justify-between items-center">
-            <a href="index.html" class="aw-nav-brand text-xl text-gradient-accent">Awards<span class="text-white">.Docs</span></a>
-            <div class="aw-nav-links flex items-center">
-                <a href="index.html" class="hidden md:block text-xs uppercase tracking-widest font-mono">Showcase Arena</a>
-            </div>
-            <a href="index.html" class="aw-btn font-mono uppercase" style="font-size:10px; padding:0.5rem 1.5rem; background:transparent; border:1px solid #555">Back to Website</a>
-        </div>
-    </nav>
+    <!-- Deep Parallax Wrapper for Main Content -->
+    <div class="aw-footer-parallax-wrapper main-content">
 
-    <main class="container docs-grid">
-        <aside class="aw-section-sticky relative" style="top: 100px;">
-            <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4">Core Architecture</p>
-            <a href="#getting-started">1. Getting Started</a>
-            <a href="#typography">2. Typography & Text FX</a>
-            <a href="#layout">3. Layout & Grid Floors</a>
-            <br>
-            <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4 mt-4">Interactive Modules</p>
-            <a href="#buttons">4. Buttons & Links</a>
-            <a href="#cards">5. Cards & 3D Glass</a>
-            <a href="#gallery">6. Advanced Image FX</a>
-            <a href="#forms">7. Forms & Accordions</a>
-            <a href="#navs">8. Navs & Cylinders</a>
-            <br>
-            <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4 mt-4">Cinematic Effects</p>
-            <a href="#effects">9. Blend Modes & Reveals</a>
-            <a href="#cursor">10. Tooltips & X-Ray</a>
-            <a href="#animations">11. Scroll Timelines</a>
-            <a href="#aurora">12. Ambient Backgrounds</a>
-        </aside>
-
-        <section class="max-w-[850px] w-full pt-4">
-            <h1 class="text-5xl font-display font-semibold mb-4 tracking-tight aw-text-reveal"><span>The Complete API.</span></h1>
-            <p class="text-xl text-neutral mb-8" style="color:#aaa;">Every utility inside the AwardCSS infrastructure follows strict globally rendering naming conventions under the <code>aw-</code> namespace.</p>
-            
-            <hr class="border-border w-full my-8">
-
-            <article id="getting-started">
-                <h2>1. Getting Started</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Ensure overflow-x is clip to prevent double scrollbar bugs --&gt;</span>
-&lt;<span class="v-tag">body</span> <span class="v-attr">class</span>=<span class="v-str">"theme-dark aw-noise-animated"</span> <span class="v-attr">style</span>=<span class="v-str">"overflow-x: clip;"</span>&gt;
-    &lt;<span class="v-tag">main</span> <span class="v-attr">class</span>=<span class="v-str">"container pt-section"</span>&gt;&lt;/<span class="v-tag">main</span>&gt;
-&lt;/<span class="v-tag">body</span>&gt;
+        <!-- Navbar -->
+        <nav class="aw-nav" id="mainNav">
+            <div class="container flex justify-between items-center">
+                <a href="index.html" class="aw-nav-brand text-xl text-gradient-accent">Awards<span class="text-white">.Docs</span></a>
+                <div class="aw-nav-links flex items-center">
+                    <span class="hidden md:block text-xs uppercase tracking-widest font-mono text-neutral">v1.0.0</span>
                 </div>
-            </article>
+                <a href="index.html" class="aw-btn font-mono uppercase" style="font-size:10px; padding:0.5rem 1.5rem;color:white; background:transparent; border:1px solid #ffffff">Back to Showcase</a>
+            </div>
+        </nav>
 
-            <article id="typography">
-                <h2>2. Typography & Text FX</h2>
-                <table class="api-table mt-4">
-                    <tr><th>Class</th><th>Description</th></tr>
-                    <tr><td><span class="class-badge">.text-xs</span> to <span class="class-badge">.text-display</span></td><td>Fluid clamping font scales. No breakpoints needed.</td></tr>
-                    <tr><td><span class="class-badge">.aw-glitch</span></td><td>Cyberpunk RGB split. Use <code>data-text="string"</code>.</td></tr>
-                    <tr><td><span class="class-badge">.aw-liquid-fill</span></td><td>Outline text that fills vertically on hover like water.</td></tr>
-                    <tr><td><span class="class-badge">.aw-roller</span></td><td>Slot-machine vertical text roller wrapper on hover.</td></tr>
-                    <tr><td><span class="class-badge">.aw-inline-reveal-wrap</span></td><td>Expands an inline image between text lines.</td></tr>
-                    <tr><td><span class="class-badge">.aw-scroll-fill</span></td><td>Native view-timeline text outline fill linked to scroll depth.</td></tr>
-                </table>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Liquid/Wave Text Fill (Needs data-text attribute) --&gt;</span>
-&lt;<span class="v-tag">h1</span> <span class="v-attr">class</span>=<span class="v-str">"aw-liquid-fill"</span> <span class="v-attr">data-text</span>=<span class="v-str">"Fluid"</span>&gt;Fluid&lt;/<span class="v-tag">h1</span>&gt;
+        <main class="container docs-grid">
+            <!-- Documentation Sidebar -->
+            <aside class="aw-section-sticky relative" style="top: 100px;">
+                <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4">Installation</p>
+                <a href="#installation">1. Packages & CDN</a>
+                <a href="#base-setup">2. Base Architecture</a>
+                <br>
+                <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4 mt-4">Core API</p>
+                <a href="#typography">3. Typography & Text FX</a>
+                <a href="#layout">4. Layout & Grid Floors</a>
+                <a href="#buttons">5. Buttons & Links</a>
+                <a href="#cards">6. Cards & 3D Glass</a>
+                <br>
+                <p class="font-mono aw-uppercase-tracked text-xs text-gradient-accent mb-4 mt-4">Cinematic Modules</p>
+                <a href="#gallery">7. Advanced Image FX</a>
+                <a href="#forms">8. Forms & Accordions</a>
+                <a href="#navs">9. Navs & Cylinders</a>
+                <a href="#effects">10. Blend Modes & Reveals</a>
+                <a href="#cursor">11. Tooltips & X-Ray</a>
+                <a href="#aurora">12. Ambient Backgrounds</a>
+            </aside>
+
+            <!-- Documentation Payload -->
+            <section class="max-w-[850px] w-full pt-4">
+                <h1 class="text-5xl font-display font-semibold mb-4 tracking-tight aw-text-reveal"><span>The Complete API.</span></h1>
+                <p class="text-xl text-neutral mb-8" style="color:#aaa;">Every utility inside the AwardsCSS infrastructure follows strict globally rendering naming conventions under the <code>aw-</code> namespace.</p>
+                
+                <hr class="border-border w-full my-8">
+
+                <!-- 1. Installation -->
+                <article id="installation">
+                    <h2>1. Installation & Setup</h2>
+                    <p class="mb-6">AwardsCSS is officially available on the npm registry and via globally distributed CDNs. Choose your preferred installation method below.</p>
+                    
+                    <h3 class="text-xl">Package Managers</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
+                        <!-- NPM Block -->
+                        <div>
+                            <p class="font-mono text-xs uppercase tracking-widest text-neutral mb-2">Via NPM</p>
+                            <div class="code-container" style="margin:0;">
+                                <button class="copy-btn" onclick="copyCode(this)" title="Copy NPM Command">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <div class="code-wrap"><span class="v-cmd">npm</span> install awardscss</div>
+                            </div>
+                        </div>
+
+                        <!-- Yarn Block -->
+                        <div>
+                            <p class="font-mono text-xs uppercase tracking-widest text-neutral mb-2">Via Yarn</p>
+                            <div class="code-container" style="margin:0;">
+                                <button class="copy-btn" onclick="copyCode(this)" title="Copy Yarn Command">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <div class="code-wrap"><span class="v-cmd">yarn</span> add awardscss</div>
+                            </div>
+                        </div>
+
+                        <!-- pnpm Block -->
+                        <div>
+                            <p class="font-mono text-xs uppercase tracking-widest text-neutral mb-2">Via PNPM</p>
+                            <div class="code-container" style="margin:0;">
+                                <button class="copy-btn" onclick="copyCode(this)" title="Copy PNPM Command">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <div class="code-wrap"><span class="v-cmd">pnpm</span> add awardscss</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>If you are using a modern build tool (Vite, Next.js, Vue, etc.), import the compiled CSS directly into your main entry file:</p>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">// App.jsx or main.js</span>
+<span class="v-cmd">import</span> <span class="v-str">'awardscss/dist/awardscss.css'</span>;</div>
+                    </div>
+
+                    <h3 class="mt-12">Direct CDN Setup (Recommended for Vanilla)</h3>
+                    <p>You can instantly leverage the full architecture without any build tools by dropping this stylesheet link directly into your <code>&lt;head&gt;</code> tag.</p>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- jsDelivr Global CDN --&gt;</span>
+&lt;<span class="v-tag">link</span> <span class="v-attr">href</span>=<span class="v-str">"https://cdn.jsdelivr.net/npm/awardscss/dist/awardscss.css"</span> <span class="v-attr">rel</span>=<span class="v-str">"stylesheet"</span>&gt;</div>
+                    </div>
+                </article>
+
+                <!-- 2. Base Setup -->
+                <article id="base-setup">
+                    <h2>2. Base Architecture</h2>
+                    <p>To initialize the framework's variables (like fonts, colors, and base easing curves), you must apply the correct classes to your <code>&lt;body&gt;</code> element.</p>
+                    <table class="api-table mt-4">
+                        <tr><th>Class</th><th>Description</th></tr>
+                        <tr><td><span class="class-badge">.theme-dark</span></td><td>Initializes the dark mode color palette globally.</td></tr>
+                        <tr><td><span class="class-badge">.theme-light</span></td><td>Initializes the light mode color palette globally.</td></tr>
+                        <tr><td><span class="class-badge">.aw-noise-animated</span></td><td>Applies the animated base64 SVG TV static/noise overlay.</td></tr>
+                    </table>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- Ensure overflow-x is clip to prevent native horizontal scrollbar bugs --&gt;</span>
+&lt;<span class="v-tag">body</span> <span class="v-attr">class</span>=<span class="v-str">"theme-dark aw-noise-animated"</span> <span class="v-attr">style</span>=<span class="v-str">"overflow-x: clip;"</span>&gt;
+    &lt;<span class="v-tag">main</span> <span class="v-attr">class</span>=<span class="v-str">"container pt-section"</span>&gt;
+        <span class="v-comment">&lt;!-- Content Goes Here --&gt;</span>
+    &lt;/<span class="v-tag">main</span>&gt;
+&lt;/<span class="v-tag">body</span>&gt;</div>
+                    </div>
+                </article>
+
+                <!-- 3. Typography -->
+                <article id="typography">
+                    <h2>3. Typography & Text FX</h2>
+                    <p>We do not use fixed pixels. All typography utilizes CSS <code>clamp()</code> to perfectly scale between mobile and 4K displays.</p>
+                    <table class="api-table mt-4">
+                        <tr><th>Class</th><th>Description</th></tr>
+                        <tr><td><span class="class-badge">.text-xs</span> to <span class="class-badge">.text-display</span></td><td>Fluid clamping font scales. No media queries needed.</td></tr>
+                        <tr><td><span class="class-badge">.font-display</span></td><td>Applies the primary headings font (Clash Display/Oswald).</td></tr>
+                        <tr><td><span class="class-badge">.font-mono</span></td><td>Applies the secondary technical font (Space Mono).</td></tr>
+                        <tr><td><span class="class-badge">.aw-glitch</span></td><td>Cyberpunk RGB split. Use <code>data-text="string"</code>.</td></tr>
+                        <tr><td><span class="class-badge">.aw-liquid-fill</span></td><td>Outline text that fills vertically on hover like water.</td></tr>
+                        <tr><td><span class="class-badge">.aw-roller</span></td><td>Slot-machine vertical text roller wrapper on hover.</td></tr>
+                        <tr><td><span class="class-badge">.aw-inline-reveal-wrap</span></td><td>Expands an inline image between text lines.</td></tr>
+                    </table>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- Liquid/Wave Text Fill (Needs data-text attribute matching inner text) --&gt;</span>
+&lt;<span class="v-tag">h1</span> <span class="v-attr">class</span>=<span class="v-str">"aw-liquid-fill text-display font-display"</span> <span class="v-attr">data-text</span>=<span class="v-str">"Fluid"</span>&gt;Fluid&lt;/<span class="v-tag">h1</span>&gt;
+
+<span class="v-comment">&lt;!-- Slot Machine Roller Text --&gt;</span>
+&lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-roller"</span>&gt;
+    &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-roller-inner"</span>&gt;
+        &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-roller-text"</span>&gt;Designers&lt;/<span class="v-tag">span</span>&gt;
+        &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-roller-text text-gradient-accent"</span>&gt;Developers&lt;/<span class="v-tag">span</span>&gt;
+    &lt;/<span class="v-tag">span</span>&gt;
+&lt;/<span class="v-tag">span</span>&gt;
 
 <span class="v-comment">&lt;!-- Inline Image Expand --&gt;</span>
 &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-inline-reveal-wrap"</span>&gt;
-    Text
+    Expand your
     &lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"..."</span> <span class="v-attr">class</span>=<span class="v-str">"aw-inline-reveal-img"</span>&gt;
-    More Text
-&lt;/<span class="v-tag">span</span>&gt;
-                </div>
-            </article>
-            
-            <article id="layout">
-                <h2>3. Layout & Perspective Grids</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- 3D Perspective Moving Grid Floor (Great for Heroes) --&gt;</span>
+    vision.
+&lt;/<span class="v-tag">span</span>&gt;</div>
+                    </div>
+                </article>
+                
+                <!-- 4. Layout -->
+                <article id="layout">
+                    <h2>4. Layout & Perspective Grids</h2>
+                    <table class="api-table mt-4">
+                        <tr><th>Class</th><th>Effect</th></tr>
+                        <tr><td><span class="class-badge">.aw-bento</span></td><td>Auto-fitting CSS grid setup mapped for Bento Box UI.</td></tr>
+                        <tr><td><span class="class-badge">.aw-grid-floor</span></td><td>3D trailing perspective floor grid moving endlessly toward the user.</td></tr>
+                    </table>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- 3D Perspective Moving Grid Floor (Great for Heroes) --&gt;</span>
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-grid-floor"</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-grid-floor-inner"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
 &lt;/<span class="v-tag">div</span>&gt;
@@ -158,14 +234,18 @@
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-bento"</span>&gt;
    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-card aw-bento-wide"</span>&gt;2 Columns&lt;/<span class="v-tag">div</span>&gt;
    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-card aw-bento-tall"</span>&gt;2 Rows&lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-                </div>
-            </article>
+&lt;/<span class="v-tag">div</span>&gt;</div>
+                    </div>
+                </article>
 
-            <article id="buttons">
-                <h2>4. Buttons & Links</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Sliding Text Mask Button --&gt;</span>
+                <!-- 5. Buttons -->
+                <article id="buttons">
+                    <h2>5. Buttons & Links</h2>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- Sliding Text Mask Button --&gt;</span>
 &lt;<span class="v-tag">button</span> <span class="v-attr">class</span>=<span class="v-str">"aw-btn"</span>&gt;
     &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-btn-text-mask"</span> <span class="v-attr">data-hover</span>=<span class="v-str">"Engage"</span>&gt;&lt;<span class="v-tag">span</span>&gt;Engage&lt;/<span class="v-tag">span</span>&gt;&lt;/<span class="v-tag">span</span>&gt;
 &lt;/<span class="v-tag">button</span>&gt;
@@ -183,21 +263,24 @@
         &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-flip-link-front"</span>&gt;Front Face&lt;/<span class="v-tag">span</span>&gt;
         &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-flip-link-back"</span>&gt;Back Face&lt;/<span class="v-tag">span</span>&gt;
     &lt;/<span class="v-tag">span</span>&gt;
-&lt;/<span class="v-tag">a</span>&gt;
-                </div>
-            </article>
+&lt;/<span class="v-tag">a</span>&gt;</div>
+                    </div>
+                </article>
 
-            <article id="cards">
-                <h2>5. Cards & Sticky Stacks</h2>
-                <table class="api-table mt-4">
-                    <tr><th>Class</th><th>Effect</th></tr>
-                    <tr><td><span class="class-badge">.aw-layered-glass</span></td><td>Separates and tilts 3 stacked glass panels in 3D on hover.</td></tr>
-                    <tr><td><span class="class-badge">.aw-neo-card</span></td><td>Neo-brutalist tactile offset sharp shadow clicker.</td></tr>
-                    <tr><td><span class="class-badge">.aw-spotlight-card</span></td><td>Requires JS tracker. Projects radial gradient behind content.</td></tr>
-                    <tr><td><span class="class-badge">.aw-stack-card</span></td><td>Requires `.aw-stack-container`. Fades under next card natively on scroll.</td></tr>
-                </table>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Layered Parallax Glass Panes (Requires 3 panes) --&gt;</span>
+                <!-- 6. Cards -->
+                <article id="cards">
+                    <h2>6. Cards & Sticky Stacks</h2>
+                    <table class="api-table mt-4">
+                        <tr><th>Class</th><th>Effect</th></tr>
+                        <tr><td><span class="class-badge">.aw-card-interactive</span></td><td>3D space hover lift with trailing glow shadow.</td></tr>
+                        <tr><td><span class="class-badge">.aw-layered-glass</span></td><td>Separates and tilts 3 stacked glass panels in 3D on hover.</td></tr>
+                        <tr><td><span class="class-badge">.aw-stack-card</span></td><td>Requires `.aw-stack-container`. Fades under next card natively on scroll.</td></tr>
+                    </table>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- Layered Parallax Glass Panes (Requires 3 panes) --&gt;</span>
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-layered-glass w-full h-64"</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-layered-pane"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-layered-pane"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
@@ -208,14 +291,18 @@
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-stack-container"</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-stack-card"</span>&gt;1&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-stack-card"</span>&gt;2&lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-                </div>
-            </article>
+&lt;/<span class="v-tag">div</span>&gt;</div>
+                    </div>
+                </article>
 
-            <article id="gallery">
-                <h2>6. Advanced Image FX</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Diagonal Slice Reveal --&gt;</span>
+                <!-- 7. Gallery -->
+                <article id="gallery">
+                    <h2>7. Advanced Image FX</h2>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- Diagonal Slice Reveal --&gt;</span>
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-diagonal-reveal"</span>&gt;
     &lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"image.jpg"</span>&gt;
 &lt;/<span class="v-tag">div</span>&gt;
@@ -226,66 +313,18 @@
 <span class="v-comment">&lt;!-- Image Fan Stack (Requires exactly 3 images) --&gt;</span>
 &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-fan-stack"</span>&gt;
     &lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"1.jpg"</span>&gt; &lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"2.jpg"</span>&gt; &lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"3.jpg"</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
+&lt;/<span class="v-tag">div</span>&gt;</div>
+                    </div>
+                </article>
 
-<span class="v-comment">&lt;!-- Split-Screen Hover Expansion --&gt;</span>
-&lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-split-gallery"</span>&gt;
-    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-split-panel"</span>&gt;&lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"..."</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
-    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-split-panel"</span>&gt;&lt;<span class="v-tag">img</span> <span class="v-attr">src</span>=<span class="v-str">"..."</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-                </div>
-            </article>
-
-            <article id="forms">
-                <h2>7. Forms & Accordions</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Floating Label Input --&gt;</span>
-&lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-input-group"</span>&gt;
-    &lt;<span class="v-tag">input</span> <span class="v-attr">type</span>=<span class="v-str">"text"</span> <span class="v-attr">class</span>=<span class="v-str">"aw-input"</span> <span class="v-attr">required</span>&gt;
-    &lt;<span class="v-tag">label</span> <span class="v-attr">class</span>=<span class="v-str">"aw-label"</span>&gt;Email&lt;/<span class="v-tag">label</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-
-<span class="v-comment">&lt;!-- Grid-Transition Accordion --&gt;</span>
-&lt;<span class="v-tag">details</span> <span class="v-attr">class</span>=<span class="v-str">"aw-accordion"</span>&gt;
-    &lt;<span class="v-tag">summary</span>&gt;Question&lt;/<span class="v-tag">summary</span>&gt;
-    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-accordion-content"</span>&gt;&lt;<span class="v-tag">div</span>&gt;Answer&lt;/<span class="v-tag">div</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">details</span>&gt;
-                </div>
-            </article>
-
-            <article id="navs">
-                <h2>8. Navs & Cylinders</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- 3D Kinetic Cylinder Text (Requires 3 spans) --&gt;</span>
-&lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-cylinder-wrap"</span>&gt;
-    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-cylinder"</span>&gt;
-        &lt;<span class="v-tag">span</span>&gt;Face 1&lt;/<span class="v-tag">span</span>&gt;
-        &lt;<span class="v-tag">span</span>&gt;Face 2&lt;/<span class="v-tag">span</span>&gt;
-        &lt;<span class="v-tag">span</span>&gt;Face 3&lt;/<span class="v-tag">span</span>&gt;
-    &lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-
-<span class="v-comment">&lt;!-- Deep Parallax Footer Wrapping Logic --&gt;</span>
-&lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-footer-parallax-wrapper main-content"</span>&gt;All preceding content&lt;/<span class="v-tag">div</span>&gt;
-&lt;<span class="v-tag">footer</span> <span class="v-attr">class</span>=<span class="v-str">"aw-footer-parallax"</span>&gt;Parallax sticky footer&lt;/<span class="v-tag">footer</span>&gt;
-                </div>
-            </article>
-
-            <article id="effects">
-                <h2>9. Expanding Page Transition Reveal</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- Expanding Circle Hover Reveal --&gt;</span>
-&lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-circle-reveal"</span>&gt;
-    &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-circle-reveal-bg"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
-    &lt;<span class="v-tag">h2</span> <span class="v-attr">class</span>=<span class="v-str">"aw-circle-reveal-content"</span>&gt;Content here inverts color&lt;/<span class="v-tag">h2</span>&gt;
-&lt;/<span class="v-tag">div</span>&gt;
-                </div>
-            </article>
-
-            <article id="cursor">
-                <h2>10. Custom X-Ray Cursor Reveal</h2>
-                <div class="code-wrap">
-<span class="v-comment">&lt;!-- X-Ray Hover Mask (Requires JS logic to track cursor bounds) --&gt;</span>
+                <!-- 11. Cursor -->
+                <article id="cursor">
+                    <h2>11. Tooltips & X-Ray Mask</h2>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap"><span class="v-comment">&lt;!-- X-Ray Hover Mask (Requires JS logic to track cursor bounds) --&gt;</span>
 &lt;<span class="v-tag">section</span> <span class="v-attr">class</span>=<span class="v-str">"aw-mask-reveal-container"</span> <span class="v-attr">id</span>=<span class="v-str">"maskWrap"</span>&gt;
     &lt;<span class="v-tag">div</span>&gt;Visible Content&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-mask-reveal-layer"</span>&gt;Hidden content revealed by cursor&lt;/<span class="v-tag">div</span>&gt;
@@ -295,31 +334,78 @@
 &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-tooltip-trigger"</span>&gt;
     Hover Target
     &lt;<span class="v-tag">span</span> <span class="v-attr">class</span>=<span class="v-str">"aw-tooltip"</span>&gt;Tooltip payload loaded!&lt;/<span class="v-tag">span</span>&gt;
-&lt;/<span class="v-tag">span</span>&gt;
-                </div>
-            </article>
+&lt;/<span class="v-tag">span</span>&gt;</div>
+                    </div>
+                </article>
 
-            <article id="aurora">
-                <h2>12. Ambient Aurora Background</h2>
-                <p>A beautiful, wandering fluid gradient system utilizing blurred massive blobs natively tracked via CSS keyframes.</p>
-                <div class="code-wrap">
-&lt;<span class="v-tag">section</span> <span class="v-attr">class</span>=<span class="v-str">"aw-aurora-bg relative"</span>&gt;
+                <!-- 12. Aurora -->
+                <article id="aurora">
+                    <h2>12. Ambient Aurora Background</h2>
+                    <p>A beautiful, wandering fluid gradient system utilizing blurred massive blobs natively tracked via CSS keyframes.</p>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)" title="Copy Code">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <div class="code-wrap">&lt;<span class="v-tag">section</span> <span class="v-attr">class</span>=<span class="v-str">"aw-aurora-bg relative"</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-aurora-blob aw-aurora-1"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-aurora-blob aw-aurora-2"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-aurora-blob aw-aurora-3"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"aw-noise-overlay"</span>&gt;&lt;/<span class="v-tag">div</span>&gt;
     &lt;<span class="v-tag">div</span> <span class="v-attr">class</span>=<span class="v-str">"relative z-10"</span>&gt;Content goes here!&lt;/<span class="v-tag">div</span>&gt;
-&lt;/<span class="v-tag">section</span>&gt;
-                </div>
-            </article>
+&lt;/<span class="v-tag">section</span>&gt;</div>
+                    </div>
+                </article>
 
-            <br><br><br><br>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div> <!-- /End Main Content Wrapper -->
 
+    <!-- ================= DEEP PARALLAX FOOTER ================= -->
+    <footer class="aw-footer-parallax">
+        <div class="container text-center py-section relative">
+            <div class="aw-blur-orb" style="bottom: -20%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px;"></div>
+            
+            <h2 class="aw-text-fluid font-display text-gradient font-bold tracking-tighter cursor-hover aw-text-media mb-8" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop');">AWARDSCSS.</h2>
+            
+            <div class="flex justify-center gap-12 mt-12 cursor-hover font-mono text-sm uppercase">
+                <a href="index.html" class="aw-link-fill font-bold" data-text="Showcase">Showcase</a>
+                <a href="https://github.com" class="aw-link-fill font-bold" data-text="Github">Github</a>
+                <a href="#installation" class="aw-link-fill font-bold" data-text="Install">Install</a>
+            </div>
+            <p class="mt-24 text-xs text-neutral aw-uppercase-tracked" style="color: #666;">© 2026 Kinetic Framework. Rendered natively in the browser.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
     <script>
+        // Navbar Scroll Effect
         const nav = document.getElementById('mainNav');
         window.addEventListener('scroll', () => window.scrollY > 40 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled'));
+
+        // Copy to Clipboard UI Logic
+        function copyCode(btn) {
+            // Traverse to the code content
+            const codeBlock = btn.nextElementSibling;
+            // Get raw text, ignoring HTML tags like spans
+            const textToCopy = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Save original icon
+                const originalHTML = btn.innerHTML;
+                
+                // Switch to checkmark SVG
+                btn.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                btn.classList.add('copied');
+                
+                // Revert back after 2 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
     </script>
 </body>
 </html>
