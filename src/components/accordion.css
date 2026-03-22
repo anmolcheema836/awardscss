@@ -1,0 +1,45 @@
+/* Custom Pure CSS Smooth Accordions */
+.aw-accordion-container {
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.aw-accordion {
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.aw-accordion summary {
+  padding: var(--space-8) 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--aw-font-display);
+  font-size: var(--text-3xl); font-weight: 500;
+  cursor: pointer; list-style: none; user-select: none;
+  transition: color var(--trans-fast);
+}
+
+/* Remove default summary arrow in Webkit & standard */
+.aw-accordion summary::-webkit-details-marker { display: none; }
+
+.aw-accordion summary:hover { color: var(--color-accent); }
+
+/* The Plus/Minus Custom Icon */
+.aw-accordion summary::after {
+  content: "+";
+  font-family: var(--aw-font-mono); font-weight: 300; font-size: var(--text-4xl);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--trans-slow); will-change: transform;
+}
+
+.aw-accordion[open] summary::after { transform: rotate(45deg); }
+
+/* Content Reveal Trick (Pure CSS transition height trick utilizing grid!) */
+.aw-accordion-content {
+  display: grid; grid-template-rows: 0fr; opacity: 0;
+  transition: grid-template-rows var(--trans-slow), opacity var(--trans-slow), padding var(--trans-slow);
+}
+
+.aw-accordion-content > div { overflow: hidden; font-size: var(--text-lg); color: #888; max-width: 800px; }
+.aw-accordion[open] .aw-accordion-content {
+  grid-template-rows: 1fr; opacity: 1; padding-bottom: var(--space-8);
+}

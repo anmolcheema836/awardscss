@@ -1,0 +1,120 @@
+h1, h2, h3, h4, .font-display { font-family: var(--aw-font-display); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
+p, .font-sans { font-family: var(--aw-font-sans); }
+.font-mono { font-family: var(--aw-font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Scale */
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); line-height: 1.3; }
+.text-xl { font-size: var(--text-xl); line-height: 1.2; letter-spacing: -0.01em;}
+.text-2xl { font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -0.02em; }
+.text-3xl { font-size: var(--text-3xl); line-height: 1.05; letter-spacing: -0.02em; }
+.text-4xl { font-size: var(--text-4xl); line-height: 1; letter-spacing: -0.03em; }
+.text-5xl { font-size: var(--text-5xl); line-height: 0.95; letter-spacing: -0.04em; }
+.text-display { font-size: var(--text-display); line-height: 0.9; letter-spacing: -0.05em; font-weight: 600; }
+/* --- High-End Typography FX --- */
+.aw-text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-fg);
+}
+.aw-text-stroke:hover {
+  color: var(--color-fg);
+  -webkit-text-stroke: 1px transparent;
+  transition: all var(--trans-fast);
+}
+
+.aw-uppercase-tracked {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+}
+
+.aw-text-fluid {
+  font-size: clamp(2rem, 10vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-family: var(--aw-font-display);
+}
+/* --- Glitch Typography --- */
+.aw-glitch {
+  position: relative;
+  display: inline-block;
+  color: var(--color-fg);
+  font-family: var(--aw-font-display);
+}
+
+.aw-glitch::before, .aw-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg); /* Covers the original text */
+}
+
+.aw-glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 #ff003c;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  animation: glitchAnim 2.5s infinite linear alternate-reverse;
+}
+
+.aw-glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 #00e6f6;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  animation: glitchAnim2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 15%, 0 15%); transform: translate(0); }
+  20% { clip-path: polygon(0 25%, 100% 25%, 100% 45%, 0 45%); transform: translate(-2px, 1px); }
+  40% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(2px, -1px); }
+  100% { clip-path: polygon(0 50%, 100% 50%, 100% 70%, 0 70%); transform: translate(0); }
+}
+
+@keyframes glitchAnim2 {
+  0% { clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); transform: translate(0); }
+  20% { clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%); transform: translate(2px, -2px); }
+  40% { clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); transform: translate(-2px, 2px); }
+  100% { clip-path: polygon(0 70%, 100% 70%, 100% 90%, 0 90%); transform: translate(0); }
+}
+/* --- Scroll-Linked Text Fill --- */
+.aw-scroll-fill {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border);
+  background: linear-gradient(to right, var(--color-fg) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0; /* Starts completely transparent */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@supports (animation-timeline: view()) {
+  .aw-scroll-fill {
+    animation: fillTextOnScroll linear forwards;
+    animation-timeline: view();
+    animation-range: entry 20% cover 80%;
+  }
+}
+
+@keyframes fillTextOnScroll {
+  to { background-position: 0% 0; }
+}
+/* --- Liquid/Wave Rise Text Fill --- */
+.aw-liquid-fill { position: relative; color: transparent; -webkit-text-stroke: 1px var(--color-border); display: inline-block; overflow: hidden; padding-bottom: 0.1em; line-height: 1; }
+.aw-liquid-fill::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; height: 100%; color: var(--color-fg); -webkit-text-stroke: 0; transform: translateY(100%); transition: transform 0.6s var(--ease-bounce-soft); }
+.aw-liquid-fill:hover::after { transform: translateY(0); }
+
+/* --- Slot Machine Roller Text --- */
+.aw-roller { display: inline-flex; flex-direction: column; overflow: hidden; height: 1em; vertical-align: top; }
+.aw-roller-inner { transition: transform 0.6s var(--ease-expo); display: flex; flex-direction: column; }
+.aw-roller:hover .aw-roller-inner { transform: translateY(-50%); }
+.aw-roller-text { line-height: 1; }
+
+/* --- Inline Hover Image Reveal --- */
+.aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; object-fit: cover; height: 0.9em; margin: 0; }
+.aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }

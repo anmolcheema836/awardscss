@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  max-width: var(--aw-container-max);
+  margin-inline: auto;
+  padding-inline: max(5vw, 1rem);
+}
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.h-screen { height: 100vh; height: 100dvh; } /* PWA Native supported */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.inset-0 { inset: 0; }

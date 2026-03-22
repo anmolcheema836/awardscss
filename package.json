@@ -1,0 +1,20 @@
+{
+  "name": "awardscss",
+  "version": "1.0.0",
+  "description": "High-end CSS library for Awwwards-level design",
+  "main": "dist/awardscss.min.css",
+  "scripts": {
+    "dev": "postcss src/main.css -o dist/awardscss.css -w",
+    "build": "postcss src/main.css -o dist/awardscss.min.css"
+  },
+  "keywords":["css", "framework", "awwwards", "design-system", "animations"],
+  "author": "AwardsCSS Team",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0"
+  }
+}

@@ -1,0 +1,15 @@
+:root, .theme-dark {
+  --color-bg: #070707;
+  --color-fg: #f3f3f3;
+  --color-neutral: #1a1a1a;
+  --color-border: rgba(255, 255, 255, 0.08);
+  
+  /* Accents */
+  --color-accent: #ffffff;
+  --color-glow: rgba(255, 255, 255, 0.2);
+  --gradient-main: linear-gradient(135deg, #fff 0%, #666 100%);
+  --gradient-accent: linear-gradient(135deg, #7000FF 0%, #00F0FF 100%);
+  
+  --glass-bg: rgba(10, 10, 10, 0.65);
+  --shadow-main: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}

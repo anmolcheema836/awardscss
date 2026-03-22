@@ -1,0 +1,1082 @@
+/* --- Core Entry --- */
+:root {
+  /* Layout Bounds */
+  --aw-container-max: 1440px;
+  --aw-section-pad: clamp(4rem, 10vw, 12rem);
+
+  /* Fonts */
+  --aw-font-display: "Clash Display", "Oswald", system-ui, sans-serif;
+  --aw-font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --aw-font-mono: "Space Mono", monospace;
+
+  /* Typographic Scale (Fluid using clamp) */
+  --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8vw + 0.7rem, 1rem);
+  --text-base: clamp(1rem, 0.9vw + 0.8rem, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.2vw + 0.9rem, 1.35rem);
+  --text-xl: clamp(1.35rem, 1.8vw + 1.1rem, 1.75rem);
+  --text-2xl: clamp(1.75rem, 2.5vw + 1.25rem, 2.25rem);
+  --text-3xl: clamp(2.25rem, 4vw + 1.5rem, 3rem);
+  --text-4xl: clamp(3rem, 6vw + 2rem, 4.5rem);
+  --text-5xl: clamp(4rem, 8vw + 2rem, 6.5rem);
+  --text-display: clamp(5rem, 12vw + 2rem, 10rem); /* Over-sized heroic typography */
+
+  /* Golden Spacing Scale (Base-8, clamp supported for flow) */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Custom Easings (The Secret to Awwwards motion) */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-golden: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-bounce-soft: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  --trans-fast: 0.3s var(--ease-expo);
+  --trans-slow: 0.8s var(--ease-expo);
+  --trans-page: 1.2s var(--ease-in-out-circ);
+
+  /* FX Base Variables */
+  --blur-md: blur(12px);
+  --blur-xl: blur(24px);
+}
+:root, .theme-dark {
+  --color-bg: #070707;
+  --color-fg: #f3f3f3;
+  --color-neutral: #1a1a1a;
+  --color-border: rgba(255, 255, 255, 0.08);
+  
+  /* Accents */
+  --color-accent: #ffffff;
+  --color-glow: rgba(255, 255, 255, 0.2);
+  --gradient-main: linear-gradient(135deg, #fff 0%, #666 100%);
+  --gradient-accent: linear-gradient(135deg, #7000FF 0%, #00F0FF 100%);
+  
+  --glass-bg: rgba(10, 10, 10, 0.65);
+  --shadow-main: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+.theme-light {
+  --color-bg: #FAFAFA;
+  --color-fg: #0a0a0a;
+  --color-neutral: #eaeaea;
+  --color-border: rgba(0, 0, 0, 0.06);
+
+  --color-accent: #000000;
+  --color-glow: rgba(0, 0, 0, 0.1);
+  --gradient-main: linear-gradient(135deg, #000 0%, #999 100%);
+  
+  --glass-bg: rgba(250, 250, 250, 0.7);
+  --shadow-main: 0 24px 48px -12px rgba(0, 0, 0, 0.1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { 
+  font-family: var(--aw-font-sans); 
+  background-color: var(--color-bg); 
+  color: var(--color-fg); 
+  line-height: 1.5; 
+  overflow-x: hidden; 
+}
+::-moz-selection { background-color: var(--color-accent); color: var(--color-bg); }
+::selection { background-color: var(--color-accent); color: var(--color-bg); }
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; }
+h1, h2, h3, h4, .font-display { font-family: var(--aw-font-display); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
+p, .font-sans { font-family: var(--aw-font-sans); }
+.font-mono { font-family: var(--aw-font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
+/* Scale */
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); line-height: 1.3; }
+.text-xl { font-size: var(--text-xl); line-height: 1.2; letter-spacing: -0.01em;}
+.text-2xl { font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -0.02em; }
+.text-3xl { font-size: var(--text-3xl); line-height: 1.05; letter-spacing: -0.02em; }
+.text-4xl { font-size: var(--text-4xl); line-height: 1; letter-spacing: -0.03em; }
+.text-5xl { font-size: var(--text-5xl); line-height: 0.95; letter-spacing: -0.04em; }
+.text-display { font-size: var(--text-display); line-height: 0.9; letter-spacing: -0.05em; font-weight: 600; }
+/* --- High-End Typography FX --- */
+.aw-text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-fg);
+}
+.aw-text-stroke:hover {
+  color: var(--color-fg);
+  -webkit-text-stroke: 1px transparent;
+  transition: all var(--trans-fast);
+}
+.aw-uppercase-tracked {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+}
+.aw-text-fluid {
+  font-size: clamp(2rem, 10vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-family: var(--aw-font-display);
+}
+/* --- Glitch Typography --- */
+.aw-glitch {
+  position: relative;
+  display: inline-block;
+  color: var(--color-fg);
+  font-family: var(--aw-font-display);
+}
+.aw-glitch::before, .aw-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg); /* Covers the original text */
+}
+.aw-glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 #ff003c;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  animation: glitchAnim 2.5s infinite linear alternate-reverse;
+}
+.aw-glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 #00e6f6;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  animation: glitchAnim2 3s infinite linear alternate-reverse;
+}
+@keyframes glitchAnim {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 15%, 0 15%); transform: translate(0); }
+  20% { clip-path: polygon(0 25%, 100% 25%, 100% 45%, 0 45%); transform: translate(-2px, 1px); }
+  40% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(2px, -1px); }
+  100% { clip-path: polygon(0 50%, 100% 50%, 100% 70%, 0 70%); transform: translate(0); }
+}
+@keyframes glitchAnim2 {
+  0% { clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); transform: translate(0); }
+  20% { clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%); transform: translate(2px, -2px); }
+  40% { clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%); transform: translate(-2px, 2px); }
+  100% { clip-path: polygon(0 70%, 100% 70%, 100% 90%, 0 90%); transform: translate(0); }
+}
+/* --- Scroll-Linked Text Fill --- */
+.aw-scroll-fill {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border);
+  background: linear-gradient(to right, var(--color-fg) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0; /* Starts completely transparent */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-fill {
+    animation: fillTextOnScroll linear forwards;
+    animation-timeline: view();
+    animation-range: entry 20% cover 80%;
+  }
+}
+@keyframes fillTextOnScroll {
+  to { background-position: 0% 0; }
+}
+/* --- Liquid/Wave Rise Text Fill --- */
+.aw-liquid-fill { position: relative; color: transparent; -webkit-text-stroke: 1px var(--color-border); display: inline-block; overflow: hidden; padding-bottom: 0.1em; line-height: 1; }
+.aw-liquid-fill::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; height: 100%; color: var(--color-fg); -webkit-text-stroke: 0; transform: translateY(100%); transition: transform 0.6s var(--ease-bounce-soft); }
+.aw-liquid-fill:hover::after { transform: translateY(0); }
+/* --- Slot Machine Roller Text --- */
+.aw-roller { display: inline-flex; flex-direction: column; overflow: hidden; height: 1em; vertical-align: top; }
+.aw-roller-inner { transition: transform 0.6s var(--ease-expo); display: flex; flex-direction: column; }
+.aw-roller:hover .aw-roller-inner { transform: translateY(-50%); }
+.aw-roller-text { line-height: 1; }
+/* --- Inline Hover Image Reveal --- */
+.aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; -o-object-fit: cover; object-fit: cover; height: 0.9em; margin: 0; }
+.aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }
+/* --- Utilities --- */
+/* Core Structural Padding/Margin Maps */
+.p-0 { padding: 0; }
+.p-2 { padding: var(--space-2); }
+.p-4 { padding: var(--space-4); }
+.p-8 { padding: var(--space-8); }
+.pt-section { padding-top: var(--aw-section-pad); }
+.pb-section { padding-bottom: var(--aw-section-pad); }
+.py-section { padding-block: var(--aw-section-pad); }
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.gap-8 { gap: var(--space-8); }
+.gap-16 { gap: var(--space-16); }
+.container {
+  width: 100%;
+  max-width: var(--aw-container-max);
+  margin-inline: auto;
+  padding-inline: max(5vw, 1rem);
+}
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.h-screen { height: 100vh; height: 100dvh; }
+/* PWA Native supported */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.inset-0 { inset: 0; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+/* Golden Ratio split usually seen in Agency websites */
+.grid-split-golden { grid-template-columns: 1fr; }
+@media (min-width: 1024px) {
+  .grid-split-golden { grid-template-columns: 1.618fr 1fr; }
+}
+/* ... Keep existing flex/grid rules ... */
+/* Modern Awwwards Bento Box Grid */
+.aw-bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+  grid-auto-rows: 350px;
+}
+.aw-bento-wide { grid-column: span 1; }
+.aw-bento-tall { grid-row: span 1; }
+@media (min-width: 1024px) {
+  .aw-bento-wide { grid-column: span 2; }
+  .aw-bento-tall { grid-row: span 2; }
+  .aw-bento { grid-auto-rows: 400px; gap: var(--space-6); }
+}
+/* Modern Awwwards Filters */
+.aw-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid var(--color-border);
+}
+.aw-glass-intense {
+  background: transparent;
+  backdrop-filter: var(--blur-xl);
+  -webkit-backdrop-filter: var(--blur-xl);
+}
+.aw-text-gradient {
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.aw-text-gradient-accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Background Blurs */
+.aw-blur-orb {
+  position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  background: var(--color-accent); filter: blur(120px); opacity: 0.15;
+  pointer-events: none; z-index: -1;
+}
+/* Base64 Noise - Premium Overlay effect */
+.aw-noise-overlay::before {
+  content: "";
+  position: absolute; inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04; pointer-events: none; z-index: 999; 
+  mix-blend-mode: difference;
+}
+/* ... Keep existing rules ... */
+/* Animated Grain Layer */
+.aw-noise-animated::before {
+  content: "";
+  position: absolute; inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05; pointer-events: none; z-index: 50; 
+  animation: noise 2s steps(2) infinite;
+}
+@keyframes noise {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -5%); }
+  30% { transform: translate(5%, -5%); }
+  50% { transform: translate(-5%, 5%); }
+  70% { transform: translate(5%, 5%); }
+  90% { transform: translate(-5%, -5%); }
+}
+/* Advanced Mix Blend Hover Images */
+.aw-blend-reveal { position: relative; overflow: hidden; background: var(--color-bg); }
+.aw-blend-reveal img { 
+  mix-blend-mode: luminosity; opacity: 0.5; filter: grayscale(100%); transition: all var(--trans-slow); 
+}
+.aw-blend-reveal:hover img { 
+  mix-blend-mode: normal; opacity: 1; filter: grayscale(0%); transform: scale(1.05); 
+}
+/* Liquid/Mesh Gradient Background (CSS Math via Radial Gradients) */
+.aw-mesh-bg {
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(112, 0, 255, 0.25) 0px, transparent 40%),
+    radial-gradient(at 100% 0%, rgba(0, 240, 255, 0.25) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(255, 255, 255, 0.1) 0px, transparent 60%);
+  background-attachment: fixed;
+}
+/* 
+  Ultra-Premium Glowing Border Button & Box Container. 
+  Calculated beautifully with nested transparent linear-gradients clipping! 
+*/
+.aw-border-glow {
+  position: relative;
+  background: linear-gradient(var(--color-neutral), var(--color-neutral)) padding-box,
+              var(--gradient-accent) border-box;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+/* Text with Media (Image/Video Clip Mapping - Extremely popular for Heros!) */
+.aw-text-media {
+  background: url("https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop") center/cover no-repeat;
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* --- Aurora Animated Background --- */
+.aw-aurora-bg {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  z-index: 0;
+}
+.aw-aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px); /* Massive blur creates the aurora effect */
+  opacity: 0.5;
+  animation: auroraWander 15s infinite alternate var(--ease-in-out-circ);
+  z-index: -1;
+}
+.aw-aurora-1 {
+  width: 50vw; height: 50vw;
+  background: #7000FF;
+  top: -10%; left: -10%;
+}
+.aw-aurora-2 {
+  width: 45vw; height: 45vw;
+  background: #00F0FF;
+  bottom: -20%; right: -10%;
+  animation-delay: -5s;
+  animation-direction: alternate-reverse;
+}
+.aw-aurora-3 {
+  width: 40vw; height: 40vw;
+  background: #FF007A;
+  top: 30%; left: 40%;
+  animation-delay: -10s;
+}
+@keyframes auroraWander {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(5%, 10%) scale(1.1) rotate(45deg); }
+  100% { transform: translate(-10%, 5%) scale(0.9) rotate(-20deg); }
+}
+/* --- Curtain Reveal --- */
+.aw-curtain-reveal {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.aw-curtain-reveal img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  clip-path: inset(45% 0 45% 0); /* Only shows the middle 10% initially */
+  transition: clip-path 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+  transform: scale(1.1);
+}
+.aw-curtain-reveal:hover img {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+/* --- Dot Matrix / Halftone Hover --- */
+.aw-halftone-hover {
+  -webkit-mask-image: radial-gradient(black 40%, transparent 40%);
+  mask-image: radial-gradient(black 40%, transparent 40%);
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transition: -webkit-mask-size 0.8s var(--ease-expo), filter 0.8s;
+  filter: grayscale(100%);
+  cursor: crosshair;
+}
+.aw-halftone-hover:hover {
+  -webkit-mask-size: 2000px 2000px; /* Blows the dots up so they merge */
+  mask-size: 2000px 2000px;
+  filter: grayscale(0%);
+}
+/* --- Expanding Circle Reveal --- */
+.aw-circle-reveal {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-32) 0;
+}
+.aw-circle-reveal-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent); /* Or use an image */
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+  z-index: 0;
+}
+.aw-circle-reveal:hover .aw-circle-reveal-bg {
+  clip-path: circle(150% at 50% 50%); /* Expands far beyond corners */
+}
+.aw-circle-reveal-content {
+  position: relative;
+  z-index: 1;
+  color: var(--color-fg);
+  transition: color 1.2s;
+}
+.aw-circle-reveal:hover .aw-circle-reveal-content {
+  color: var(--color-bg); /* Invert text color when background expands */
+}
+.aw-grid-floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 40vh; perspective: 1000px; z-index: 0; overflow: hidden; mask-image: linear-gradient(to top, black, transparent); -webkit-mask-image: linear-gradient(to top, black, transparent); pointer-events: none;}
+.aw-grid-floor-inner { position: absolute; width: 200%; height: 200%; left: -50%; top: 0; transform: rotateX(80deg); background-size: 80px 80px; background-image: linear-gradient(to right, var(--color-border) 1px, transparent 1px), linear-gradient(to bottom, var(--color-border) 1px, transparent 1px); animation: floorMove 3s linear infinite; }
+@keyframes floorMove { 0% { transform: rotateX(80deg) translateY(0); } 100% { transform: rotateX(80deg) translateY(80px); } }
+/* --- X-Ray Mask Cursor Reveal --- */
+.aw-mask-reveal-container { position: relative; overflow: hidden; cursor: crosshair; }
+.aw-mask-reveal-layer { position: absolute; inset: 0; background: var(--color-fg); color: var(--color-bg); z-index: 10;
+-webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%);
+mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%); pointer-events: none; }
+/* --- Organic Morphing Blob Mask --- */
+.aw-blob { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transition: border-radius 1.2s ease-in-out; overflow: hidden; width: 100%; height: 100%; }
+.aw-blob:hover { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+/* --- Diagonal Slice Image Reveal --- */
+.aw-diagonal-reveal img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); transition: clip-path 1.2s var(--ease-expo); }
+.aw-diagonal-reveal:hover img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+/* Custom View-Timeline CSS Reveal (Cutting Edge CSS natively handling Intersection) */
+@supports (animation-timeline: view()) {
+  .aw-reveal-scroll {
+    animation: linear revealBlock both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 25%;
+  }
+}
+/* Core pure keyframes for fallback or normal class hooks */
+@keyframes slideUpClip {
+  0% { transform: translateY(100%); clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+  100% { transform: translateY(0); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+@keyframes fadeScale {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.aw-fade-up { animation: fadeScale var(--trans-slow) forwards; }
+.aw-stagger-1 { animation-delay: 0.1s; }
+.aw-stagger-2 { animation-delay: 0.2s; }
+.aw-stagger-3 { animation-delay: 0.3s; }
+/* Image Distort/Scale Hover wrapper */
+.aw-img-mask {
+  overflow: hidden; 
+  position: relative;
+  border-radius: 4px; /* Optional slight curvature */
+}
+.aw-img-mask img {
+  transition: transform var(--trans-slow);
+  transform: scale(1.02);
+}
+.aw-img-mask:hover img {
+  transform: scale(1.12); /* Typical agency image zoom inside masked box */
+}
+/* Magnetic effect logic placeholder (pure CSS attempts a transition smooth-back, magnetic requires js mapping mouse-coords to custom prop, here we support the CSS hook) */
+.aw-magnetic {
+  transition: transform var(--ease-expo) 0.3s;
+  will-change: transform;
+}
+/* Stack Cards Scroll Parallax Sequence - Only renders strictly in capable DOM structures natively! */
+@supports (animation-timeline: view()) {
+  .aw-card-stack-item {
+    position: sticky; top: var(--space-32); margin-bottom: var(--space-8);
+    transform-origin: top center; animation: stackParallax linear both; animation-timeline: view();
+    animation-range: entry 100% cover 150%; 
+  }
+
+  @keyframes stackParallax {
+    to { transform: scale(0.9); opacity: 0; filter: var(--blur-md); }
+  }
+}
+/* --- View-Timeline Text Highlighter --- */
+.aw-highlight-scroll {
+  background: linear-gradient(120deg, rgba(112,0,255,0.4) 0%, rgba(0,240,255,0.4) 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0% 100%;
+  display: inline;
+  padding: 0 0.2em;
+  border-radius: 4px;
+}
+@supports (animation-timeline: view()) {
+  .aw-highlight-scroll {
+    animation: drawHighlight linear forwards;
+    animation-timeline: view();
+    animation-range: entry 50% cover 50%; /* Starts half-way up the screen */
+  }
+}
+@keyframes drawHighlight {
+  to { background-size: 100% 100%; }
+}
+/* --- Organic Levitation --- */
+.aw-float-organic {
+  animation: organicFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+.aw-float-delay {
+  animation-delay: -3s; /* Desync multiple objects */
+}
+@keyframes organicFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(10px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+/* --- Components --- */
+.aw-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--aw-font-sans); font-size: var(--text-base); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: 99px; /* Pill */
+  cursor: pointer; overflow: hidden; border: none;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  transition: transform 0.4s var(--ease-golden);
+  will-change: transform;
+}
+.aw-btn:hover { transform: scale(1.05); }
+/* Overflow span sliding up trick */
+.aw-btn-text-mask { position: relative; display: block; overflow: hidden; height: 1em; }
+.aw-btn-text-mask span {
+  display: block; transition: transform 0.4s var(--ease-golden);
+}
+.aw-btn-text-mask::before {
+  content: attr(data-hover);
+  position: absolute; left: 0; top: 100%; width: 100%; display: block;
+  transform: translateY(0);
+  transition: transform 0.4s var(--ease-golden);
+}
+.aw-btn:hover .aw-btn-text-mask span { transform: translateY(-100%); }
+.aw-btn:hover .aw-btn-text-mask::before { transform: translateY(-100%); }
+/* Outlined Modern */
+.aw-btn-outline {
+  background: transparent; color: var(--color-fg);
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 0 0 0 var(--color-accent);
+  transition: background 0.4s var(--ease-expo), color 0.4s;
+}
+.aw-btn-outline:hover { background: var(--color-accent); color: var(--color-bg); }
+/* --- 3D Flip Link --- */
+.aw-flip-link {
+  display: inline-block;
+  perspective: 1000px;
+  text-transform: uppercase;
+  font-family: var(--aw-font-display);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.aw-flip-link-inner {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease-expo);
+}
+.aw-flip-link-front, .aw-flip-link-back {
+  display: block;
+  backface-visibility: hidden;
+}
+.aw-flip-link-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: var(--color-accent);
+  transform: rotateX(-90deg) translateY(100%);
+  transform-origin: bottom center;
+}
+.aw-flip-link-front {
+  transform-origin: bottom center;
+}
+.aw-flip-link:hover .aw-flip-link-inner {
+  transform: rotateX(90deg) translateY(-50%);
+}
+.aw-tracing-border { position: relative; border-radius: 16px; padding: 1px; overflow: hidden; background: var(--color-border); }
+.aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
+.aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
+@keyframes spinTrace { 100% { transform: rotate(360deg); } }
+.aw-card {
+  position: relative;
+  background-color: var(--color-neutral);
+  border-radius: 12px;
+  padding: var(--space-8);
+  border: 1px solid transparent;
+  transition: all var(--trans-slow);
+}
+/* 3D Float Hover commonly used for Case Studies */
+.aw-card-interactive { cursor: pointer; transform-style: preserve-3d; perspective: 1000px; }
+.aw-card-interactive:hover {
+  transform: translateY(-8px);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-main);
+}
+.aw-card-interactive::after {
+  /* Subtle glow follow border mapping trick fallback */
+  content: ''; position: absolute; inset: 0;
+  border-radius: inherit; box-shadow: 0 0 20px 0 var(--color-glow); opacity: 0;
+  transition: opacity var(--trans-fast);
+}
+.aw-card-interactive:hover::after { opacity: 1; }
+/* --- Sticky Stack Cards --- */
+.aw-stack-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--space-32);
+}
+.aw-stack-card {
+  position: sticky;
+  top: var(--space-16);
+  height: 70vh;
+  width: 100%;
+  background: var(--color-neutral);
+  border-radius: 24px;
+  padding: var(--space-8);
+  box-shadow: 0 -20px 40px rgba(0,0,0,0.4);
+  transform-origin: top center;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+}
+/* Modern Native Scroll Parallax Scale */
+@supports (animation-timeline: view()) {
+  .aw-stack-card {
+    animation: scaleStackDown linear both;
+    animation-timeline: view();
+    animation-range: exit-crossing 0% exit 100%;
+  }
+}
+@keyframes scaleStackDown {
+  to { transform: scale(0.9); filter: brightness(0.4); }
+}
+/* --- Spotlight Glow Cards --- */
+.aw-spotlight-group {
+  display: grid;
+  gap: var(--space-4);
+}
+.aw-spotlight-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+/* The invisible spotlight that tracks the mouse */
+.aw-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--trans-fast);
+  /* Uses CSS variables mapped via a tiny JS snippet */
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(255, 255, 255, 0.08), 
+    transparent 40%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+.aw-spotlight-card:hover::before {
+  opacity: 1;
+}
+.aw-spotlight-content {
+  position: relative;
+  z-index: 1; /* Keeps content above the glow */
+}
+/* --- Neo-Brutalist Card --- */
+.aw-neo-card {
+  background: var(--color-bg);
+  border: 3px solid var(--color-fg);
+  border-radius: 0px; /* Brutalism uses sharp corners */
+  box-shadow: 12px 12px 0px var(--color-accent);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+  cursor: pointer;
+  padding: var(--space-8);
+}
+.aw-neo-card:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 8px 8px 0px var(--color-accent);
+}
+.aw-neo-card:active {
+  transform: translate(12px, 12px);
+  box-shadow: 0px 0px 0px var(--color-accent); /* Presses into the page */
+}
+/* --- Layered Parallax Glass Panes --- */
+.aw-layered-glass { position: relative; perspective: 1000px; transform-style: preserve-3d; width: 100%; height: 100%; cursor: pointer;}
+.aw-layered-pane { position: absolute; inset: 0; border: 1px solid var(--color-border); border-radius: 16px; transition: transform 0.8s var(--ease-expo); background: var(--glass-bg); backdrop-filter: var(--blur-md); box-shadow: var(--shadow-main); }
+.aw-layered-glass:hover .aw-layered-pane:nth-child(1) { transform: translateZ(-40px) translateX(-20px) translateY(-20px); opacity: 0.5;}
+.aw-layered-glass:hover .aw-layered-pane:nth-child(2) { transform: translateZ(0px); }
+.aw-layered-glass:hover .aw-layered-pane:nth-child(3) { transform: translateZ(40px) translateX(20px) translateY(20px); }
+.aw-nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
+  padding: var(--space-6) 0;
+  transition: padding var(--trans-fast), background var(--trans-fast);
+}
+.aw-nav.scrolled {
+  padding: var(--space-4) 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md); -webkit-backdrop-filter: var(--blur-md);
+  border-bottom: 1px solid var(--color-border);
+}
+.aw-nav-brand { font-family: var(--aw-font-display); font-size: var(--text-2xl); font-weight: 600; text-transform: uppercase; letter-spacing: -0.04em; }
+.aw-nav-links a {
+  position: relative; display: inline-block; padding: var(--space-2) 0;
+  margin-left: var(--space-8); font-size: var(--text-sm); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+/* Beautiful Animated Link Underline */
+.aw-nav-links a::after {
+  content: ''; position: absolute; width: 100%; transform: scaleX(0);
+  height: 1px; bottom: 0; left: 0;
+  background-color: var(--color-fg);
+  transform-origin: bottom right; transition: transform 0.3s var(--ease-golden);
+}
+.aw-nav-links a:hover::after {
+  transform: scaleX(1); transform-origin: bottom left;
+}
+/* High Impact Hero Layouts */
+.aw-hero {
+  position: relative; width: 100%; height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: var(--space-24); overflow: hidden;
+}
+.aw-hero-split { display: grid; grid-template-columns: 1fr; align-items: center; height: 100%; gap: var(--space-12); }
+@media(min-width: 1024px) {
+  .aw-hero-split { grid-template-columns: 1.5fr 1fr; }
+}
+.aw-hero-headline { margin-bottom: var(--space-4); position: relative; display: block; overflow: hidden; }
+/* Clip Reveal line by line for text elements */
+.aw-text-reveal { display: inline-block; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+.aw-text-reveal span { display: block; animation: slideUpClip 1.2s var(--ease-expo) forwards; }
+/* Ticker/Marquee */
+.aw-marquee-section { padding: var(--space-16) 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+.aw-marquee-track { display: flex; width: -moz-max-content; width: max-content; animation: marqueeSlide 20s linear infinite; gap: var(--space-16); }
+@keyframes marqueeSlide {
+  to { transform: translateX(calc(-50% - (var(--space-16) / 2))); }
+}
+.aw-marquee-item {
+  font-family: var(--aw-font-display);
+  font-size: var(--text-5xl); text-transform: uppercase;
+  -webkit-text-stroke: 1px var(--color-border); color: transparent;
+  transition: color var(--trans-fast);
+}
+.aw-marquee-item:hover { color: var(--color-fg); -webkit-text-stroke: 1px transparent; }
+/* Parallax Footers / Sections trick via sticky behavior */
+.aw-section-sticky {
+  position: sticky; top: 0; width: 100%; height: 100vh; overflow: hidden;
+}
+/* Deep Sticky Parallax Footer Module (Awwwards Classic Hook) */
+/* The parent main element BEFORE the footer must have a background color (like var(--color-bg)) 
+   to natively "hide" this footer beneath it. */
+.aw-footer-parallax-wrapper {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); 
+}
+.aw-footer-parallax {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--space-8);
+  background: #000; /* Absolute deep background space depth native. */
+  color: var(--color-fg);
+}
+/* Kinetic Spinning Typographic Badge Vector Loop natively mapping continuous mathematically */
+.aw-spin-badge {
+  position: absolute; right: 10%; top: -10%; z-index: 50;
+  width: 160px; height: 160px;
+  animation: badgeRotate 10s linear infinite; pointer-events: none;
+}
+@keyframes badgeRotate { to { transform: rotate(360deg); } }
+/* Awwwards Organic Typography Navigation Lists mapping over siblings flawlessly */
+.aw-ghost-menu:hover .aw-ghost-link {
+  opacity: 0.2; filter: blur(4px); transform: scale(0.95);
+}
+.aw-ghost-menu .aw-ghost-link {
+  display: block; transition: all 0.4s var(--ease-expo); transform-origin: left center; font-size: var(--text-5xl); font-family: var(--aw-font-display); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);
+}
+.aw-ghost-menu .aw-ghost-link:hover {
+  opacity: 1; filter: blur(0); transform: scale(1.05); transform-origin: left center; color: var(--color-accent);
+}
+/* --- Vertical Marquee --- */
+.aw-ticker-vertical {
+  height: 100vh;
+  overflow: hidden;
+  writing-mode: vertical-rl; /* Turns text sideways */
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+}
+.aw-ticker-vertical-track {
+  display: flex;
+  height: -moz-max-content;
+  height: max-content;
+  animation: scrollVertical 15s linear infinite;
+  gap: var(--space-8);
+}
+@keyframes scrollVertical {
+  to { transform: translateY(calc(-50% - (var(--space-8) / 2))); }
+}
+/* Awwwards Minimalist Inputs */
+.aw-input-group {
+  position: relative; margin-bottom: var(--space-6); width: 100%;
+}
+.aw-input {
+  width: 100%; padding: var(--space-4) 0;
+  background: transparent; border: none;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-fg); font-size: var(--text-base);
+  outline: none; transition: border-color var(--trans-fast);
+}
+.aw-input:focus { border-bottom-color: var(--color-accent); }
+/* Floating Label trick */
+.aw-label {
+  position: absolute; top: var(--space-4); left: 0;
+  color: #777; font-size: var(--text-base); pointer-events: none;
+  transition: all var(--trans-fast);
+}
+.aw-input:focus ~ .aw-label,
+.aw-input:valid ~ .aw-label {
+  top: -12px; font-size: var(--text-xs); color: var(--color-accent);
+}
+/* Custom Pure CSS Smooth Accordions */
+.aw-accordion-container {
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+}
+.aw-accordion {
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+}
+.aw-accordion summary {
+  padding: var(--space-8) 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--aw-font-display);
+  font-size: var(--text-3xl); font-weight: 500;
+  cursor: pointer; list-style: none; -webkit-user-select: none; -moz-user-select: none; user-select: none;
+  transition: color var(--trans-fast);
+}
+/* Remove default summary arrow in Webkit & standard */
+.aw-accordion summary::-webkit-details-marker { display: none; }
+.aw-accordion summary:hover { color: var(--color-accent); }
+/* The Plus/Minus Custom Icon */
+.aw-accordion summary::after {
+  content: "+";
+  font-family: var(--aw-font-mono); font-weight: 300; font-size: var(--text-4xl);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--trans-slow); will-change: transform;
+}
+.aw-accordion[open] summary::after { transform: rotate(45deg); }
+/* Content Reveal Trick (Pure CSS transition height trick utilizing grid!) */
+.aw-accordion-content {
+  display: grid; grid-template-rows: 0fr; opacity: 0;
+  transition: grid-template-rows var(--trans-slow), opacity var(--trans-slow), padding var(--trans-slow);
+}
+.aw-accordion-content > div { overflow: hidden; font-size: var(--text-lg); color: #888; max-width: 800px; }
+.aw-accordion[open] .aw-accordion-content {
+  grid-template-rows: 1fr; opacity: 1; padding-bottom: var(--space-8);
+}
+/* Scroll-snap container that hides native scrollbars but allows native momentum scrolling */
+.aw-gallery {
+  display: flex; gap: var(--space-6); overflow-x: auto;
+  scroll-snap-type: x mandatory; padding: var(--space-8) 0; width: 100vw; position: relative;
+  left: calc(-50vw + 50%); /* Full viewport width breakout hack */
+  padding-left: max(5vw, 1rem); /* Matches container padding start */
+  padding-right: 5vw;
+}
+/* Hide scrollbars (Webkit) */
+.aw-gallery::-webkit-scrollbar { display: none; }
+/* Hide scrollbars (Firefox/Edge) */
+.aw-gallery { -ms-overflow-style: none; scrollbar-width: none; }
+.aw-gallery-item {
+  scroll-snap-align: center; flex: 0 0 70vw; height: 60vh;
+  position: relative; overflow: hidden;
+  border-radius: 8px; filter: grayscale(50%); transition: all var(--trans-slow);
+}
+@media (min-width: 1024px) {
+  .aw-gallery-item { flex: 0 0 45vw; height: 80vh; scroll-snap-align: start; }
+}
+.aw-gallery-item:hover { filter: grayscale(0%); }
+.aw-gallery-item img {
+  width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover; transform: scale(1); transition: transform 2s var(--ease-expo);
+}
+.aw-gallery-item:hover img { transform: scale(1.05); }
+/* --- Image Fan Stack --- */
+.aw-fan-stack {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  perspective: 1000px;
+}
+.aw-fan-stack img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 12px;
+  border: 4px solid var(--color-bg);
+  box-shadow: var(--shadow-main);
+  transition: transform 0.7s var(--ease-bounce-soft), opacity 0.4s;
+  transform-origin: bottom center;
+}
+/* Fan outwards on hover using nth-child */
+.aw-fan-stack:hover img:nth-child(1) {
+  transform: rotate(-15deg) translateX(-40px) translateY(-10px);
+}
+.aw-fan-stack:hover img:nth-child(2) {
+  transform: rotate(0deg) scale(1.05) translateY(-20px);
+  z-index: 10;
+}
+.aw-fan-stack:hover img:nth-child(3) {
+  transform: rotate(15deg) translateX(40px) translateY(-10px);
+}
+/* --- Split-Screen Expansion Gallery --- */
+.aw-split-gallery {
+  display: flex;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  gap: 4px;
+}
+.aw-split-panel {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  transition: flex 0.8s var(--ease-expo);
+  cursor: pointer;
+}
+.aw-split-panel img {
+  width: 100vw; /* Keeps image size static so it reveals, not stretches */
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  opacity: 0.6;
+  filter: grayscale(100%);
+  transition: all 0.8s var(--ease-expo);
+}
+.aw-split-panel:hover {
+  flex: 4; /* Expands heavily on hover */
+}
+.aw-split-panel:hover img {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+/* --- Preloader --- */
+.aw-preloader {
+  position: fixed; inset: 0; z-index: 9999;
+  background-color: var(--color-bg);
+  display: flex; justify-content: center; align-items: center;
+  animation: hidePreloader 0s var(--ease-expo) 2s forwards;
+  overflow: hidden; pointer-events: none;
+}
+.aw-preloader-text {
+  font-family: var(--aw-font-display); font-size: var(--text-display);
+  font-weight: 600; text-transform: uppercase; color: var(--color-fg);
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  animation: loaderReveal 1.8s var(--ease-expo) forwards;
+}
+@keyframes hidePreloader { to { opacity: 0; visibility: hidden; z-index: -1; } }
+@keyframes loaderReveal {
+  0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); transform: translateY(50px); }
+  30%, 70% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateY(0); opacity: 1; }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%); transform: translateY(-50px); opacity: 0; }
+}
+/* --- Kinetic Link Fill Hover --- */
+.aw-link-fill {
+  position: relative; display: inline-block;
+  color: transparent; -webkit-text-stroke: 1px var(--color-border);
+  transition: -webkit-text-stroke var(--trans-fast);
+}
+.aw-link-fill::before {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0; width: 0%; height: 100%;
+  color: var(--color-accent); -webkit-text-stroke: 0px transparent;
+  overflow: hidden; white-space: nowrap;
+  transition: width var(--trans-slow); will-change: width;
+}
+.aw-link-fill:hover::before { width: 100%; }
+.aw-link-fill:hover { -webkit-text-stroke: 1px transparent; }
+/* --- 3D Perspective Hover Card --- */
+.aw-3d-wrap { perspective: 1000px; transform-style: preserve-3d; }
+.aw-3d-card {
+  transform: rotateX(0) rotateY(0); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform; position: relative;
+}
+/* For pure CSS 3D illusion without JS math mapping */
+.aw-3d-wrap:hover .aw-3d-card { transform: rotateX(8deg) rotateY(-8deg) scale(1.02); }
+/* --- Pure CSS Custom Tooltip --- */
+.aw-tooltip-trigger { position: relative; display: inline-flex; cursor: pointer; }
+.aw-tooltip {
+  position: absolute; bottom: calc(100% + var(--space-4)); left: 50%;
+  transform: translateX(-50%) translateY(10px) scale(0.95);
+  background: var(--color-fg); color: var(--color-bg);
+  padding: var(--space-2) var(--space-4); border-radius: 6px;
+  font-family: var(--aw-font-mono); font-size: var(--text-xs); white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: all var(--trans-fast); will-change: transform, opacity;
+}
+.aw-tooltip-trigger:hover .aw-tooltip {
+  opacity: 1; transform: translateX(-50%) translateY(0) scale(1);
+}
+/* Custom Fluid Cursor Support Box */
+.aw-cursor-dot {
+  position: fixed; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--color-accent); pointer-events: none; mix-blend-mode: difference; z-index: 10000;
+  transform: translate(calc(var(--cursor-x, 0px) - 50%), calc(var(--cursor-y, 0px) - 50%));
+  transition: transform 0.1s linear, width var(--trans-fast), height var(--trans-fast);
+}
+.aw-cursor-focus { width: 64px; height: 64px; }
+/* --- 3D Kinetic Cylinder Text --- */
+.aw-cylinder-wrap { perspective: 1000px; display: flex; justify-content: center; align-items: center; height: 120px; overflow: hidden; }
+.aw-cylinder { transform-style: preserve-3d; animation: spinCylinder 8s linear infinite; position: relative; width: 100%; height: 100%; }
+.aw-cylinder span { position: absolute; top: 50%; left: 50%; transform-origin: center; white-space: nowrap; font-family: var(--aw-font-display); font-size: 3rem; font-weight: 600; text-transform: uppercase; }
+.aw-cylinder span:nth-child(1) { transform: translate(-50%, -50%) rotateX(0deg) translateZ(60px); }
+.aw-cylinder span:nth-child(2) { transform: translate(-50%, -50%) rotateX(120deg) translateZ(60px); }
+.aw-cylinder span:nth-child(3) { transform: translate(-50%, -50%) rotateX(240deg) translateZ(60px); }
+@keyframes spinCylinder { to { transform: rotateX(-360deg); } }

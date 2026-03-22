@@ -1,0 +1,10 @@
+# Dependency directories
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional: Ignore the dist folder if you only want people to build it themselves
+# (But for a CSS framework, keeping dist/ is usually good so people can use the CDN link)

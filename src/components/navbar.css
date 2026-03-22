@@ -1,0 +1,31 @@
+.aw-nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
+  padding: var(--space-6) 0;
+  transition: padding var(--trans-fast), background var(--trans-fast);
+}
+
+.aw-nav.scrolled {
+  padding: var(--space-4) 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md); -webkit-backdrop-filter: var(--blur-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.aw-nav-brand { font-family: var(--aw-font-display); font-size: var(--text-2xl); font-weight: 600; text-transform: uppercase; letter-spacing: -0.04em; }
+
+.aw-nav-links a {
+  position: relative; display: inline-block; padding: var(--space-2) 0;
+  margin-left: var(--space-8); font-size: var(--text-sm); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+/* Beautiful Animated Link Underline */
+.aw-nav-links a::after {
+  content: ''; position: absolute; width: 100%; transform: scaleX(0);
+  height: 1px; bottom: 0; left: 0;
+  background-color: var(--color-fg);
+  transform-origin: bottom right; transition: transform 0.3s var(--ease-golden);
+}
+.aw-nav-links a:hover::after {
+  transform: scaleX(1); transform-origin: bottom left;
+}

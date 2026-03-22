@@ -1,0 +1,15 @@
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { 
+  font-family: var(--aw-font-sans); 
+  background-color: var(--color-bg); 
+  color: var(--color-fg); 
+  line-height: 1.5; 
+  overflow-x: hidden; 
+}
+::selection { background-color: var(--color-accent); color: var(--color-bg); }
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; }

@@ -1,0 +1,17 @@
+/* High Impact Hero Layouts */
+.aw-hero {
+  position: relative; width: 100%; height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: var(--space-24); overflow: hidden;
+}
+
+.aw-hero-split { display: grid; grid-template-columns: 1fr; align-items: center; height: 100%; gap: var(--space-12); }
+@media(min-width: 1024px) {
+  .aw-hero-split { grid-template-columns: 1.5fr 1fr; }
+}
+
+.aw-hero-headline { margin-bottom: var(--space-4); position: relative; display: block; overflow: hidden; }
+
+/* Clip Reveal line by line for text elements */
+.aw-text-reveal { display: inline-block; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+.aw-text-reveal span { display: block; animation: slideUpClip 1.2s var(--ease-expo) forwards; }

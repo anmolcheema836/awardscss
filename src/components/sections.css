@@ -1,0 +1,81 @@
+/* Ticker/Marquee */
+.aw-marquee-section { padding: var(--space-16) 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+.aw-marquee-track { display: flex; width: max-content; animation: marqueeSlide 20s linear infinite; gap: var(--space-16); }
+
+@keyframes marqueeSlide {
+  to { transform: translateX(calc(-50% - (var(--space-16) / 2))); }
+}
+
+.aw-marquee-item {
+  font-family: var(--aw-font-display);
+  font-size: var(--text-5xl); text-transform: uppercase;
+  -webkit-text-stroke: 1px var(--color-border); color: transparent;
+  transition: color var(--trans-fast);
+}
+.aw-marquee-item:hover { color: var(--color-fg); -webkit-text-stroke: 1px transparent; }
+
+/* Parallax Footers / Sections trick via sticky behavior */
+.aw-section-sticky {
+  position: sticky; top: 0; width: 100%; height: 100vh; overflow: hidden;
+}
+/* Deep Sticky Parallax Footer Module (Awwwards Classic Hook) */
+/* The parent main element BEFORE the footer must have a background color (like var(--color-bg)) 
+   to natively "hide" this footer beneath it. */
+.aw-footer-parallax-wrapper {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); 
+}
+.aw-footer-parallax {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--space-8);
+  background: #000; /* Absolute deep background space depth native. */
+  color: var(--color-fg);
+}
+
+/* Kinetic Spinning Typographic Badge Vector Loop natively mapping continuous mathematically */
+.aw-spin-badge {
+  position: absolute; right: 10%; top: -10%; z-index: 50;
+  width: 160px; height: 160px;
+  animation: badgeRotate 10s linear infinite; pointer-events: none;
+}
+@keyframes badgeRotate { to { transform: rotate(360deg); } }
+
+/* Awwwards Organic Typography Navigation Lists mapping over siblings flawlessly */
+.aw-ghost-menu:hover .aw-ghost-link {
+  opacity: 0.2; filter: blur(4px); transform: scale(0.95);
+}
+.aw-ghost-menu .aw-ghost-link {
+  display: block; transition: all 0.4s var(--ease-expo); transform-origin: left center; font-size: var(--text-5xl); font-family: var(--aw-font-display); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);
+}
+.aw-ghost-menu .aw-ghost-link:hover {
+  opacity: 1; filter: blur(0); transform: scale(1.05); transform-origin: left center; color: var(--color-accent);
+}
+/* --- Vertical Marquee --- */
+.aw-ticker-vertical {
+  height: 100vh;
+  overflow: hidden;
+  writing-mode: vertical-rl; /* Turns text sideways */
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+}
+
+.aw-ticker-vertical-track {
+  display: flex;
+  height: max-content;
+  animation: scrollVertical 15s linear infinite;
+  gap: var(--space-8);
+}
+
+@keyframes scrollVertical {
+  to { transform: translateY(calc(-50% - (var(--space-8) / 2))); }
+}

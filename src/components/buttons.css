@@ -1,0 +1,83 @@
+.aw-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--aw-font-sans); font-size: var(--text-base); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: 99px; /* Pill */
+  cursor: pointer; overflow: hidden; border: none;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  transition: transform 0.4s var(--ease-golden);
+  will-change: transform;
+}
+
+.aw-btn:hover { transform: scale(1.05); }
+
+/* Overflow span sliding up trick */
+.aw-btn-text-mask { position: relative; display: block; overflow: hidden; height: 1em; }
+.aw-btn-text-mask span {
+  display: block; transition: transform 0.4s var(--ease-golden);
+}
+.aw-btn-text-mask::before {
+  content: attr(data-hover);
+  position: absolute; left: 0; top: 100%; width: 100%; display: block;
+  transform: translateY(0);
+  transition: transform 0.4s var(--ease-golden);
+}
+.aw-btn:hover .aw-btn-text-mask span { transform: translateY(-100%); }
+.aw-btn:hover .aw-btn-text-mask::before { transform: translateY(-100%); }
+
+/* Outlined Modern */
+.aw-btn-outline {
+  background: transparent; color: var(--color-fg);
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 0 0 0 var(--color-accent);
+  transition: background 0.4s var(--ease-expo), color 0.4s;
+}
+.aw-btn-outline:hover { background: var(--color-accent); color: var(--color-bg); }
+/* --- 3D Flip Link --- */
+.aw-flip-link {
+  display: inline-block;
+  perspective: 1000px;
+  text-transform: uppercase;
+  font-family: var(--aw-font-display);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.aw-flip-link-inner {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease-expo);
+}
+
+.aw-flip-link-front, .aw-flip-link-back {
+  display: block;
+  backface-visibility: hidden;
+}
+
+.aw-flip-link-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: var(--color-accent);
+  transform: rotateX(-90deg) translateY(100%);
+  transform-origin: bottom center;
+}
+
+.aw-flip-link-front {
+  transform-origin: bottom center;
+}
+
+.aw-flip-link:hover .aw-flip-link-inner {
+  transform: rotateX(90deg) translateY(-50%);
+}
+.aw-tracing-border { position: relative; border-radius: 16px; padding: 1px; overflow: hidden; background: var(--color-border); }
+.aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
+.aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
+@keyframes spinTrace { 100% { transform: rotate(360deg); } }

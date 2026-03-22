@@ -1,0 +1,27 @@
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* Golden Ratio split usually seen in Agency websites */
+.grid-split-golden { grid-template-columns: 1fr; }
+@media (min-width: 1024px) {
+  .grid-split-golden { grid-template-columns: 1.618fr 1fr; }
+}
+/* ... Keep existing flex/grid rules ... */
+
+/* Modern Awwwards Bento Box Grid */
+.aw-bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+  grid-auto-rows: 350px;
+}
+.aw-bento-wide { grid-column: span 1; }
+.aw-bento-tall { grid-row: span 1; }
+
+@media (min-width: 1024px) {
+  .aw-bento-wide { grid-column: span 2; }
+  .aw-bento-tall { grid-row: span 2; }
+  .aw-bento { grid-auto-rows: 400px; gap: var(--space-6); }
+}

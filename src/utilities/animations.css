@@ -1,0 +1,93 @@
+/* Custom View-Timeline CSS Reveal (Cutting Edge CSS natively handling Intersection) */
+@supports (animation-timeline: view()) {
+  .aw-reveal-scroll {
+    animation: linear revealBlock both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 25%;
+  }
+}
+
+/* Core pure keyframes for fallback or normal class hooks */
+@keyframes slideUpClip {
+  0% { transform: translateY(100%); clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+  100% { transform: translateY(0); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+@keyframes fadeScale {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.aw-fade-up { animation: fadeScale var(--trans-slow) forwards; }
+.aw-stagger-1 { animation-delay: 0.1s; }
+.aw-stagger-2 { animation-delay: 0.2s; }
+.aw-stagger-3 { animation-delay: 0.3s; }
+
+/* Image Distort/Scale Hover wrapper */
+.aw-img-mask {
+  overflow: hidden; 
+  position: relative;
+  border-radius: 4px; /* Optional slight curvature */
+}
+.aw-img-mask img {
+  transition: transform var(--trans-slow);
+  transform: scale(1.02);
+}
+.aw-img-mask:hover img {
+  transform: scale(1.12); /* Typical agency image zoom inside masked box */
+}
+
+/* Magnetic effect logic placeholder (pure CSS attempts a transition smooth-back, magnetic requires js mapping mouse-coords to custom prop, here we support the CSS hook) */
+.aw-magnetic {
+  transition: transform var(--ease-expo) 0.3s;
+  will-change: transform;
+}
+/* Stack Cards Scroll Parallax Sequence - Only renders strictly in capable DOM structures natively! */
+@supports (animation-timeline: view()) {
+  .aw-card-stack-item {
+    position: sticky; top: var(--space-32); margin-bottom: var(--space-8);
+    transform-origin: top center; animation: stackParallax linear both; animation-timeline: view();
+    animation-range: entry 100% cover 150%; 
+  }
+
+  @keyframes stackParallax {
+    to { transform: scale(0.9); opacity: 0; filter: var(--blur-md); }
+  }
+}
+/* --- View-Timeline Text Highlighter --- */
+.aw-highlight-scroll {
+  background: linear-gradient(120deg, rgba(112,0,255,0.4) 0%, rgba(0,240,255,0.4) 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0% 100%;
+  display: inline;
+  padding: 0 0.2em;
+  border-radius: 4px;
+}
+
+@supports (animation-timeline: view()) {
+  .aw-highlight-scroll {
+    animation: drawHighlight linear forwards;
+    animation-timeline: view();
+    animation-range: entry 50% cover 50%; /* Starts half-way up the screen */
+  }
+}
+
+@keyframes drawHighlight {
+  to { background-size: 100% 100%; }
+}
+/* --- Organic Levitation --- */
+.aw-float-organic {
+  animation: organicFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.aw-float-delay {
+  animation-delay: -3s; /* Desync multiple objects */
+}
+
+@keyframes organicFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(10px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
