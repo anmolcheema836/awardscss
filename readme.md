@@ -1,7 +1,6 @@
 <div align="center">
-  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="AwardsCSS Banner" width="100%" style="border-radius: 12px; margin-bottom: 20px;" />
+  <img src="https://github.com/anmolcheema836/awardscss/blob/main/docs/logo.png?raw=true" alt="AwardsCSS Banner" width="100%" style="border-radius: 12px; margin-bottom: 20px;" />
 
-  <h1>🏆 AwardsCSS</h1>
 
   <p>
     <strong>The Ultimate CSS Sandbox for Kinetic Interfaces.</strong><br>
