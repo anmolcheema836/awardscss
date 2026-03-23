@@ -1,502 +1,614 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwardsCSS | Premium Architectural Showcase</title>
-    <link href="https://cdn.jsdelivr.net/npm/awardscss/dist/awardscss.css" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=space-mono@400,700&f[]=inter@400,500&display=swap" rel="stylesheet">
-    <style>
-        /* Base structure for Parallax Footer */
-        .main-content { background: var(--color-bg); z-index: 2; position: relative; }
-        .img-placeholder { background: var(--color-neutral); width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Fix for inner scrollbar bug: explicitly hide Y overflow on gallery */
-        .aw-gallery { overflow-y: hidden; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AwardsCSS | Kinetic Showcase</title>
 
-        /* =================================================================
-           NEW AWARDS CSS PREMIUM ADDITIONS
-           ================================================================= */
-        
-        /* 1. Inline Hover Image Reveal */
-        .aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
-        .aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; object-fit: cover; height: 0.9em; margin: 0; }
-        .aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }
+  <!-- Premium Fonts mapped to your CSS variables -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Core Framework -->
+  <link rel="stylesheet" href="../dist/awardscss.css">
 
-        /* 2. Tracing Gradient Border Card */
-        .aw-tracing-border { position: relative; border-radius: 16px; padding: 1px; overflow: hidden; background: var(--color-border); }
-        .aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
-        .aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
-        @keyframes spinTrace { 100% { transform: rotate(360deg); } }
-
-        /* 3. 3D Perspective Grid Floor */
-        .aw-grid-floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 40vh; perspective: 1000px; z-index: 0; overflow: hidden; mask-image: linear-gradient(to top, black, transparent); -webkit-mask-image: linear-gradient(to top, black, transparent); pointer-events: none;}
-        .aw-grid-floor-inner { position: absolute; width: 200%; height: 200%; left: -50%; top: 0; transform: rotateX(80deg); background-size: 80px 80px; background-image: linear-gradient(to right, var(--color-border) 1px, transparent 1px), linear-gradient(to bottom, var(--color-border) 1px, transparent 1px); animation: floorMove 3s linear infinite; }
-        @keyframes floorMove { 0% { transform: rotateX(80deg) translateY(0); } 100% { transform: rotateX(80deg) translateY(80px); } }
-
-        /* 4. Liquid/Wave Rise Text Fill */
-        .aw-liquid-fill { position: relative; color: transparent; -webkit-text-stroke: 1px var(--color-border); display: inline-block; overflow: hidden; padding-bottom: 0.1em; line-height: 1; }
-        .aw-liquid-fill::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; height: 100%; color: var(--color-fg); -webkit-text-stroke: 0; transform: translateY(100%); transition: transform 0.6s var(--ease-bounce-soft); }
-        .aw-liquid-fill:hover::after { transform: translateY(0); }
-
-        /* 5. Slot Machine Roller Text */
-        .aw-roller { display: inline-flex; flex-direction: column; overflow: hidden; height: 1em; vertical-align: top; }
-        .aw-roller-inner { transition: transform 0.6s var(--ease-expo); display: flex; flex-direction: column; }
-        .aw-roller:hover .aw-roller-inner { transform: translateY(-50%); }
-        .aw-roller-text { line-height: 1; }
-
-        /* 6. Layered Parallax Glass Panes */
-        .aw-layered-glass { position: relative; perspective: 1000px; transform-style: preserve-3d; width: 100%; height: 100%; cursor: pointer;}
-        .aw-layered-pane { position: absolute; inset: 0; border: 1px solid var(--color-border); border-radius: 16px; transition: transform 0.8s var(--ease-expo); background: var(--glass-bg); backdrop-filter: var(--blur-md); box-shadow: var(--shadow-main); }
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(1) { transform: translateZ(-40px) translateX(-20px) translateY(-20px); opacity: 0.5;}
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(2) { transform: translateZ(0px); }
-        .aw-layered-glass:hover .aw-layered-pane:nth-child(3) { transform: translateZ(40px) translateX(20px) translateY(20px); }
-
-        /* 7. X-Ray Mask Cursor Reveal */
-        .aw-mask-reveal-container { position: relative; overflow: hidden; cursor: crosshair; }
-        .aw-mask-reveal-layer { position: absolute; inset: 0; background: var(--color-fg); color: var(--color-bg); z-index: 10;
-        -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%);
-        mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, -50%), black 0%, transparent 100%); pointer-events: none; }
-
-        /* 8. Organic Morphing Blob Mask */
-        .aw-blob { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transition: border-radius 1.2s ease-in-out; overflow: hidden; width: 100%; height: 100%; }
-        .aw-blob:hover { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-
-        /* 9. Diagonal Slice Image Reveal */
-        .aw-diagonal-reveal img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); transition: clip-path 1.2s var(--ease-expo); }
-        .aw-diagonal-reveal:hover img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-
-        /* 10. 3D Kinetic Cylinder Text */
-        .aw-cylinder-wrap { perspective: 1000px; display: flex; justify-content: center; align-items: center; height: 120px; overflow: hidden; }
-        .aw-cylinder { transform-style: preserve-3d; animation: spinCylinder 8s linear infinite; position: relative; width: 100%; height: 100%; }
-        .aw-cylinder span { position: absolute; top: 50%; left: 50%; transform-origin: center; white-space: nowrap; font-family: var(--aw-font-display); font-size: 3rem; font-weight: 600; text-transform: uppercase; }
-        .aw-cylinder span:nth-child(1) { transform: translate(-50%, -50%) rotateX(0deg) translateZ(60px); }
-        .aw-cylinder span:nth-child(2) { transform: translate(-50%, -50%) rotateX(120deg) translateZ(60px); }
-        .aw-cylinder span:nth-child(3) { transform: translate(-50%, -50%) rotateX(240deg) translateZ(60px); }
-        @keyframes spinCylinder { to { transform: rotateX(-360deg); } }
-
-        /* 11. Sticky Stack Cards (FIXED) */
-        .aw-stack-container {
-            position: relative;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: var(--space-32);
-        }
-        .aw-stack-card {
-            position: sticky;
-            top: 15vh;
-            height: 70vh;
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            transform-origin: top center;
-            border: 1px solid var(--color-border);
-            box-shadow: 0 -20px 40px rgba(0,0,0,0.6);
-            margin-bottom: var(--space-8);
-        }
-        /* Z-index layering so they sit on top of each other properly */
-        .aw-stack-card:nth-child(1) { z-index: 1; }
-        .aw-stack-card:nth-child(2) { z-index: 2; }
-        .aw-stack-card:nth-child(3) { z-index: 3; margin-bottom: 0; }
-
-        @supports (animation-timeline: view()) {
-            .aw-stack-card {
-                animation: scaleStackDown linear both;
-                animation-timeline: view();
-                /* Animates as the component exits the top of the viewport */
-                animation-range: exit 0% exit 100%;
-            }
-        }
-        @keyframes scaleStackDown {
-            to { transform: scale(0.85); filter: brightness(0.2); }
-        }
-    </style>
+  <style>
+    /* Strict layout helpers mapping to your variables. No external frameworks. */
+    html, body { cursor: none; background: var(--color-bg); overflow-x: hidden; }
+    .align-center { text-align: center; }
+    .section-divider { border-top: 1px solid var(--color-border); }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+  </style>
 </head>
-<!-- OVERFLOW-X: CLIP replaces hidden to fix inner double scrollbars and allow Position: Sticky to work! -->
-<body class="theme-dark aw-noise-animated" style="cursor: none; overflow-x: clip;">
+<body class="theme-dark aw-noise-animated aw-noise-crt">
 
-    <!-- 1. Custom Hardware Cursor -->
-    <div class="aw-cursor-dot" id="customCursor"></div>
+  <!-- ================= OVERLAYS & CURSORS ================= -->
+  
+  <!-- Custom Hardware Cursors -->
+  <div class="aw-cursor-dot" id="dotCursor"></div>
+  <div class="aw-cursor-radar" id="radarCursor"></div>
 
-    <!-- 2. Agency Preloader -->
-    <div class="aw-preloader">
-        <div class="aw-preloader-text">Compiling Engine...</div>
-    </div>
+  <!-- Pure CSS Scroll Progress Bar -->
+  <div class="aw-scroll-progress"></div>
 
-    <!-- 3. Vertical Ticker (Fixed Right) -->
-    <div class="aw-ticker-vertical fixed top-0 right-0 h-[100dvh] w-12 z-40 hidden lg:flex mix-blend-difference" style="pointer-events: none;">
-        <div class="aw-ticker-vertical-track">
-            <span class="text-xs font-mono uppercase text-neutral aw-text-stroke tracking-widest">SCROLL TO DISCOVER KINETIC VISION • AWARDS CSS FRAMEWORK • </span>
-            <span class="text-xs font-mono uppercase text-neutral aw-text-stroke tracking-widest">SCROLL TO DISCOVER KINETIC VISION • AWARDS CSS FRAMEWORK • </span>
-        </div>
-    </div>
+  <!-- Multi-Shutter Cinematic Preloader -->
+  <div class="aw-preloader-shutter" id="appPreloader">
+    <div></div><div></div><div></div><div></div>
+  </div>
 
-    <!-- 4. Transparent Floating Navbar -->
-    <nav class="aw-nav p-8" id="mainNav">
-        <div class="container flex justify-between items-center">
-            <div class="aw-nav-brand tracking-tighter cursor-hover text-gradient-accent">Awards.CSS</div>
-            <div class="aw-nav-links hidden md:flex cursor-hover mix-blend-difference">
-                <a href="#typography">Typography</a>
-                <a href="#gallery">Cinematics</a>
-                <a href="#cards">Interfaces</a>
-            </div>
-            <a href="docs.html" class="aw-flip-link text-xs cursor-hover mix-blend-difference">
-                <span class="aw-flip-link-inner">
-                    <span class="aw-flip-link-front text-white">View Docs</span>
-                    <span class="aw-flip-link-back">View Docs</span>
-                </span>
-            </a>
-        </div>
-    </nav>
 
-    <!-- 5. Deep Parallax Footer Wrapper (Required to hide the sticky footer beneath) -->
-    <div class="aw-footer-parallax-wrapper main-content">
+  <!-- ================= NAVIGATION ================= -->
+  
+  <nav class="aw-nav" id="navbar">
+    <div class="container flex justify-between items-center">
+      <a href="#" class="aw-nav-brand aw-glitch" data-text="AwardsCSS">AwardsCSS</a>
+      
+      <!-- Magnetic Pill Group & Blurring Siblings -->
+      <div class="aw-nav-links aw-nav-magnetic-group aw-nav-blur-group flex items-center">
+        <a href="#typography" class="aw-link-blur aw-link-cyber-line">Typography</a>
+        <a href="#components" class="aw-link-blur aw-link-cyber-line">Components</a>
+        <a href="#media" class="aw-link-blur aw-link-cyber-line">Media</a>
         
-        <!-- ================= HERO SECTION ================= -->
-        <main class="aw-hero aw-aurora-bg relative" style="min-height: 100svh;">
-            <!-- Ambient Aurora Backgrounds -->
-            <div class="aw-aurora-blob aw-aurora-1"></div>
-            <div class="aw-aurora-blob aw-aurora-2"></div>
-            
-            <!-- 3D Perspective Grid Floor -->
-            <div class="aw-grid-floor"><div class="aw-grid-floor-inner"></div></div>
-            
-            <!-- Matte Noise Overlay -->
-            <div class="aw-noise-overlay"></div>
+        <a href="docs.html" class="aw-link-brackets" style="margin-left: var(--space-8);">
+          <span>API Docs</span>
+        </a>
+      </div>
+    </div>
+  </nav>
 
-            <div class="container relative z-10 flex flex-col justify-center h-full">
-                <!-- Floating Organic Orb -->
-                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=200&auto=format&fit=crop" class="aw-float-organic absolute top-1/4 right-1/4 w-32 h-32 rounded-full object-cover z-20 shadow-main border border-border mix-blend-luminosity cursor-hover aw-halftone-hover hidden lg:block" alt="Float">
+  <!-- macOS Style Glass Dock -->
+  <div class="aw-glass-dock">
+    <div class="aw-dock-item aw-tooltip-trigger">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+      <div class="aw-tooltip">Home</div>
+    </div>
+    <div class="aw-dock-item aw-tooltip-trigger">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+      <div class="aw-tooltip">Grid</div>
+    </div>
+    <div class="aw-dock-item aw-badge-pulse aw-tooltip-trigger">
+      <div class="aw-tooltip">System Online</div>
+    </div>
+  </div>
 
-                <p class="font-mono aw-uppercase-tracked aw-stagger-1 aw-fade-up text-sm text-gradient-accent mb-4">The Ultimate CSS Sandbox</p>
+
+  <!-- ================= DEEP PARALLAX WRAPPER ================= -->
+  <!-- Parallax hook: Wraps the whole site to natively hide the sticky footer beneath main -->
+  <div class="aw-footer-parallax-wrapper relative">
+    
+    <main style="background: var(--color-bg); position: relative; z-index: 10;">
+      
+      <!-- ================= 00. HERO SECTION ================= -->
+      <header class="aw-hero aw-aurora-bg aw-scroll-curtain">
+        <!-- Ambient Background FX -->
+        <div class="aw-aurora-blob aw-aurora-1"></div>
+        <div class="aw-aurora-blob aw-aurora-2"></div>
+        <div class="aw-aurora-blob aw-aurora-3"></div>
+        <div class="aw-grid-floor"><div class="aw-grid-floor-inner"></div></div>
+        
+        <div class="container relative z-10 flex flex-col items-center justify-center h-full align-center">
+          
+          <!-- Pure CSS 3D Cube -->
+          <div class="aw-cube-wrap" style="margin-bottom: var(--space-12);">
+            <div class="aw-cube">
+                <div class="aw-cube-face aw-cube-face-front font-display text-2xl text-white flex-center">A</div>
+                <div class="aw-cube-face aw-cube-face-back font-display text-2xl text-white flex-center">W</div>
+                <div class="aw-cube-face aw-cube-face-right font-display text-2xl text-white flex-center">W</div>
+                <div class="aw-cube-face aw-cube-face-left font-display text-2xl text-white flex-center">W</div>
+                <div class="aw-cube-face aw-cube-face-top font-display text-2xl text-white flex-center">.</div>
+                <div class="aw-cube-face aw-cube-face-bottom font-display text-2xl text-white flex-center">CSS</div>
+            </div>
+          </div>
+          
+          <h1 class="aw-text-fluid aw-text-reveal aw-text-shine" style="margin-bottom: var(--space-4);">
+            <span class="aw-text-media" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop');">AWARDS CSS</span>
+          </h1>
+
+          <h2 class="text-3xl font-display aw-fx-liquid-metal aw-text-blur-reveal">
+            Absolute Interaction.
+          </h2>
+
+          <div class="flex gap-4 justify-center" style="margin-top: var(--space-12);">
+            <button class="aw-btn aw-btn-blob cursor-hover" style="padding: 1rem 2.5rem;">Experience Now</button>
+            <button class="aw-btn-magnetic aw-btn-neo-push cursor-hover" style="padding: 1rem 2.5rem;">Magnetic Push</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hover Kinetic Marquee Tracker -->
+      <section class="aw-marquee-section aw-glass section-divider">
+        <div class="aw-marquee-track">
+          <span class="aw-marquee-item">Fluid Layouts</span>
+          <span class="aw-marquee-item aw-text-stroke">Glassmorphism</span>
+          <span class="aw-marquee-item">Neo-Brutalism</span>
+          <span class="aw-marquee-item aw-text-stroke">WebGL-like FX</span>
+          <span class="aw-marquee-item">Kinetic Typography</span>
+          <span class="aw-marquee-item aw-text-stroke">Fluid Layouts</span>
+        </div>
+      </section>
+
+      <!-- ================= 01. TYPOGRAPHY ENGINE ================= -->
+      <section id="typography" class="py-section container section-divider">
+        <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin-bottom: var(--space-16);">01. Typography Engine</h2>
+        
+        <div class="grid grid-cols-1" style="gap: var(--space-16);">
+            <div class="flex flex-col items-center justify-center gap-8 align-center">
                 
-                <!-- Glitch & Liquid Text -->
-                <h1 class="aw-glitch text-display leading-none tracking-tighter m-0 aw-stagger-2 aw-fade-up cursor-hover" data-text="KINETIC DOM">KINETIC DOM</h1>
-                <h2 class="text-4xl md:text-5xl font-display mt-4 aw-stagger-2 aw-fade-up cursor-hover">
-                    Experience <span class="aw-liquid-fill" data-text="Fluidity.">Fluidity.</span>
+                <!-- Sliced Kinetic Text -->
+                <h2 class="aw-text-kinetic-slice text-5xl font-display cursor-hover" data-text="KINETIC SLICE">KINETIC SLICE</h2>
+                
+                <!-- Breathing Pulse Stroke -->
+                <h2 class="aw-text-pulse-stroke text-5xl font-display cursor-hover">BREATHING PULSE</h2>
+                
+                <!-- Stroke Wipe -->
+                <h2 class="aw-text-stroke-wipe text-5xl font-display cursor-hover" data-text="STROKE WIPE FILL">STROKE WIPE FILL</h2>
+                
+                <!-- Stagger Split 3D -->
+                <h2 class="aw-text-stagger-split text-4xl font-display cursor-hover">
+                    <span>3</span><span>D</span><span> </span><span>S</span><span>P</span><span>L</span><span>I</span><span>T</span>
                 </h2>
 
-                <p class="text-xl mt-6 max-w-lg text-fg opacity-80 aw-fade-up aw-stagger-3">High-end structural modules rendered at pure 60fps utilizing advanced GPU CSS masking, view-timelines, and matrix math.</p>
+                <!-- Glitch Clip -->
+                <h2 class="aw-text-glitch-clip text-4xl font-display cursor-hover">HOVER CYBER GLITCH</h2>
+
+                <!-- Chromatic Aberration -->
+                <h2 class="aw-chromatic-aberration text-4xl font-display cursor-hover">CHROMATIC ABERRATION</h2>
                 
-                <div class="mt-12 aw-fade-up aw-stagger-3 flex gap-6 items-center">
-                    <!-- Tracing Gradient Border Button -->
-                    <div class="aw-tracing-border inline-block cursor-hover shadow-main">
-                        <div class="aw-tracing-border-inner">
-                            <a href="#typography" class="aw-btn bg-transparent hover:scale-100 m-0">
-                                <span class="aw-btn-text-mask" data-hover="Explore the Engine"><span>Explore the Engine</span></span>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Standard Outline Button -->
-                    <a href="docs.html" class="aw-btn aw-btn-outline cursor-hover">Read Docs</a>
+                <!-- Liquid Wave Fill -->
+                <h3 class="text-4xl aw-liquid-fill cursor-hover" data-text="LIQUID WAVE FILL">LIQUID WAVE FILL</h3>
+
+                <!-- Hover Kinetic Marquee text -->
+                <h2 class="aw-text-marquee-hover text-5xl font-display aw-text-gradient-accent cursor-hover" data-text="HOVER TO SCROLL ME">
+                    <span>HOVER TO SCROLL ME</span>
+                </h2>
+            </div>
+        </div>
+      </section>
+
+      <!-- ================= 02. COMPONENT MATRIX (Buttons) ================= -->
+      <section id="components" class="py-section aw-mesh-bg relative section-divider">
+        <div class="container relative z-10">
+          <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin-bottom: var(--space-16);">02. Component Matrix</h2>
+          
+          <div class="aw-bento">
+            <button class="aw-btn-neo-push p-4 font-display text-xl cursor-hover">Neo-Brutal Push</button>
+            <button class="aw-btn-iso-push p-4 font-mono text-sm uppercase cursor-hover">Isometric Push</button>
+            <button class="aw-btn-brutal-glitch p-4 cursor-hover">Glitch Brutal</button>
+            <button class="aw-btn-cyber-frame cursor-hover">Cyber Frame</button>
+
+            <!-- Magnetic Laser Swipe -->
+            <button class="aw-btn-laser aw-btn-magnetic p-4 font-display text-xl cursor-hover">Magnetic Laser</button>
+
+            <!-- Hyper Charge Ring -->
+            <button class="aw-btn-charge cursor-hover">Hyper Charge</button>
+
+            <button class="aw-btn-sonar cursor-hover">Sonar Ping</button>
+            <button class="aw-btn-portal p-8 font-display rounded-full cursor-hover">Dimension Portal</button>
+
+            <!-- Liquid Swipe Mask -->
+            <button class="aw-btn-liquid-swipe p-4 cursor-hover">Liquid Mask Sweep</button>
+
+            <!-- Organic Fluid Blob Border -->
+            <button class="aw-btn-organic p-4 font-display text-xl cursor-hover">Organic Blob</button>
+
+            <button class="aw-btn-barcode aw-glass p-4 font-mono text-sm cursor-hover">Barcode Scanline</button>
+
+            <!-- Marquee Button Loop -->
+            <button class="aw-btn aw-btn-marquee aw-btn-outline cursor-hover">
+              <span>Endless Loop Marquee</span>
+            </button>
+            
+            <button class="aw-btn-fill-expand p-4 cursor-hover">Fill Expand</button>
+            <button class="aw-btn-liquid-wave p-4 font-display text-xl cursor-hover">Liquid Wave</button>
+            
+            <!-- Vertical Text Swap -->
+            <div class="aw-glass flex-center p-4">
+              <a href="#" class="aw-link-v-swap font-mono text-sm aw-uppercase-tracked cursor-hover" data-text="Vertical Swap"><span>Hover Me</span></a>
+            </div>
+
+            <!-- Kinetic Link Fill Hover -->
+            <div class="aw-glass flex-center p-4">
+              <a href="#" class="aw-link-fill font-display text-2xl cursor-hover" data-text="Fill Link">Fill Link</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 03. DIMENSIONAL CARDS & GLASS ================= -->
+      <section class="py-section container section-divider">
+        <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin-bottom: var(--space-16);">03. Dimensional Arrays & Glass</h2>
+        
+        <!-- Spotlight Hover Matrix -->
+        <div class="aw-spotlight-group grid-cols-1 md:grid-cols-2 aw-bento" style="margin-bottom: var(--space-32);">
+            
+            <!-- Spotlight Tracking Card -->
+            <div class="aw-spotlight-card p-8 flex-center align-center aw-bento-wide" style="height: 300px;">
+                <div class="aw-spotlight-content cursor-hover">
+                    <h3 class="text-3xl font-display" style="margin-bottom: var(--space-4);">Spotlight Tracking Box</h3>
+                    <p class="text-base" style="opacity: 0.7;">
+                        Hover to reveal the flashlight. Natively powered by `var(--mouse-x)` and `var(--mouse-y)` CSS tracking.
+                    </p>
                 </div>
             </div>
-        </main>
 
-        <!-- ================= MARQUEE BANNER ================= -->
-        <div class="aw-marquee-section border-y transform -rotate-1 scale-105 mb-section cursor-hover bg-accent text-bg z-20 shadow-main relative">
-            <div class="aw-marquee-track">
-                <span class="aw-marquee-item text-4xl" style="-webkit-text-stroke: 1px transparent; color: #ffffff; font-weight:700">PURE CSS ARCHITECTURE • </span>
-                <span class="aw-marquee-item text-4xl" style="-webkit-text-stroke: 1px transparent; color:#ffffff; font-weight:700">NO JAVASCRIPT TIMELINES • </span>
-                <span class="aw-marquee-item text-4xl" style="-webkit-text-stroke: 1px transparent; color:#ffffff; font-weight:700">PURE CSS ARCHITECTURE • </span>
-                <span class="aw-marquee-item text-4xl" style="-webkit-text-stroke: 1px transparent; color:#ffffff; font-weight:700">NO JAVASCRIPT TIMELINES • </span>
+            <!-- 3D Float Tilt Card -->
+            <div class="aw-card-float-tilt aw-glass flex-center cursor-hover" style="height: 300px; border-radius: 16px;">
+                <div class="aw-card-float-inner font-display text-2xl">
+                    3D Parallax Tilt
+                </div>
+            </div>
+
+            <!-- Holographic Foil Card -->
+            <div class="aw-holo-card flex-center cursor-hover" style="height: 300px;">
+                <h3 class="font-display text-2xl aw-text-shine">Holographic Tile</h3>
             </div>
         </div>
 
-        <!-- ================= TYPOGRAPHY & SCROLL FX ================= -->
-        <section id="typography" class="container py-section">
-            <div class="max-w-[1000px] mx-auto text-center">
-                <!-- Inline Image Reveal & Highlighter -->
-                <h2 class="text-4xl md:text-5xl font-display mb-8 aw-text-reveal">
-                    <span>Performance is a <span class="aw-highlight-scroll text-bg font-bold">highly critical</span> metric. Expand your 
-                        <span class="aw-inline-reveal-wrap cursor-hover">
-                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200" class="aw-inline-reveal-img" alt="Reveal">
-                            vision.
-                        </span>
-                    </span>
-                </h2>
-                
-                <!-- Roller Text -->
-                <h3 class="text-3xl font-display cursor-hover mb-16 text-neutral">
-                    Built exclusively for 
-                    <span class="aw-roller font-bold text-gradient-accent">
-                        <span class="aw-roller-inner">
-                            <span class="aw-roller-text">Designers</span>
-                            <span class="aw-roller-text">Developers</span>
-                        </span>
-                    </span>
-                </h3>
-
-                <!-- Scroll-linked fill text -->
-                <h2 class="text-display font-display aw-scroll-fill tracking-tighter leading-none cursor-hover">BUILD THE FUTURE.</h2>
+        <div class="aw-bento">
+            <!-- 3D Unfold Paper Card -->
+            <div class="aw-card-fold aw-bento-tall cursor-hover">
+                <div class="aw-card-fold-top flex flex-col justify-center align-center" style="height: 100%; min-height: 250px;">
+                    <h3 class="text-3xl font-display" style="margin-bottom: var(--space-2);">3D Fold Card</h3>
+                    <p class="font-mono text-xs" style="color: #888;">Hover to unfold hinges natively</p>
+                </div>
+                <div class="aw-card-fold-bottom p-8">
+                    <p class="text-base" style="color: #aaa;">Seamless native CSS 3D transforms create physics-like unfolding hinges without JavaScript.</p>
+                </div>
             </div>
-        </section>
 
-        <!-- ================= CINEMATIC MEDIA GALLERY ================= -->
-        <section id="gallery" class="py-section border-y border-border bg-neutral/30 overflow-hidden relative">
-            <div class="aw-mesh-bg absolute inset-0 opacity-20 pointer-events-none"></div>
+            <!-- Reeded Ribbed Glass -->
+            <div class="aw-ribbed-glass aw-bento-wide p-8 flex flex-col justify-center cursor-hover">
+                <h3 class="text-3xl font-display" style="margin-bottom: var(--space-4);">Reeded Architectural Glass</h3>
+                <p class="font-mono text-sm" style="opacity: 0.6;">Physical glass ridges rendered purely via repeating gradient masks and heavy contrast blurs.</p>
+            </div>
 
-            <div class="container mb-12 relative z-10">
-                <h2 class="text-4xl font-display">Cinematic Media Hooks</h2>
+            <!-- Origami Unfold -->
+            <div class="aw-card-origami flex flex-col items-center justify-center align-center p-8 cursor-hover">
+                <h3 class="text-2xl font-display aw-text-gradient">Origami Unfold</h3>
+                <p class="font-mono text-xs" style="color: #888; margin-top: var(--space-4);">Hover for polygon clip</p>
+            </div>
+
+            <!-- Neon Wireframe -->
+            <div class="aw-card-neon-wireframe p-8 flex-center cursor-hover">
+                <h3 class="font-mono text-sm aw-uppercase-tracked text-white">Neon Wireframe Array</h3>
+            </div>
+
+            <!-- Layered Panes Parallax -->
+            <div class="aw-layered-glass p-8 flex-center cursor-hover" style="min-height: 200px;">
+                <div class="aw-layered-pane"></div>
+                <div class="aw-layered-pane"></div>
+                <div class="aw-layered-pane flex-center">
+                    <span class="font-display text-xl">Parallax Panes</span>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- ================= 04. FORMS & ACCORDIONS ================= -->
+      <section class="py-section container section-divider">
+        <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin-bottom: var(--space-16);">04. Interface & Forms</h2>
+        
+        <div class="grid-split-golden items-center" style="gap: var(--space-16);">
+            
+            <div class="flex flex-col gap-8">
+                <div class="aw-accordion-container aw-accordion-glow-wrap">
+                    
+                    <details class="aw-accordion aw-accordion-magnetic cursor-hover" open>
+                        <summary>Magnetic Center-Border Expand</summary>
+                        <div class="aw-accordion-content">
+                            <div class="p-4">Content smoothly drops down while the border strikes outward from the absolute center.</div>
+                        </div>
+                    </details>
+                    
+                    <details class="aw-accordion aw-accordion-cyber cursor-hover">
+                        <summary>Cyber Edge Indent</summary>
+                        <div class="aw-accordion-content">
+                            <div class="p-4">High-tech side border transition, snapping colors with CSS.</div>
+                        </div>
+                    </details>
+
+                    <details class="aw-accordion aw-accordion-marquee cursor-hover">
+                        <summary>MARQUEE HEADER HOVER ANIMATION LOOPING TEXT LOOPING TEXT</summary>
+                        <div class="aw-accordion-content">
+                            <div class="p-4">The summary natively loops as an endless marquee when open.</div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Liquid Gooey Integration -->
+                <div class="aw-gooey-wrapper flex-center rounded-2xl p-8 cursor-hover" style="gap: var(--space-2); transition: gap 0.8s;">
+                    <div class="aw-gooey-item" style="width: 48px; height: 48px;"></div>
+                    <div class="aw-gooey-item" style="width: 64px; height: 64px;"></div>
+                    <div class="aw-gooey-item" style="width: 48px; height: 48px;"></div>
+                </div>
+            </div>
+
+            <div class="aw-glass p-8 rounded-3xl flex flex-col gap-8">
+                
+                <div class="aw-input-group cursor-hover">
+                    <input type="text" class="aw-input aw-input-elastic" required>
+                    <label class="aw-label">Elastic Floating Label</label>
+                </div>
+                
+                <div class="aw-input-draw-wrap cursor-hover">
+                    <input type="text" class="aw-input-draw-line w-full" placeholder="Center Draw Underline">
+                </div>
+
+                <!-- Glow Tracking Border -->
+                <div class="aw-input-glow-border relative w-full cursor-hover">
+                    <input type="email" placeholder="Radial Glow Input (Follows Mouse)">
+                </div>
+
+                <div class="relative w-full cursor-hover">
+                    <input type="text" class="aw-input-terminal" placeholder=">_ Terminal Input..." style="padding: 1rem; width: 100%; border-radius: 8px;">
+                </div>
+
+                <div class="flex justify-between items-center w-full" style="margin-top: var(--space-4);">
+                    <label class="flex items-center gap-4 cursor-hover" style="cursor: pointer;">
+                        <input type="checkbox" class="aw-checkbox-liquid">
+                        <span class="font-mono text-sm">Liquid Drop</span>
+                    </label>
+
+                    <label class="flex items-center gap-4 cursor-hover" style="cursor: pointer;">
+                        <input type="checkbox" class="aw-checkbox-brutal">
+                        <span class="font-mono text-sm">Brutal Switch</span>
+                    </label>
+                </div>
             </div>
             
-            <!-- Split Screen Hover Gallery -->
-            <div class="aw-split-gallery cursor-hover w-full mb-section shadow-main relative z-10">
-                <div class="aw-split-panel"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop" class="img-placeholder" alt="Abstract 1"></div>
-                <div class="aw-split-panel"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" class="img-placeholder" alt="Abstract 2"></div>
-                <div class="aw-split-panel"><img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=1200&auto=format&fit=crop" class="img-placeholder" alt="Abstract 3"></div>
-            </div>
+        </div>
+      </section>
 
-            <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-                <!-- Diagonal Reveal -->
-                <div class="aw-diagonal-reveal h-[400px] w-full cursor-hover shadow-main">
-                    <img src="https://c4.wallpaperflare.com/wallpaper/495/241/90/acrylic-texture-design-color-wallpaper-preview.jpg" class="w-full h-full object-cover rounded-xl" alt="Diagonal">
-                </div>
-                
-                <!-- Blob Morphing Container -->
-                <div class="h-[400px] w-full cursor-hover flex justify-center p-8 bg-black/20 rounded-xl border border-border">
-                    <div class="aw-blob shadow-main">
-                        <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Blob">
-                    </div>
-                </div>
+      <!-- ================= 05. ADVANCED MEDIA & GALLERIES ================= -->
+      <section id="media" class="py-section section-divider overflow-hidden">
+        <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin-bottom: var(--space-16);">05. Media Processing Pipelines</h2>
 
-                <!-- Curtain Reveal -->
-                <div class="aw-curtain-reveal h-[400px] w-full cursor-hover shadow-main">
-                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Curtain">
-                </div>
-
-                <!-- Image Fan Stack -->
-                <div class="h-[400px] w-full flex items-center justify-center pt-16">
-                    <div class="aw-fan-stack cursor-hover">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Fan 1">
-                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Fan 2">
-                        <img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=600&auto=format&fit=crop" alt="Fan 3">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= BENTO GRID CARDS ================= -->
-        <section id="cards" class="container py-section">
-            <h2 class="text-4xl font-display mb-12 aw-text-reveal"><span>Interactive Interfaces</span></h2>
+        <div class="container grid grid-cols-1 md:grid-cols-2" style="gap: var(--space-8);">
             
-            <div class="aw-bento">
-                <!-- 3D Interactive & Tooltip -->
-                <div class="aw-card aw-card-interactive aw-3d-wrap cursor-hover flex flex-col items-center justify-center p-12 text-center aw-glass shadow-main">
-                    <div class="aw-3d-card relative z-10">
-                        <h3 class="text-2xl font-display text-gradient mb-4">3D Space Interactive</h3>
-                        <span class="aw-tooltip-trigger bg-white/10 px-4 py-2 rounded-full border border-border backdrop-blur-md text-xs font-mono uppercase">
-                            Hover Me
-                            <span class="aw-tooltip shadow-main">Native Hover Render API</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Layered Parallax Glass -->
-                <div class="aw-layered-glass cursor-hover aw-bento-tall w-full h-full flex items-center justify-center">
-                    <div class="aw-layered-pane"></div>
-                    <div class="aw-layered-pane" style="background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800') center/cover; opacity: 0.3;"></div>
-                    <div class="aw-layered-pane flex flex-col items-center justify-center p-8 text-center">
-                        <h3 class="text-3xl font-display text-gradient-accent">Parallax Glass</h3>
-                        <p class="font-mono text-xs mt-4 text-neutral">Translates across Z-axis.</p>
-                    </div>
-                </div>
-
-                <!-- Neo Brutalism -->
-                <div class="aw-neo-card cursor-hover flex flex-col justify-center bg-white text-black p-8">
-                    <h3 class="text-3xl font-display uppercase font-bold">Neo Brutalist</h3>
-                    <p class="font-mono mt-4 text-sm font-bold opacity-70">Sharp borders. Hard offset shadows. Tactile clicks.</p>
-                </div>
-
-                <!-- Spotlight Group (Takes up remaining space) -->
-                <div class="aw-spotlight-group grid grid-cols-1 aw-bento-wide" id="spotlightWrap">
-                    <div class="aw-spotlight-card p-12 flex flex-col justify-between cursor-hover h-full">
-                        <div class="aw-spotlight-content">
-                            <h3 class="font-display text-4xl mb-4">Spotlight Engine</h3>
-                            <p class="text-lg text-neutral font-mono">Radial gradient bounds mapped natively to the cursor position.</p>
-                        </div>
-                    </div>
+            <!-- 3D Orbiting Ring Gallery -->
+            <div class="col-span-1 md:col-span-2 flex justify-center aw-ring-gallery cursor-hover" style="margin-bottom: var(--space-16);">
+                <div class="aw-ring-inner">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" class="aw-ring-item" alt="Ring">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" class="aw-ring-item" alt="Ring">
+                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" class="aw-ring-item" alt="Ring">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" class="aw-ring-item" alt="Ring">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" class="aw-ring-item" alt="Ring">
                 </div>
             </div>
-        </section>
 
-        <!-- ================= STICKY STACK CARDS ================= -->
-        <section class="container py-section border-t border-border">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
-                <div class="lg:col-span-1 relative">
-                    <div class="sticky top-32">
-                        <h2 class="text-4xl font-display mb-6">Sticky <br> Stacking.</h2>
-                        <p class="text-lg text-neutral mb-8">View-Timelines automatically scale down background layers dynamically on scroll.</p>
-                        
-                        <!-- 3D Cylinder Widget -->
-                        <div class="aw-cylinder-wrap cursor-hover py-12 mt-8 border-y border-border">
-                            <div class="aw-cylinder text-gradient">
-                                <span>No JS Math</span>
-                                <span>Native CSS</span>
-                                <span>High FPS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:col-span-2">
-                    <div class="aw-stack-container">
-                        <div class="aw-stack-card flex items-center justify-center aw-glass-intense aw-mesh-bg cursor-hover">
-                            <h3 class="text-display font-display aw-text-stroke">PHASE 01</h3>
-                        </div>
-                        <div class="aw-stack-card flex items-center justify-center bg-black cursor-hover">
-                            <h3 class="text-display font-display text-gradient-accent">PHASE 02</h3>
-                        </div>
-                        <div class="aw-stack-card flex items-center justify-center bg-white text-black cursor-hover">
-                            <h3 class="text-display font-display text-black aw-text-media" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop');">PHASE 03</h3>
-                        </div>
-                    </div>
+            <!-- Image Fan Stack -->
+            <div class="flex-center cursor-hover" style="height: 400px;">
+                <div class="aw-fan-stack w-full h-full">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop" alt="Fan">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Fan">
+                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop" alt="Fan">
                 </div>
             </div>
-        </section>
 
-        <!-- ================= MOMENTUM GALLERY & FORMS ================= -->
-        <section class="py-section border-t border-border bg-black">
-            <div class="container mb-8">
-                <h2 class="text-4xl font-display">Momentum Gallery</h2>
-                <p class="text-neutral font-mono text-sm mt-2">Native CSS horizontal scroll snap.</p>
-            </div>
-            <div class="aw-gallery cursor-hover mb-section">
-                <div class="aw-gallery-item"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80" alt="Work 1"></div>
-                <div class="aw-gallery-item"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80" alt="Work 2"></div>
-                <div class="aw-gallery-item"><img src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?auto=format&fit=crop&q=80" alt="Work 3"></div>
-                <div class="aw-gallery-item"><img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&q=80" alt="Work 4"></div>
+            <!-- Diagonal Stack Peel -->
+            <div class="aw-img-stack-peel w-full cursor-hover" style="height: 400px;">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" class="aw-peel-top" alt="Overlay">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" alt="Base">
             </div>
 
-            <div class="container grid grid-split-golden gap-16 items-start mt-section">
-                <!-- Forms & Hover Ghost Menu -->
-                <div class="flex flex-col gap-16">
-                    <div>
-                        <h2 class="text-4xl font-display mb-8">Kinetic Inputs</h2>
-                        <form onsubmit="event.preventDefault()">
-                            <div class="aw-input-group cursor-hover">
-                                <input type="text" class="aw-input" required>
-                                <label class="aw-label">Name</label>
-                            </div>
-                            <div class="aw-input-group cursor-hover mt-8">
-                                <input type="email" class="aw-input" required>
-                                <label class="aw-label">Email Address</label>
-                            </div>
-                            <button class="aw-btn aw-border-glow cursor-hover mt-8 w-full"><span class="aw-btn-text-mask" data-hover="Initialize Sequence"><span>Initialize Sequence</span></span></button>
-                        </form>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-display mb-6">Ghost Directory</h2>
-                        <ul class="aw-ghost-menu">
-                            <li><a href="#" class="aw-ghost-link cursor-hover text-3xl">Services</a></li>
-                            <li><a href="#" class="aw-ghost-link cursor-hover text-3xl">Agency</a></li>
-                            <li><a href="#" class="aw-ghost-link cursor-hover text-3xl">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Accordions -->
-                <div>
-                    <h2 class="text-4xl font-display mb-8">Accordions</h2>
-                    <div class="aw-accordion-container">
-                        <details class="aw-accordion cursor-hover" name="faq">
-                            <summary>Native CSS Rendering</summary>
-                            <div class="aw-accordion-content">
-                                <div>Absolutely zero JavaScript timeline logic is required. The browser handles matrix math via the CSSOM directly to the GPU.</div>
-                            </div>
-                        </details>
-                        <details class="aw-accordion cursor-hover" name="faq">
-                            <summary>Fluid Typography</summary>
-                            <div class="aw-accordion-content">
-                                <div>Text sizes scale fluidly based on viewport width using CSS `clamp()`, completely removing the need for breakpoints.</div>
-                            </div>
-                        </details>
-                        <details class="aw-accordion cursor-hover" name="faq">
-                            <summary>Performance First</summary>
-                            <div class="aw-accordion-content">
-                                <div>Will-change and composite-only animations guarantee perfect 60fps renders even on heavy DOMs.</div>
-                            </div>
-                        </details>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <!-- Distort Grid Hover -->
+            <div class="aw-img-distort-grid w-full rounded-2xl cursor-hover" style="height: 400px; background-image: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800&auto=format&fit=crop'); background-size: cover;"></div>
 
-        <!-- ================= X-RAY MASK SECTION ================= -->
-        <section class="aw-mask-reveal-container w-full py-section border-t border-border bg-black" id="maskSection">
-            <div class="container text-center py-24 relative z-0">
-                <h2 class="text-display font-display tracking-tighter text-neutral">X-RAY MASKING</h2>
-                <p class="font-mono text-neutral mt-4 uppercase">Find the hidden layer underneath.</p>
+            <!-- Gradient Mask Wipe -->
+            <div class="aw-mask-wipe w-full rounded-2xl cursor-hover" style="height: 400px;">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" alt="Wipe">
             </div>
-            <!-- The layer revealed by the mouse -->
-            <div class="aw-mask-reveal-layer flex flex-col items-center justify-center text-center">
-                <h2 class="text-display font-display tracking-tighter text-bg">NATIVE TRACKING</h2>
-                <p class="font-mono text-bg font-bold mt-4 uppercase">Performance at its peak.</p>
-            </div>
-        </section>
 
-        <!-- ================= CIRCLE EXPANSION OUTRO ================= -->
-        <div class="aw-circle-reveal cursor-hover mt-section border-y border-border" style="padding: 12rem 0;">
-            <div class="aw-circle-reveal-bg"></div>
-            <h2 class="aw-circle-reveal-content text-display font-display tracking-tighter m-0 text-center leading-none">THE END<br><span class="text-lg font-mono uppercase tracking-widest block mt-4">Hover to Expand Matter</span></h2>
+            <!-- Cinematic Curtain Reveal -->
+            <div class="aw-curtain-reveal w-full rounded-2xl cursor-hover" style="height: 400px;">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="Curtain">
+            </div>
+
+            <!-- Blend Reveal Image -->
+            <div class="aw-blend-reveal w-full rounded-2xl cursor-hover" style="height: 400px;">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Blend">
+            </div>
+
         </div>
 
-    </div> <!-- End Main Content Wrapper -->
+        <!-- Scroll Snap Gallery (Breaks Container bounds natively) -->
+        <div class="aw-gallery cursor-hover" style="margin-top: var(--space-16);">
+            <div class="aw-gallery-item">
+                <div class="aw-img-parallax-wrap relative w-full h-full">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" class="aw-img-parallax absolute inset-0 w-full h-full object-cover" alt="Parallax">
+                </div>
+            </div>
+            <div class="aw-gallery-item aw-img-stack-peel">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop" class="aw-peel-top absolute inset-0 w-full h-full object-cover" alt="Overlay">
+                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=1200&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Base">
+            </div>
+            <div class="aw-gallery-item aw-mask-speed">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Wipe">
+            </div>
+        </div>
 
+      </section>
+
+      <!-- ================= 06. NATIVE SCROLL TIMELINE FX ================= -->
+      <section class="section-divider">
+        <h2 class="text-xs font-mono aw-uppercase-tracked align-center" style="color: #666; margin: var(--space-16) 0;">06. View-Timeline Native FX</h2>
+        
+        <!-- 3D Skew Push -->
+        <div class="aw-scroll-skew h-screen w-full flex-center rounded-3xl" style="background: var(--color-neutral); margin-bottom: var(--space-16);">
+            <h2 class="aw-spotlight-text text-5xl font-display align-center cursor-hover">I TILT NATIVELY<br>ON SCROLL.</h2>
+        </div>
+
+        <!-- Background Image Zoom Scroll -->
+        <div class="aw-scroll-zoom-bg w-full">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop" class="aw-scroll-zoom-inner">
+            <h2 class="relative z-10 text-white text-display font-display align-center cursor-hover">MASSIVE<br>ZOOM</h2>
+        </div>
+
+      </section>
+
+    </main>
+    
     <!-- ================= DEEP PARALLAX FOOTER ================= -->
     <footer class="aw-footer-parallax">
-        <div class="container text-center py-section relative">
-            <div class="aw-blur-orb" style="bottom: -20%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px;"></div>
-            
-            <h2 class="aw-text-fluid font-display text-gradient font-bold tracking-tighter cursor-hover aw-text-media mb-8" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop');">AWARDSCSS.</h2>
-            
-            <div class="flex justify-center gap-12 mt-12 cursor-hover font-mono text-sm uppercase">
-                <a href="#" class="aw-link-fill font-bold" data-text="Twitter">Twitter</a>
-                <a href="#" class="aw-link-fill font-bold" data-text="Github">Github</a>
-                <a href="docs.html" class="aw-link-fill font-bold" data-text="API Docs">API Docs</a>
-            </div>
-            <p class="mt-24 text-xs text-neutral aw-uppercase-tracked" style="color: #666;">© 2026 Kinetic Framework. Rendered natively in the browser.</p>
+      <!-- Ambient Orb -->
+      <div class="aw-blur-orb" style="bottom: -10%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px;"></div>
+      
+      <div class="container flex flex-col items-center justify-center h-full w-full relative z-10">
+        
+        <!-- 3D Kinetic Cylinder Text -->
+        <div class="aw-cylinder-wrap" style="margin-bottom: var(--space-12);">
+          <div class="aw-cylinder" style="color: var(--color-fg); opacity: 0.2;">
+            <span>AWARDS CSS</span>
+            <span>AWARDS CSS</span>
+            <span>AWARDS CSS</span>
+          </div>
         </div>
+
+        <!-- Scroll Mask Reveal Text -->
+        <h2 class="aw-text-fluid aw-scroll-fill font-display align-center" data-text="AwardsCSS" style="margin-bottom: var(--space-8);">AwardsCSS</h2>
+        
+        <!-- Horizontal Ticker 3D -->
+        <div class="aw-ticker-3d-wrap w-full border-t border-b border-gray-800" style="margin-bottom: var(--space-12);">
+            <div class="aw-ticker-3d text-gradient">
+                <span>END OF PAGE</span>
+                <span>TO THE VOID</span>
+                <span>PURE NATIVE CSS</span>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center w-full relative">
+            <div class="aw-text-circular-path aw-spin-badge absolute" style="left: -100px; top: -100px;">
+                <svg viewBox="0 0 100 100">
+                    <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent"></path>
+                    <text><textPath href="#circlePath">PURE NATIVE CSS • HARDWARE ACCELERATED •</textPath></text>
+                </svg>
+            </div>
+
+            <div class="flex gap-8 justify-center items-center w-full">
+                <a href="docs.html" class="aw-link-brackets font-mono text-sm cursor-hover">Documentation</a>
+                <a href="#" class="aw-link-brackets font-mono text-sm cursor-hover">GitHub Repo</a>
+            </div>
+        </div>
+      </div>
     </footer>
 
-    <!-- Interactive Scripts -->
-    <script>
-        // Hardware Cursor Logic
-        const cursor = document.getElementById('customCursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.setProperty('--cursor-x', e.clientX + 'px');
-            cursor.style.setProperty('--cursor-y', e.clientY + 'px');
-        });
+  </div> <!-- End Parallax Wrapper -->
 
-        // Add focus state to interactive elements
-        document.querySelectorAll('.cursor-hover').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('aw-cursor-focus'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('aw-cursor-focus'));
-        });
+  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <!-- Crucial for mathematically binding mouse coordinates to native CSS variables -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      // 1. Remove Preloader Lock (Ensures page becomes clickable after animation)
+      setTimeout(() => {
+        const shutter = document.getElementById('appPreloader');
+        if (shutter) shutter.style.pointerEvents = 'none';
+      }, 1500); // 1.5s delay to match the var(--ease-expo) animation finish
 
-        // Spotlight & X-Ray Mask Mouse Tracker Loop
-        document.addEventListener('mousemove', e => {
-            // Spotlight logic
-            for(const card of document.getElementsByClassName("aw-spotlight-card")) {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
-                card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
-            }
-            // X-Ray Mask Logic
-            const maskWrap = document.getElementById("maskSection");
-            if(maskWrap) {
-                const maskRect = maskWrap.getBoundingClientRect();
-                maskWrap.style.setProperty("--mouse-x", `${e.clientX - maskRect.left}px`);
-                maskWrap.style.setProperty("--mouse-y", `${e.clientY - maskRect.top}px`);
-            }
-        });
+      // 2. Setup Cursor Elements
+      const dotCursor = document.getElementById('dotCursor');
+      const radarCursor = document.getElementById('radarCursor');
 
-        // Navbar Scroll Observer
-        const nav = document.getElementById('mainNav');
-        window.addEventListener('scroll', () => {
-            window.scrollY > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+      // 3. Global Mouse Tracking
+      document.addEventListener('mousemove', (e) => {
+        // Feed raw numbers to root for math (e.g., Grid floor tilts, glow orbs)
+        document.documentElement.style.setProperty('--mouse-x', e.clientX);
+        document.documentElement.style.setProperty('--mouse-y', e.clientY);
+        
+        // Feed pixel values to root for positional properties
+        document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
+
+        // Update Radar sweep position manually (since CSS didn't map it natively in your file)
+        if (radarCursor) {
+            radarCursor.style.left = e.clientX + 'px';
+            radarCursor.style.top = e.clientY + 'px';
+        }
+      });
+
+      // 4. Spotlight & Glow Border Elements (Require Local 'px' binding)
+      const spotlights = document.querySelectorAll('.aw-spotlight-card, .aw-input-glow-border, .aw-spotlight-text');
+      spotlights.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          // Calculate coordinates local to the element
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          // Apply local CSS variables with 'px' required by the CSS radial-gradient logic
+          el.style.setProperty('--mouse-x', `${x}px`);
+          el.style.setProperty('--mouse-y', `${y}px`);
         });
-    </script>
+      });
+
+      // 5. Magnetic Hover Buttons (Require Local Center-Relative mapping)
+      const magneticBtns = document.querySelectorAll('.aw-btn-magnetic');
+      magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          // Calculate coordinates relative to the EXACT center of the button
+          const x = e.clientX - rect.left - (rect.width / 2);
+          const y = e.clientY - rect.top - (rect.height / 2);
+          // Apply unitless numbers (CSS handles the * 0.2px translation math natively)
+          btn.style.setProperty('--mouse-x', x);
+          btn.style.setProperty('--mouse-y', y);
+        });
+        
+        // Snap back to 0,0 on leave for smooth transition reset
+        btn.addEventListener('mouseleave', () => {
+          btn.style.setProperty('--mouse-x', 0);
+          btn.style.setProperty('--mouse-y', 0);
+        });
+      });
+
+      // 6. 3D Tilt Cards (Mapping Rotation Degrees natively)
+      const tiltCards = document.querySelectorAll('.aw-card-float-tilt');
+      tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left - (rect.width / 2);
+          const y = e.clientY - rect.top - (rect.height / 2);
+          
+          // Calculate degrees limits (e.g., max 20deg tilt)
+          const rotY = (x / rect.width) * 40; // Horizontal tilt
+          const rotX = (y / rect.height) * -40; // Vertical tilt (inverted for natural physics)
+          
+          card.style.setProperty('--rot-y', rotY);
+          card.style.setProperty('--rot-x', rotX);
+        });
+        
+        // Snap back flat
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--rot-y', 0);
+          card.style.setProperty('--rot-x', 0);
+        });
+      });
+
+      // 7. Focus State Enlarger for Radar Cursor
+      const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input');
+      hoverTargets.forEach(target => {
+          target.addEventListener('mouseenter', () => {
+              if(radarCursor) radarCursor.style.width = '80px';
+              if(radarCursor) radarCursor.style.height = '80px';
+              if(dotCursor) dotCursor.classList.add('aw-cursor-focus');
+          });
+          target.addEventListener('mouseleave', () => {
+              if(radarCursor) radarCursor.style.width = '40px';
+              if(radarCursor) radarCursor.style.height = '40px';
+              if(dotCursor) dotCursor.classList.remove('aw-cursor-focus');
+          });
+      });
+
+      // 8. Simple sticky nav scroll toggle
+      window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

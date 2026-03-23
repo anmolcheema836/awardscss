@@ -120,3 +120,141 @@
 .aw-layered-glass:hover .aw-layered-pane:nth-child(1) { transform: translateZ(-40px) translateX(-20px) translateY(-20px); opacity: 0.5;}
 .aw-layered-glass:hover .aw-layered-pane:nth-child(2) { transform: translateZ(0px); }
 .aw-layered-glass:hover .aw-layered-pane:nth-child(3) { transform: translateZ(40px) translateX(20px) translateY(20px); }
+/* --- 4. 3D Isometric Card Grid --- */
+.aw-isometric-grid {
+  display: grid; gap: var(--space-8);
+  transform: rotateX(60deg) rotateZ(-45deg);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.aw-isometric-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 16px; padding: var(--space-8);
+  transition: transform var(--trans-slow), box-shadow var(--trans-slow);
+}
+.aw-isometric-card:hover {
+  transform: translateZ(40px) translateX(-10px) translateY(-10px);
+  box-shadow: 20px 20px 0px 0px rgba(0, 0, 0, 0.3);
+  border-color: var(--color-accent);
+}
+/* --- 15. Holographic Foil Card --- */
+.aw-holo-card {
+  position: relative; overflow: hidden;
+  background: var(--glass-bg); border: 1px solid var(--color-border);
+  border-radius: 16px; padding: var(--space-8);
+  transform-style: preserve-3d; perspective: 1000px;
+  transition: transform var(--trans-slow);
+}
+.aw-holo-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(
+    115deg, transparent 20%, rgba(0, 240, 255, 0.4) 30%, 
+    rgba(112, 0, 255, 0.4) 50%, rgba(255, 0, 122, 0.4) 70%, transparent 80%
+  );
+  background-size: 300% 300%;
+  background-position: 100% 100%;
+  mix-blend-mode: color-dodge; opacity: 0; pointer-events: none;
+  transition: background-position 1s var(--ease-expo), opacity 0.4s;
+}
+.aw-holo-card:hover { transform: rotateX(10deg) rotateY(-10deg) scale(1.02); }
+.aw-holo-card:hover::before {
+  opacity: 1; background-position: 0% 0%;
+}
+/* --- 27. 3D Unfolding Paper Card --- */
+.aw-card-fold {
+  position: relative; perspective: 1200px; transform-style: preserve-3d;
+}
+.aw-card-fold-top {
+  background: var(--color-neutral); padding: var(--space-8); 
+  border-radius: 12px; transform-origin: bottom center; 
+  z-index: 2; position: relative; border: 1px solid var(--color-border);
+}
+.aw-card-fold-bottom {
+  background: var(--color-bg); padding: var(--space-8); 
+  border-radius: 0 0 12px 12px; border: 1px solid var(--color-border);
+  border-top: none;
+  /* Start folded up backwards */
+  transform-origin: top center; transform: rotateX(-120deg);
+  transition: transform 0.8s var(--ease-bounce-soft), opacity 0.8s;
+  position: absolute; top: 100%; left: 0; width: 100%;
+  filter: brightness(0.2); opacity: 0; z-index: 1;
+}
+.aw-card-fold:hover .aw-card-fold-bottom {
+  transform: rotateX(0deg); filter: brightness(1); opacity: 1;
+}
+.aw-card-fold:hover .aw-card-fold-top {
+  border-radius: 12px 12px 0 0; /* Snap corners sharp on unfold */
+}/* --- 41. Glass Reflection Sweep --- */
+.aw-card-glass-reflect {
+  position: relative; overflow: hidden; background: var(--glass-bg);
+  backdrop-filter: var(--blur-md); border-radius: 16px; border: 1px solid var(--color-border);
+}
+.aw-card-glass-reflect::after {
+  content: ""; position: absolute; top: -50%; left: -50%; width: 50%; height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  transform: rotate(45deg) translateX(-150%); transition: transform 0.8s var(--ease-expo);
+}
+.aw-card-glass-reflect:hover::after { transform: rotate(45deg) translateX(300%); }
+
+/* --- 42. Deck Spread Fan --- */
+.aw-card-stack-spread { position: relative; width: 300px; height: 400px; }
+.aw-card-stack-spread > div {
+  position: absolute; inset: 0; border-radius: 16px; background: var(--color-neutral);
+  border: 1px solid var(--color-border); transition: transform 0.6s var(--ease-bounce-soft);
+  transform-origin: bottom center;
+}
+.aw-card-stack-spread:hover > div:nth-child(1) { transform: rotate(-15deg) translateX(-60px); }
+.aw-card-stack-spread:hover > div:nth-child(2) { transform: rotate(0deg) translateY(-20px); z-index: 2; }
+.aw-card-stack-spread:hover > div:nth-child(3) { transform: rotate(15deg) translateX(60px); }
+
+/* --- 43. Neon Wireframe Reveal --- */
+.aw-card-neon-wireframe {
+  background: transparent; border: 1px solid transparent; border-radius: 12px;
+  position: relative; transition: border-color 0.4s; overflow: hidden;
+}
+.aw-card-neon-wireframe::before {
+  content: ""; position: absolute; inset: 0; border-radius: 12px;
+  box-shadow: inset 0 0 20px #00F0FF; opacity: 0; transition: opacity 0.4s;
+  pointer-events: none;
+}
+.aw-card-neon-wireframe:hover { border-color: #00F0FF; }
+.aw-card-neon-wireframe:hover::before { opacity: 1; }
+
+/* --- 44. Elevator Door Reveal --- */
+.aw-card-elevator { position: relative; overflow: hidden; border-radius: 16px; }
+.aw-card-elevator::before, .aw-card-elevator::after {
+  content: ""; position: absolute; top: 0; width: 50%; height: 100%;
+  background: var(--color-fg); transition: transform 0.8s var(--ease-expo); z-index: 2;
+}
+.aw-card-elevator::before { left: 0; }
+.aw-card-elevator::after { right: 0; }
+.aw-card-elevator:hover::before { transform: translateX(-100%); }
+.aw-card-elevator:hover::after { transform: translateX(100%); }
+
+/* --- 45. 3D Float Parallax Tilt --- */
+.aw-card-float-tilt {
+  transform-style: preserve-3d; perspective: 1000px;
+  /* Driven by JS mapping --mouse-x/y to degrees */
+  transform: rotateX(calc(var(--rot-x, 0) * 1deg)) rotateY(calc(var(--rot-y, 0) * 1deg));
+}
+.aw-card-float-inner { transform: translateZ(40px); }/* --- 86. Deep Z-Axis Push (Use with parent :has) --- */
+.aw-card-z-push { transition: transform 0.6s var(--ease-expo), filter 0.6s; transform-style: preserve-3d; }
+.aw-card-z-push:hover { transform: translateZ(50px) scale(1.05); z-index: 10; }
+
+/* --- 87. Origami Polygon Unfold --- */
+.aw-card-origami { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); transition: clip-path 0.8s var(--ease-bounce-soft); background: var(--glass-bg); padding: var(--space-8); }
+.aw-card-origami:hover, .aw-card-origami.is-active { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+
+/* --- 88. Glass Lens Magnify --- */
+.aw-card-lens { backdrop-filter: blur(4px); transition: backdrop-filter 0.4s, transform 0.4s; border-radius: 50%; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); }
+.aw-card-lens:hover { backdrop-filter: blur(16px); transform: scale(1.2); }
+
+/* --- 89. Noise Burn Transition --- */
+.aw-card-noise-burn { position: relative; overflow: hidden; }
+.aw-card-noise-burn::after { content: ""; position: absolute; inset: 0; background: var(--color-bg); mask-image: url('data:image/svg+xml,...'); /* Assume base64 noise map here */ mask-size: cover; transition: mask-position 1s; z-index: 5; }
+.aw-card-noise-burn:hover::after { mask-position: 100% 100%; opacity: 0; }
+
+/* --- 90. Glitch Offset Borders --- */
+.aw-card-glitch-border { position: relative; border: 1px solid var(--color-border); transition: all 0.2s; }
+.aw-card-glitch-border:hover { box-shadow: -4px 0 0 #00F0FF, 4px 0 0 #FF007A; border-color: transparent; }

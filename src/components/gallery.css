@@ -94,3 +94,141 @@
   opacity: 1;
   filter: grayscale(0%);
 }
+/* --- 7. Native View-Timeline Image Parallax --- */
+.aw-img-parallax-wrap {
+  overflow: hidden; border-radius: 12px; height: 100%; width: 100%;
+}
+.aw-img-parallax {
+  width: 100%; height: 120%; /* Extra height to allow scrolling room */
+  object-fit: cover; transform-origin: center;
+}
+@supports (animation-timeline: view()) {
+  .aw-img-parallax {
+    animation: imageParallax linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 100%;
+  }
+}
+@keyframes imageParallax {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(10%); }
+}
+/* --- 17. Diagonal Stack Peel Reveal --- */
+.aw-img-stack-peel {
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  border-radius: 12px; cursor: pointer;
+}
+.aw-img-stack-peel img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.aw-img-stack-peel img.aw-peel-top {
+  z-index: 2; transform-origin: top left;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: clip-path 0.8s var(--ease-expo), filter 0.8s;
+}
+.aw-img-stack-peel:hover img.aw-peel-top {
+  /* Peels the top image diagonally to the top-left */
+  clip-path: polygon(0 0, 0 0, 0 0, 0 100%);
+  filter: blur(4px) brightness(0.5);
+}
+/* --- 28. 3D Orbiting Ring Gallery --- */
+.aw-ring-gallery {
+  perspective: 1500px; display: flex; align-items: center; justify-content: center; 
+  height: 60vh; overflow: hidden;
+}
+.aw-ring-inner {
+  width: 250px; height: 350px; transform-style: preserve-3d;
+  animation: rotateRing 24s infinite linear;
+}
+.aw-ring-item {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; border-radius: 12px; border: 2px solid var(--color-border);
+}
+/* Distribute 5 items mathematically in a circle */
+.aw-ring-item:nth-child(1) { transform: rotateY(0deg) translateZ(350px); }
+.aw-ring-item:nth-child(2) { transform: rotateY(72deg) translateZ(350px); }
+.aw-ring-item:nth-child(3) { transform: rotateY(144deg) translateZ(350px); }
+.aw-ring-item:nth-child(4) { transform: rotateY(216deg) translateZ(350px); }
+.aw-ring-item:nth-child(5) { transform: rotateY(288deg) translateZ(350px); }
+
+@keyframes rotateRing { to { transform: rotateY(-360deg); } }
+
+/* --- 29. Gradient Mask Image Wipe --- */
+.aw-mask-wipe {
+  position: relative; overflow: hidden; width: 100%; height: 100%;
+}
+.aw-mask-wipe img {
+  width: 100%; height: 100%; object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, black 45%, transparent 55%);
+  mask-image: linear-gradient(to right, black 45%, transparent 55%);
+  -webkit-mask-size: 250% 100%; mask-size: 250% 100%;
+  -webkit-mask-position: 100% 0; mask-position: 100% 0;
+  transition: -webkit-mask-position 1.2s var(--ease-expo), filter 1.2s;
+  filter: grayscale(100%);
+}
+.aw-mask-wipe:hover img {
+  -webkit-mask-position: 0 0; mask-position: 0 0;
+  filter: grayscale(0%);
+}/* --- 51. 3x3 Distort Grid Hover --- */
+.aw-img-distort-grid { position: relative; overflow: hidden; }
+.aw-img-distort-grid::before, .aw-img-distort-grid::after {
+  content: ""; position: absolute; inset: 0; background: inherit;
+  transition: transform 0.6s var(--ease-expo); z-index: 2;
+}
+.aw-img-distort-grid::before { clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%); }
+.aw-img-distort-grid::after { clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%); }
+.aw-img-distort-grid:hover::before { transform: translate(-10%, -10%); }
+.aw-img-distort-grid:hover::after { transform: translate(10%, 10%); }
+
+/* --- 52. Moving Lens Flare Overlay --- */
+.aw-img-lens-flare { position: relative; overflow: hidden; }
+.aw-img-lens-flare::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 60%);
+  transform: translate(-100%, -100%); transition: transform 0.8s ease-in-out;
+  mix-blend-mode: screen; pointer-events: none;
+}
+.aw-img-lens-flare:hover::after { transform: translate(100%, 100%); }
+
+/* --- 53. Cyber Diagonal Slicer --- */
+.aw-img-cyber-slice { position: relative; overflow: hidden; }
+.aw-img-cyber-slice img { transition: transform 0.5s var(--ease-bounce-soft); }
+.aw-img-cyber-slice:hover img {
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 40%, 0 60%, 100% 50%, 100% 100%, 0 100%);
+  transform: scale(1.05); filter: contrast(1.2);
+}
+
+/* --- 54. Cinematic Ken Burns --- */
+.aw-img-ken-burns { overflow: hidden; }
+.aw-img-ken-burns img {
+  transform: scale(1.2); transition: transform 10s ease-out; object-position: left center;
+}
+.aw-img-ken-burns:hover img { transform: scale(1) translate(2%, 2%); }
+
+/* --- 55. Iris Circle Reveal --- */
+.aw-img-reveal-circle img {
+  clip-path: circle(20% at 50% 50%); transition: clip-path 0.8s var(--ease-expo);
+}
+.aw-img-reveal-circle:hover img { clip-path: circle(100% at 50% 50%); }/* --- 96. Camera Shutter Polygon Reveal --- */
+.aw-img-shutter { position: relative; overflow: hidden; }
+.aw-img-shutter::before, .aw-img-shutter::after { content: ""; position: absolute; inset: 0; background: var(--color-bg); transition: transform 0.6s var(--ease-expo); z-index: 2; }
+.aw-img-shutter::before { clip-path: polygon(0 0, 100% 0, 0 100%); }
+.aw-img-shutter::after { clip-path: polygon(100% 100%, 0 100%, 100% 0); }
+.aw-img-shutter:hover::before { transform: translate(-100%, -100%); }
+.aw-img-shutter:hover::after { transform: translate(100%, 100%); }
+
+/* --- 97. Cinematic Film Strip Scroll --- */
+.aw-img-film-strip { height: 400px; width: 100%; background-image: url('strip.jpg'); background-size: cover; animation: filmRoll 20s linear infinite; }
+@keyframes filmRoll { 100% { background-position: 0 -1000px; } }
+
+/* --- 98. RGB Image Split Hover --- */
+.aw-img-rgb-hover img { transition: filter 0.3s; }
+.aw-img-rgb-hover:hover img { filter: drop-shadow(-4px 0px 0px red) drop-shadow(4px 0px 0px cyan); mix-blend-mode: screen; }
+
+/* --- 99. Pixelate Sharpness Scale --- */
+.aw-img-pixelate img { image-rendering: pixelated; filter: blur(2px) contrast(2); transform: scale(1.1); transition: all 0.8s; }
+.aw-img-pixelate:hover img { filter: blur(0) contrast(1); transform: scale(1); image-rendering: auto; }
+
+/* --- 100. Parallax Mask Speed Offset --- */
+.aw-img-mask-speed { -webkit-mask-image: linear-gradient(black, transparent); -webkit-mask-position: 0 100%; -webkit-mask-size: 100% 200%; transition: -webkit-mask-position 1.2s var(--ease-expo); }
+.aw-img-mask-speed:hover { -webkit-mask-position: 0 0; }

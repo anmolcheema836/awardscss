@@ -29,3 +29,61 @@
 .aw-nav-links a:hover::after {
   transform: scaleX(1); transform-origin: bottom left;
 }
+/* --- 5. Floating Glass Dock (macOS Style) --- */
+.aw-glass-dock {
+  position: fixed; bottom: var(--space-8); left: 50%; transform: translateX(-50%);
+  display: flex; gap: var(--space-2); padding: var(--space-2);
+  background: var(--glass-bg); backdrop-filter: var(--blur-md); -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid var(--color-border); border-radius: 99px; z-index: 100;
+}
+.aw-dock-item {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--color-neutral); display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), margin 0.3s; cursor: pointer;
+}
+/* Scale hovered item */
+.aw-dock-item:hover { transform: scale(1.5); margin: 0 var(--space-4); background: var(--color-accent); color: var(--color-bg); }
+/* Scale adjacent siblings slightly utilizing modern :has selector */
+.aw-glass-dock:has(.aw-dock-item:hover) .aw-dock-item:not(:hover) { opacity: 0.6; }
+.aw-dock-item:has(+ .aw-dock-item:hover),
+.aw-dock-item:hover + .aw-dock-item {
+  transform: scale(1.2); margin: 0 var(--space-2);
+}
+/* --- 16. Premium Bracket Reveal Link --- */
+.aw-link-brackets {
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative; text-transform: uppercase; font-family: var(--aw-font-mono);
+  transition: color var(--trans-fast);
+}
+.aw-link-brackets::before, .aw-link-brackets::after {
+  position: absolute; opacity: 0; color: var(--color-accent);
+  transition: transform 0.4s var(--ease-expo), opacity 0.4s;
+}
+.aw-link-brackets::before { content: "["; left: -15px; transform: translateX(10px); }
+.aw-link-brackets::after { content: "]"; right: -15px; transform: translateX(-10px); }
+
+.aw-link-brackets:hover { color: var(--color-accent); }
+.aw-link-brackets:hover::before { opacity: 1; transform: translateX(0); }
+.aw-link-brackets:hover::after { opacity: 1; transform: translateX(0); }/* --- 91. Magnetic Background Pill (Native CSS :has trick) --- */
+.aw-nav-magnetic-group { display: flex; position: relative; gap: var(--space-4); }
+.aw-nav-magnetic-group::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: var(--color-neutral); border-radius: 99px; transition: all 0.4s var(--ease-expo); z-index: -1; }
+/* Width calculations require fixed width items natively, or mapped JS variables. Fallback below */
+.aw-nav-magnetic-group:hover::before { width: 100px; } 
+
+/* --- 92. Blurring Siblings --- */
+.aw-nav-blur-group:has(.aw-link-blur:hover) .aw-link-blur:not(:hover) { filter: blur(4px); opacity: 0.3; transform: scale(0.95); }
+.aw-link-blur { transition: all 0.4s var(--ease-expo); display: inline-block; }
+
+/* --- 93. Cyber Laser Underline --- */
+.aw-link-cyber-line { position: relative; padding-bottom: 4px; }
+.aw-link-cyber-line::after { content: ""; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, transparent, #00F0FF); box-shadow: 0 0 8px #00F0FF; transition: width 0.4s var(--ease-expo); }
+.aw-link-cyber-line:hover::after { width: 100%; }
+
+/* --- 94. Vertical Text Swap --- */
+.aw-link-v-swap { position: relative; overflow: hidden; display: inline-flex; flex-direction: column; height: 1.2em; }
+.aw-link-v-swap span { transition: transform 0.4s var(--ease-expo); }
+.aw-link-v-swap::after { content: attr(data-text); position: absolute; top: 100%; color: var(--color-accent); transition: transform 0.4s var(--ease-expo); }
+.aw-link-v-swap:hover span, .aw-link-v-swap:hover::after { transform: translateY(-100%); }
+
+/* --- 95. Mix-Blend Difference Nav --- */
+.aw-nav-difference { mix-blend-mode: difference; color: #fff; z-index: 100; isolation: isolate; }

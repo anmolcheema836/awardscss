@@ -81,3 +81,182 @@
 .aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
 .aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
 @keyframes spinTrace { 100% { transform: rotate(360deg); } }
+/* --- 2. Marquee Hover Button --- */
+.aw-btn-marquee {
+  display: inline-flex; overflow: hidden; white-space: nowrap;
+}
+.aw-btn-marquee span {
+  display: inline-block; padding: 0 var(--space-2);
+  transition: transform var(--trans-slow);
+}
+.aw-btn-marquee:hover span {
+  animation: marqueeBtn 2s linear infinite;
+}
+@keyframes marqueeBtn {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* --- 3. Liquid Blob Reveal Button --- */
+.aw-btn-blob {
+  position: relative; z-index: 1; overflow: hidden;
+  background: transparent; border: 1px solid var(--color-border);
+  color: var(--color-fg);
+}
+.aw-btn-blob::before {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 150%; aspect-ratio: 1/1; background: var(--color-accent);
+  border-radius: 50%; z-index: -1;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.aw-btn-blob:hover { color: var(--color-bg); }
+.aw-btn-blob:hover::before { transform: translate(-50%, -50%) scale(1); }
+/* --- 13. Brutalist Glitch Offset Button --- */
+.aw-btn-brutal-glitch {
+  background: var(--color-neutral); color: var(--color-fg);
+  border: 2px solid var(--color-fg); border-radius: 0;
+  text-transform: uppercase; font-weight: bold;
+  box-shadow: 0px 0px 0px 0px #00F0FF, 0px 0px 0px 0px #FF007A;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+}
+.aw-btn-brutal-glitch:hover {
+  transform: translate(-4px, -4px);
+  /* Hard offset cyan and magenta shadows */
+  box-shadow: 6px 6px 0px 0px #00F0FF, -2px -2px 0px 0px #FF007A;
+}
+.aw-btn-brutal-glitch:active { transform: translate(0, 0); box-shadow: 0 0 0 0 transparent; }
+
+/* --- 14. Liquid Mask Swipe Button --- */
+.aw-btn-liquid-swipe {
+  position: relative; background: transparent; color: var(--color-fg);
+  border: 1px solid var(--color-border); z-index: 1;
+}
+.aw-btn-liquid-swipe::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--color-fg); z-index: -1;
+  /* Start as a tiny dot on the left */
+  clip-path: circle(0% at 0% 50%);
+  transition: clip-path 0.6s var(--ease-expo);
+}
+.aw-btn-liquid-swipe:hover { color: var(--color-bg); border-color: transparent; }
+.aw-btn-liquid-swipe:hover::after {
+  /* Expand fluidly to cover the button */
+  clip-path: circle(150% at 50% 50%);
+}
+/* --- 23. Cyberpunk Frame Button --- */
+.aw-btn-cyber-frame {
+  position: relative; background: transparent; color: var(--color-fg);
+  border: 1px solid transparent; padding: 1rem 2.5rem; 
+  text-transform: uppercase; font-family: var(--aw-font-mono); font-weight: bold;
+}
+.aw-btn-cyber-frame::before, .aw-btn-cyber-frame::after {
+  content: ""; position: absolute; width: 15px; height: 15px;
+  transition: all 0.5s var(--ease-expo); border: 2px solid var(--color-accent);
+}
+.aw-btn-cyber-frame::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+.aw-btn-cyber-frame::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+.aw-btn-cyber-frame:hover::before, .aw-btn-cyber-frame:hover::after {
+  width: 100%; height: 100%; opacity: 0.3;
+}
+
+/* --- 24. Hyper-Charge Ring Button --- */
+.aw-btn-charge {
+  position: relative; color: var(--color-fg);
+  overflow: hidden; border-radius: 99px; z-index: 1; 
+  padding: 1rem 2.5rem; border: none; background: transparent;
+}
+.aw-btn-charge::before {
+  content: ""; position: absolute; inset: -5px; z-index: -2;
+  background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%);
+  animation: spinCharge 3s linear infinite; opacity: 0; transition: opacity 0.4s;
+}
+.aw-btn-charge::after {
+  content: ""; position: absolute; inset: 2px; background: var(--color-neutral);
+  border-radius: 99px; z-index: -1; transition: background 0.4s;
+}
+.aw-btn-charge:hover::before { opacity: 1; animation: spinCharge 0.5s linear infinite; }
+.aw-btn-charge:hover::after { background: var(--color-bg); }
+@keyframes spinCharge { to { transform: rotate(360deg); } }
+/* --- 36. Continuous Sonar Ping Button --- */
+.aw-btn-sonar {
+  position: relative; background: var(--color-accent); color: var(--color-bg);
+  border-radius: 99px; z-index: 1; border: none; padding: 1rem 2.5rem;
+}
+.aw-btn-sonar::before {
+  content: ""; position: absolute; inset: 0; border-radius: 99px;
+  border: 1px solid var(--color-accent); z-index: -1;
+  animation: sonarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes sonarPing {
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* --- 37. Magnetic Hover Hook --- */
+.aw-btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Translate maps to JS mouse coordinates */
+  transform: translate(calc(var(--mouse-x, 0) * 0.2px), calc(var(--mouse-y, 0) * 0.2px));
+}
+
+/* --- 38. Deep Neo-Brutal Push --- */
+.aw-btn-neo-push {
+  background: var(--color-bg); color: var(--color-fg);
+  border: 2px solid var(--color-fg); border-radius: 8px;
+  box-shadow: 6px 6px 0px 0px var(--color-fg);
+  transition: all 0.15s ease-out; font-weight: bold; text-transform: uppercase;
+}
+.aw-btn-neo-push:active {
+  transform: translate(6px, 6px); box-shadow: 0px 0px 0px 0px transparent;
+}
+
+/* --- 39. Liquid Wave Fill --- */
+.aw-btn-liquid-wave {
+  position: relative; overflow: hidden; border: 1px solid var(--color-fg);
+  background: transparent; z-index: 1;
+}
+.aw-btn-liquid-wave::before {
+  content: ""; position: absolute; left: -50%; top: 100%;
+  width: 200%; height: 200%; background: var(--color-fg);
+  border-radius: 40%; z-index: -1; transition: top 0.8s var(--ease-expo);
+  animation: liquidRotate 4s linear infinite;
+}
+.aw-btn-liquid-wave:hover { color: var(--color-bg); }
+.aw-btn-liquid-wave:hover::before { top: -20%; }
+@keyframes liquidRotate { 100% { transform: rotate(360deg); } }
+
+/* --- 40. Core Fill Expand --- */
+.aw-btn-fill-expand {
+  position: relative; box-shadow: inset 0 0 0 1px var(--color-border);
+  background: transparent; overflow: hidden; z-index: 1;
+}
+.aw-btn-fill-expand::after {
+  content: ""; position: absolute; inset: 0; background: var(--color-fg);
+  transform: scaleY(0); transform-origin: bottom; z-index: -1;
+  transition: transform 0.5s var(--ease-expo);
+}
+.aw-btn-fill-expand:hover { color: var(--color-bg); }
+.aw-btn-fill-expand:hover::after { transform: scaleY(1); }/* --- 81. Dimension Portal Reveal --- */
+.aw-btn-portal { position: relative; z-index: 1; overflow: hidden; background: var(--color-bg); color: var(--color-fg); border: 1px solid var(--color-border); }
+.aw-btn-portal::after { content: ""; position: absolute; top: 50%; left: 50%; width: 150%; aspect-ratio: 1/1; background: var(--color-fg); border-radius: 50%; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s var(--ease-expo); z-index: -1; }
+.aw-btn-portal:hover { color: var(--color-bg); }
+.aw-btn-portal:hover::after { transform: translate(-50%, -50%) scale(1); }
+
+/* --- 82. Organic Fluid Blob Border --- */
+.aw-btn-organic { border: 2px solid var(--color-accent); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: fluidBorder 6s linear infinite; background: transparent; color: var(--color-fg); }
+@keyframes fluidBorder { 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(360deg); } }
+
+/* --- 83. Laser Swipe Border --- */
+.aw-btn-laser { position: relative; background: transparent; border: none; }
+.aw-btn-laser::before { content: ""; position: absolute; inset: 0; border: 1px solid var(--color-border); }
+.aw-btn-laser::after { content: ""; position: absolute; top: 0; left: 0; width: 0%; height: 2px; background: #00F0FF; box-shadow: 0 0 10px #00F0FF; transition: width 0.4s var(--ease-expo); }
+.aw-btn-laser:hover::after { width: 100%; }
+
+/* --- 84. Barcode Scanline --- */
+.aw-btn-barcode { position: relative; overflow: hidden; }
+.aw-btn-barcode::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to right, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px); transform: translateY(-100%); transition: transform 0.4s; }
+.aw-btn-barcode:hover::before { transform: translateY(0); }
+
+/* --- 85. 3D Isometric Key Push --- */
+.aw-btn-iso-push { background: var(--color-neutral); border: 1px solid var(--color-border); box-shadow: -6px 6px 0px var(--color-accent); transform: translate(6px, -6px); transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.aw-btn-iso-push:hover { box-shadow: -2px 2px 0px var(--color-accent); transform: translate(2px, -2px); }

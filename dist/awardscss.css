@@ -200,6 +200,154 @@ p, .font-sans { font-family: var(--aw-font-sans); }
 .aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
 .aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; -o-object-fit: cover; object-fit: cover; height: 0.9em; margin: 0; }
 .aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }
+/* --- 1. Premium Sweep Shine Text --- */
+.aw-text-shine {
+  background: linear-gradient(
+    110deg,
+    var(--color-fg) 20%,
+    var(--color-accent) 40%,
+    var(--color-accent) 60%,
+    var(--color-fg) 80%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shineText 4s linear infinite;
+}
+@keyframes shineText {
+  to { background-position: 200% center; }
+}
+/* --- 11. Kinetic Sliced Typography --- */
+.aw-text-kinetic-slice {
+  position: relative; display: inline-block;
+  color: transparent; font-family: var(--aw-font-display);
+}
+.aw-text-kinetic-slice::before,
+.aw-text-kinetic-slice::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0;
+  color: var(--color-fg); transition: transform 0.6s var(--ease-expo);
+}
+/* Top half */
+.aw-text-kinetic-slice::before {
+  clip-path: inset(0 0 50% 0);
+}
+/* Bottom half */
+.aw-text-kinetic-slice::after {
+  clip-path: inset(50% 0 0 0);
+}
+.aw-text-kinetic-slice:hover::before { transform: translate(-4px, -2px) skewX(-5deg); color: var(--color-accent); }
+.aw-text-kinetic-slice:hover::after { transform: translate(4px, 2px) skewX(-5deg); }
+/* --- 12. Breathing Stroke Fill --- */
+.aw-text-pulse-stroke {
+  -webkit-text-stroke: 1px var(--color-fg);
+  background: var(--gradient-accent);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pulseFill 4s ease-in-out infinite alternate;
+}
+@keyframes pulseFill {
+  0% { background-position: 0% 50%; opacity: 0.2; }
+  100% { background-position: 100% 50%; opacity: 1; -webkit-text-stroke: 1px transparent; }
+}
+/* --- 21. Cinematic Blur Scroll Reveal --- */
+.aw-text-blur-reveal {
+  filter: blur(20px); opacity: 0; transform: translateY(40px);
+  will-change: filter, opacity, transform;
+}
+@supports (animation-timeline: view()) {
+  .aw-text-blur-reveal {
+    animation: blurReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 40%;
+  }
+}
+@keyframes blurReveal {
+  to { filter: blur(0px); opacity: 1; transform: translateY(0); }
+}
+/* --- 22. Crisp Stroke-to-Solid Wipe --- */
+.aw-text-stroke-wipe {
+  position: relative; display: inline-block;
+  -webkit-text-stroke: 1px var(--color-fg); color: transparent;
+}
+.aw-text-stroke-wipe::after {
+  content: attr(data-text); position: absolute; left: 0; top: 0;
+  color: var(--color-accent); -webkit-text-stroke: 0px transparent;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path 0.8s var(--ease-expo);
+}
+.aw-text-stroke-wipe:hover::after {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+/* --- 31. Kinetic Text Echo --- */
+.aw-text-echo {
+  transition: text-shadow 0.6s var(--ease-bounce-soft), transform 0.6s;
+}
+.aw-text-echo:hover {
+  transform: translate(-4px, -4px);
+  text-shadow: 4px 4px 0px rgba(0, 240, 255, 0.5), 8px 8px 0px rgba(112, 0, 255, 0.3);
+}
+/* --- 32. Angled Mask Reveal --- */
+.aw-text-reveal-mask {
+  position: relative; overflow: hidden; display: inline-block;
+}
+.aw-text-reveal-mask::after {
+  content: ""; position: absolute; inset: 0; background: var(--color-fg);
+  transform-origin: right; transform: skewX(-20deg) translateX(120%);
+  transition: transform 0.8s var(--ease-expo);
+}
+.aw-text-reveal-mask:hover::after { transform: skewX(-20deg) translateX(-120%); }
+/* --- 33. Exclusion Blend Text --- */
+.aw-text-blend-exclusion {
+  color: #fff; mix-blend-mode: exclusion;
+  font-family: var(--aw-font-display);
+}
+/* --- 34. Cyber Glitch Clip --- */
+.aw-text-glitch-clip {
+  position: relative; color: var(--color-fg);
+}
+.aw-text-glitch-clip:hover {
+  animation: clipGlitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--color-accent);
+}
+@keyframes clipGlitch {
+  0% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); }
+  50% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+  100% { clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%); }
+}
+/* --- 35. 3D Stagger Split --- */
+.aw-text-stagger-split {
+  display: flex; overflow: hidden; perspective: 500px;
+}
+.aw-text-stagger-split span {
+  display: inline-block; transform-origin: bottom;
+  transition: transform 0.6s var(--ease-bounce-soft);
+}
+.aw-text-stagger-split:hover span {
+  transform: rotateX(360deg);
+}
+.aw-text-stagger-split span:nth-child(even) { transition-delay: 0.1s; }
+/* --- 76. Cinematic Smoke Reveal --- */
+.aw-text-smoke { filter: blur(15px); opacity: 0; transform: translateY(20px); transition: filter 1.2s var(--ease-expo), opacity 1.2s, transform 1.2s; }
+.aw-text-smoke.is-visible, .aw-text-smoke:hover { filter: blur(0px); opacity: 1; transform: translateY(0); }
+/* --- 77. RGB Glitch Split Hover --- */
+.aw-text-rgb-split { position: relative; display: inline-block; transition: text-shadow 0.3s var(--ease-bounce-soft); }
+.aw-text-rgb-split:hover { text-shadow: -4px 0px 0px #FF007A, 4px 0px 0px #00F0FF; color: transparent; }
+/* --- 78. 3D Hinge Fold Drop --- */
+.aw-text-hinge { display: inline-block; transform-origin: top left; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+.aw-text-hinge:hover { transform: rotateX(-90deg) skewX(15deg); opacity: 0.5; }
+/* --- 79. Hover Kinetic Marquee --- */
+.aw-text-marquee-hover { display: inline-flex; overflow: hidden; white-space: nowrap; max-width: 100%; position: relative; }
+.aw-text-marquee-hover span { display: inline-block; transition: transform 0.4s var(--ease-expo); }
+.aw-text-marquee-hover::after { content: attr(data-text); position: absolute; left: 100%; padding-left: 1rem; }
+.aw-text-marquee-hover:hover span { transform: translateX(-100%); padding-right: 1rem; }
+.aw-text-marquee-hover:hover::after { animation: slideMarquee 2s linear infinite; }
+@keyframes slideMarquee { 100% { transform: translateX(-100%); } }
+/* --- 80. Perspective Shadow Cast --- */
+.aw-text-perspective-cast { transition: text-shadow 0.6s var(--ease-expo), transform 0.6s; transform-origin: bottom center; }
+.aw-text-perspective-cast:hover { transform: scaleY(1.1); text-shadow: 0px 40px 10px rgba(0,0,0,0.5); }
 /* --- Utilities --- */
 /* Core Structural Padding/Margin Maps */
 .p-0 { padding: 0; }
@@ -470,6 +618,114 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 /* --- Diagonal Slice Image Reveal --- */
 .aw-diagonal-reveal img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); transition: clip-path 1.2s var(--ease-expo); }
 .aw-diagonal-reveal:hover img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+/* --- 8. Premium Skeleton Loading Shimmer --- */
+.aw-skeleton-premium {
+  background: linear-gradient(
+    90deg,
+    var(--color-neutral) 0%,
+    var(--color-border) 50%,
+    var(--color-neutral) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 8px;
+  animation: shimmerPremium 2s infinite linear;
+  color: transparent !important;
+  pointer-events: none;
+}
+@keyframes shimmerPremium {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+/* --- 19. Pure CSS Liquid Gooey Filter --- */
+.aw-gooey-wrapper {
+  /* Creates a high-contrast rendering context */
+  filter: contrast(20); background: var(--color-bg);
+  mix-blend-mode: screen; /* Blends cleanly onto dark backgrounds */
+  overflow: hidden; padding: var(--space-4);
+}
+.aw-gooey-item {
+  /* The blur combined with parent contrast creates the liquid web effect */
+  filter: blur(10px);
+  background: var(--color-fg);
+  border-radius: 50%;
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* If elements touch, they will merge like water droplets natively */
+/* --- 25. Architectural Ribbed/Fluted Glass --- */
+.aw-ribbed-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) contrast(1.1);
+  -webkit-backdrop-filter: blur(12px) contrast(1.1);
+  /* Creates the physical ridges of the glass */
+  mask-image: repeating-linear-gradient(
+    to right,
+    black 0px, black 8px, 
+    rgba(0,0,0,0.8) 9px, transparent 10px
+  );
+  -webkit-mask-image: repeating-linear-gradient(
+    to right,
+    black 0px, black 8px, 
+    rgba(0,0,0,0.8) 9px, transparent 10px
+  );
+  border: 1px solid var(--color-border);
+}
+/* --- 26. Spotlight Flashlight Text --- */
+.aw-spotlight-text {
+  /* Requires JS --mouse-x/y tracking to move the center */
+  background: radial-gradient(
+    circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    var(--color-fg) 0%, 
+    var(--color-neutral) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* --- 61. Dark Vignette Edge Filter --- */
+.aw-vignette-dark {
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.9); pointer-events: none;
+}
+/* --- 62. Heavy CRT Scanline Noise --- */
+.aw-noise-crt::before {
+  content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 999; background-size: 100% 2px, 3px 100%; pointer-events: none;
+}
+/* --- 63. Animated Fluid Mesh Gradient --- */
+.aw-gradient-mesh-anim {
+  background: radial-gradient(circle at 0% 0%, var(--color-accent) 0, transparent 50%),
+              radial-gradient(circle at 100% 100%, #FF007A 0, transparent 50%);
+  background-size: 200% 200%;
+  animation: meshMove 8s ease-in-out infinite alternate;
+}
+@keyframes meshMove { 100% { background-position: 100% 100%; } }
+/* --- 64. Glow Orb Mouse Follower --- */
+.aw-glow-orb-follow {
+  position: absolute; width: 300px; height: 300px; border-radius: 50%;
+  background: var(--color-accent); filter: blur(100px); opacity: 0.3;
+  transform: translate(calc(var(--mouse-x, 0) * 1px - 50%), calc(var(--mouse-y, 0) * 1px - 50%));
+  transition: transform 0.1s linear; pointer-events: none; z-index: 0;
+}
+/* --- 65. Chromatic Aberration Hover --- */
+.aw-chromatic-aberration { transition: text-shadow 0.3s; }
+.aw-chromatic-aberration:hover {
+  text-shadow: -3px 0 0 rgba(255,0,0,0.7), 3px 0 0 rgba(0,255,255,0.7);
+}
+/* --- 106. Chrome Liquid Metal --- */
+.aw-fx-liquid-metal { background: linear-gradient(135deg, #eee 0%, #999 25%, #fff 50%, #666 75%, #ccc 100%); background-size: 200% 200%; animation: metalShine 4s infinite linear alternate; -webkit-background-clip: text; color: transparent; }
+@keyframes metalShine { 100% { background-position: 100% 100%; } }
+/* --- 107. Sweeping Holo Glare --- */
+.aw-fx-holo-glare { position: relative; overflow: hidden; }
+.aw-fx-holo-glare::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); transform: skewX(-20deg); animation: holoGlare 3s infinite; }
+@keyframes holoGlare { 100% { left: 200%; } }
+/* --- 108. Cracked Glass Overlay --- */
+.aw-fx-glass-crack { position: relative; }
+.aw-fx-glass-crack::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,0.1); clip-path: polygon(0 0, 30% 40%, 10% 100%, 0 100%); backdrop-filter: blur(2px); z-index: 10; border-right: 1px solid rgba(255,255,255,0.4); }
+/* --- 109. Topography Line Grid --- */
+.aw-fx-topography { background: repeating-radial-gradient(circle at 50% 50%, transparent, transparent 10px, rgba(255,255,255,0.05) 11px, rgba(255,255,255,0.05) 12px); }
+/* --- 110. Fast CRT Scanline --- */
+.aw-fx-scanline-fast { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 51%); background-size: 100% 4px; z-index: 99; pointer-events: none; animation: scanFast 10s linear infinite; }
+@keyframes scanFast { 100% { background-position: 0 100vh; } }
 /* Custom View-Timeline CSS Reveal (Cutting Edge CSS natively handling Intersection) */
 @supports (animation-timeline: view()) {
   .aw-reveal-scroll {
@@ -631,6 +887,175 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-tracing-border::before { content: ""; position: absolute; inset: -100%; background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%); animation: spinTrace 4s linear infinite; }
 .aw-tracing-border-inner { position: relative; background: var(--color-bg); border-radius: 15px; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
 @keyframes spinTrace { 100% { transform: rotate(360deg); } }
+/* --- 2. Marquee Hover Button --- */
+.aw-btn-marquee {
+  display: inline-flex; overflow: hidden; white-space: nowrap;
+}
+.aw-btn-marquee span {
+  display: inline-block; padding: 0 var(--space-2);
+  transition: transform var(--trans-slow);
+}
+.aw-btn-marquee:hover span {
+  animation: marqueeBtn 2s linear infinite;
+}
+@keyframes marqueeBtn {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+/* --- 3. Liquid Blob Reveal Button --- */
+.aw-btn-blob {
+  position: relative; z-index: 1; overflow: hidden;
+  background: transparent; border: 1px solid var(--color-border);
+  color: var(--color-fg);
+}
+.aw-btn-blob::before {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 150%; aspect-ratio: 1/1; background: var(--color-accent);
+  border-radius: 50%; z-index: -1;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.aw-btn-blob:hover { color: var(--color-bg); }
+.aw-btn-blob:hover::before { transform: translate(-50%, -50%) scale(1); }
+/* --- 13. Brutalist Glitch Offset Button --- */
+.aw-btn-brutal-glitch {
+  background: var(--color-neutral); color: var(--color-fg);
+  border: 2px solid var(--color-fg); border-radius: 0;
+  text-transform: uppercase; font-weight: bold;
+  box-shadow: 0px 0px 0px 0px #00F0FF, 0px 0px 0px 0px #FF007A;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+}
+.aw-btn-brutal-glitch:hover {
+  transform: translate(-4px, -4px);
+  /* Hard offset cyan and magenta shadows */
+  box-shadow: 6px 6px 0px 0px #00F0FF, -2px -2px 0px 0px #FF007A;
+}
+.aw-btn-brutal-glitch:active { transform: translate(0, 0); box-shadow: 0 0 0 0 transparent; }
+/* --- 14. Liquid Mask Swipe Button --- */
+.aw-btn-liquid-swipe {
+  position: relative; background: transparent; color: var(--color-fg);
+  border: 1px solid var(--color-border); z-index: 1;
+}
+.aw-btn-liquid-swipe::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--color-fg); z-index: -1;
+  /* Start as a tiny dot on the left */
+  clip-path: circle(0% at 0% 50%);
+  transition: clip-path 0.6s var(--ease-expo);
+}
+.aw-btn-liquid-swipe:hover { color: var(--color-bg); border-color: transparent; }
+.aw-btn-liquid-swipe:hover::after {
+  /* Expand fluidly to cover the button */
+  clip-path: circle(150% at 50% 50%);
+}
+/* --- 23. Cyberpunk Frame Button --- */
+.aw-btn-cyber-frame {
+  position: relative; background: transparent; color: var(--color-fg);
+  border: 1px solid transparent; padding: 1rem 2.5rem; 
+  text-transform: uppercase; font-family: var(--aw-font-mono); font-weight: bold;
+}
+.aw-btn-cyber-frame::before, .aw-btn-cyber-frame::after {
+  content: ""; position: absolute; width: 15px; height: 15px;
+  transition: all 0.5s var(--ease-expo); border: 2px solid var(--color-accent);
+}
+.aw-btn-cyber-frame::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+.aw-btn-cyber-frame::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+.aw-btn-cyber-frame:hover::before, .aw-btn-cyber-frame:hover::after {
+  width: 100%; height: 100%; opacity: 0.3;
+}
+/* --- 24. Hyper-Charge Ring Button --- */
+.aw-btn-charge {
+  position: relative; color: var(--color-fg);
+  overflow: hidden; border-radius: 99px; z-index: 1; 
+  padding: 1rem 2.5rem; border: none; background: transparent;
+}
+.aw-btn-charge::before {
+  content: ""; position: absolute; inset: -5px; z-index: -2;
+  background: conic-gradient(from 0deg, transparent 70%, var(--color-accent) 100%);
+  animation: spinCharge 3s linear infinite; opacity: 0; transition: opacity 0.4s;
+}
+.aw-btn-charge::after {
+  content: ""; position: absolute; inset: 2px; background: var(--color-neutral);
+  border-radius: 99px; z-index: -1; transition: background 0.4s;
+}
+.aw-btn-charge:hover::before { opacity: 1; animation: spinCharge 0.5s linear infinite; }
+.aw-btn-charge:hover::after { background: var(--color-bg); }
+@keyframes spinCharge { to { transform: rotate(360deg); } }
+/* --- 36. Continuous Sonar Ping Button --- */
+.aw-btn-sonar {
+  position: relative; background: var(--color-accent); color: var(--color-bg);
+  border-radius: 99px; z-index: 1; border: none; padding: 1rem 2.5rem;
+}
+.aw-btn-sonar::before {
+  content: ""; position: absolute; inset: 0; border-radius: 99px;
+  border: 1px solid var(--color-accent); z-index: -1;
+  animation: sonarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes sonarPing {
+  100% { transform: scale(1.5); opacity: 0; }
+}
+/* --- 37. Magnetic Hover Hook --- */
+.aw-btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Translate maps to JS mouse coordinates */
+  transform: translate(calc(var(--mouse-x, 0) * 0.2px), calc(var(--mouse-y, 0) * 0.2px));
+}
+/* --- 38. Deep Neo-Brutal Push --- */
+.aw-btn-neo-push {
+  background: var(--color-bg); color: var(--color-fg);
+  border: 2px solid var(--color-fg); border-radius: 8px;
+  box-shadow: 6px 6px 0px 0px var(--color-fg);
+  transition: all 0.15s ease-out; font-weight: bold; text-transform: uppercase;
+}
+.aw-btn-neo-push:active {
+  transform: translate(6px, 6px); box-shadow: 0px 0px 0px 0px transparent;
+}
+/* --- 39. Liquid Wave Fill --- */
+.aw-btn-liquid-wave {
+  position: relative; overflow: hidden; border: 1px solid var(--color-fg);
+  background: transparent; z-index: 1;
+}
+.aw-btn-liquid-wave::before {
+  content: ""; position: absolute; left: -50%; top: 100%;
+  width: 200%; height: 200%; background: var(--color-fg);
+  border-radius: 40%; z-index: -1; transition: top 0.8s var(--ease-expo);
+  animation: liquidRotate 4s linear infinite;
+}
+.aw-btn-liquid-wave:hover { color: var(--color-bg); }
+.aw-btn-liquid-wave:hover::before { top: -20%; }
+@keyframes liquidRotate { 100% { transform: rotate(360deg); } }
+/* --- 40. Core Fill Expand --- */
+.aw-btn-fill-expand {
+  position: relative; box-shadow: inset 0 0 0 1px var(--color-border);
+  background: transparent; overflow: hidden; z-index: 1;
+}
+.aw-btn-fill-expand::after {
+  content: ""; position: absolute; inset: 0; background: var(--color-fg);
+  transform: scaleY(0); transform-origin: bottom; z-index: -1;
+  transition: transform 0.5s var(--ease-expo);
+}
+.aw-btn-fill-expand:hover { color: var(--color-bg); }
+.aw-btn-fill-expand:hover::after { transform: scaleY(1); }
+/* --- 81. Dimension Portal Reveal --- */
+.aw-btn-portal { position: relative; z-index: 1; overflow: hidden; background: var(--color-bg); color: var(--color-fg); border: 1px solid var(--color-border); }
+.aw-btn-portal::after { content: ""; position: absolute; top: 50%; left: 50%; width: 150%; aspect-ratio: 1/1; background: var(--color-fg); border-radius: 50%; transform: translate(-50%, -50%) scale(0); transition: transform 0.8s var(--ease-expo); z-index: -1; }
+.aw-btn-portal:hover { color: var(--color-bg); }
+.aw-btn-portal:hover::after { transform: translate(-50%, -50%) scale(1); }
+/* --- 82. Organic Fluid Blob Border --- */
+.aw-btn-organic { border: 2px solid var(--color-accent); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: fluidBorder 6s linear infinite; background: transparent; color: var(--color-fg); }
+@keyframes fluidBorder { 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(360deg); } }
+/* --- 83. Laser Swipe Border --- */
+.aw-btn-laser { position: relative; background: transparent; border: none; }
+.aw-btn-laser::before { content: ""; position: absolute; inset: 0; border: 1px solid var(--color-border); }
+.aw-btn-laser::after { content: ""; position: absolute; top: 0; left: 0; width: 0%; height: 2px; background: #00F0FF; box-shadow: 0 0 10px #00F0FF; transition: width 0.4s var(--ease-expo); }
+.aw-btn-laser:hover::after { width: 100%; }
+/* --- 84. Barcode Scanline --- */
+.aw-btn-barcode { position: relative; overflow: hidden; }
+.aw-btn-barcode::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to right, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px); transform: translateY(-100%); transition: transform 0.4s; }
+.aw-btn-barcode:hover::before { transform: translateY(0); }
+/* --- 85. 3D Isometric Key Push --- */
+.aw-btn-iso-push { background: var(--color-neutral); border: 1px solid var(--color-border); box-shadow: -6px 6px 0px var(--color-accent); transform: translate(6px, -6px); transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.aw-btn-iso-push:hover { box-shadow: -2px 2px 0px var(--color-accent); transform: translate(2px, -2px); }
 .aw-card {
   position: relative;
   background-color: var(--color-neutral);
@@ -743,6 +1168,138 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-layered-glass:hover .aw-layered-pane:nth-child(1) { transform: translateZ(-40px) translateX(-20px) translateY(-20px); opacity: 0.5;}
 .aw-layered-glass:hover .aw-layered-pane:nth-child(2) { transform: translateZ(0px); }
 .aw-layered-glass:hover .aw-layered-pane:nth-child(3) { transform: translateZ(40px) translateX(20px) translateY(20px); }
+/* --- 4. 3D Isometric Card Grid --- */
+.aw-isometric-grid {
+  display: grid; gap: var(--space-8);
+  transform: rotateX(60deg) rotateZ(-45deg);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.aw-isometric-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 16px; padding: var(--space-8);
+  transition: transform var(--trans-slow), box-shadow var(--trans-slow);
+}
+.aw-isometric-card:hover {
+  transform: translateZ(40px) translateX(-10px) translateY(-10px);
+  box-shadow: 20px 20px 0px 0px rgba(0, 0, 0, 0.3);
+  border-color: var(--color-accent);
+}
+/* --- 15. Holographic Foil Card --- */
+.aw-holo-card {
+  position: relative; overflow: hidden;
+  background: var(--glass-bg); border: 1px solid var(--color-border);
+  border-radius: 16px; padding: var(--space-8);
+  transform-style: preserve-3d; perspective: 1000px;
+  transition: transform var(--trans-slow);
+}
+.aw-holo-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(
+    115deg, transparent 20%, rgba(0, 240, 255, 0.4) 30%, 
+    rgba(112, 0, 255, 0.4) 50%, rgba(255, 0, 122, 0.4) 70%, transparent 80%
+  );
+  background-size: 300% 300%;
+  background-position: 100% 100%;
+  mix-blend-mode: color-dodge; opacity: 0; pointer-events: none;
+  transition: background-position 1s var(--ease-expo), opacity 0.4s;
+}
+.aw-holo-card:hover { transform: rotateX(10deg) rotateY(-10deg) scale(1.02); }
+.aw-holo-card:hover::before {
+  opacity: 1; background-position: 0% 0%;
+}
+/* --- 27. 3D Unfolding Paper Card --- */
+.aw-card-fold {
+  position: relative; perspective: 1200px; transform-style: preserve-3d;
+}
+.aw-card-fold-top {
+  background: var(--color-neutral); padding: var(--space-8); 
+  border-radius: 12px; transform-origin: bottom center; 
+  z-index: 2; position: relative; border: 1px solid var(--color-border);
+}
+.aw-card-fold-bottom {
+  background: var(--color-bg); padding: var(--space-8); 
+  border-radius: 0 0 12px 12px; border: 1px solid var(--color-border);
+  border-top: none;
+  /* Start folded up backwards */
+  transform-origin: top center; transform: rotateX(-120deg);
+  transition: transform 0.8s var(--ease-bounce-soft), opacity 0.8s;
+  position: absolute; top: 100%; left: 0; width: 100%;
+  filter: brightness(0.2); opacity: 0; z-index: 1;
+}
+.aw-card-fold:hover .aw-card-fold-bottom {
+  transform: rotateX(0deg); filter: brightness(1); opacity: 1;
+}
+.aw-card-fold:hover .aw-card-fold-top {
+  border-radius: 12px 12px 0 0; /* Snap corners sharp on unfold */
+}
+/* --- 41. Glass Reflection Sweep --- */
+.aw-card-glass-reflect {
+  position: relative; overflow: hidden; background: var(--glass-bg);
+  backdrop-filter: var(--blur-md); border-radius: 16px; border: 1px solid var(--color-border);
+}
+.aw-card-glass-reflect::after {
+  content: ""; position: absolute; top: -50%; left: -50%; width: 50%; height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  transform: rotate(45deg) translateX(-150%); transition: transform 0.8s var(--ease-expo);
+}
+.aw-card-glass-reflect:hover::after { transform: rotate(45deg) translateX(300%); }
+/* --- 42. Deck Spread Fan --- */
+.aw-card-stack-spread { position: relative; width: 300px; height: 400px; }
+.aw-card-stack-spread > div {
+  position: absolute; inset: 0; border-radius: 16px; background: var(--color-neutral);
+  border: 1px solid var(--color-border); transition: transform 0.6s var(--ease-bounce-soft);
+  transform-origin: bottom center;
+}
+.aw-card-stack-spread:hover > div:nth-child(1) { transform: rotate(-15deg) translateX(-60px); }
+.aw-card-stack-spread:hover > div:nth-child(2) { transform: rotate(0deg) translateY(-20px); z-index: 2; }
+.aw-card-stack-spread:hover > div:nth-child(3) { transform: rotate(15deg) translateX(60px); }
+/* --- 43. Neon Wireframe Reveal --- */
+.aw-card-neon-wireframe {
+  background: transparent; border: 1px solid transparent; border-radius: 12px;
+  position: relative; transition: border-color 0.4s; overflow: hidden;
+}
+.aw-card-neon-wireframe::before {
+  content: ""; position: absolute; inset: 0; border-radius: 12px;
+  box-shadow: inset 0 0 20px #00F0FF; opacity: 0; transition: opacity 0.4s;
+  pointer-events: none;
+}
+.aw-card-neon-wireframe:hover { border-color: #00F0FF; }
+.aw-card-neon-wireframe:hover::before { opacity: 1; }
+/* --- 44. Elevator Door Reveal --- */
+.aw-card-elevator { position: relative; overflow: hidden; border-radius: 16px; }
+.aw-card-elevator::before, .aw-card-elevator::after {
+  content: ""; position: absolute; top: 0; width: 50%; height: 100%;
+  background: var(--color-fg); transition: transform 0.8s var(--ease-expo); z-index: 2;
+}
+.aw-card-elevator::before { left: 0; }
+.aw-card-elevator::after { right: 0; }
+.aw-card-elevator:hover::before { transform: translateX(-100%); }
+.aw-card-elevator:hover::after { transform: translateX(100%); }
+/* --- 45. 3D Float Parallax Tilt --- */
+.aw-card-float-tilt {
+  transform-style: preserve-3d; perspective: 1000px;
+  /* Driven by JS mapping --mouse-x/y to degrees */
+  transform: rotateX(calc(var(--rot-x, 0) * 1deg)) rotateY(calc(var(--rot-y, 0) * 1deg));
+}
+.aw-card-float-inner { transform: translateZ(40px); }
+/* --- 86. Deep Z-Axis Push (Use with parent :has) --- */
+.aw-card-z-push { transition: transform 0.6s var(--ease-expo), filter 0.6s; transform-style: preserve-3d; }
+.aw-card-z-push:hover { transform: translateZ(50px) scale(1.05); z-index: 10; }
+/* --- 87. Origami Polygon Unfold --- */
+.aw-card-origami { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); transition: clip-path 0.8s var(--ease-bounce-soft); background: var(--glass-bg); padding: var(--space-8); }
+.aw-card-origami:hover, .aw-card-origami.is-active { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+/* --- 88. Glass Lens Magnify --- */
+.aw-card-lens { backdrop-filter: blur(4px); transition: backdrop-filter 0.4s, transform 0.4s; border-radius: 50%; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); }
+.aw-card-lens:hover { backdrop-filter: blur(16px); transform: scale(1.2); }
+/* --- 89. Noise Burn Transition --- */
+.aw-card-noise-burn { position: relative; overflow: hidden; }
+.aw-card-noise-burn::after { content: ""; position: absolute; inset: 0; background: var(--color-bg); -webkit-mask-image: url('data:image/svg+xml,...'); mask-image: url('data:image/svg+xml,...'); /* Assume base64 noise map here */ -webkit-mask-size: cover; mask-size: cover; transition: -webkit-mask-position 1s; transition: mask-position 1s; transition: mask-position 1s, -webkit-mask-position 1s; z-index: 5; }
+.aw-card-noise-burn:hover::after { -webkit-mask-position: 100% 100%; mask-position: 100% 100%; opacity: 0; }
+/* --- 90. Glitch Offset Borders --- */
+.aw-card-glitch-border { position: relative; border: 1px solid var(--color-border); transition: all 0.2s; }
+.aw-card-glitch-border:hover { box-shadow: -4px 0 0 #00F0FF, 4px 0 0 #FF007A; border-color: transparent; }
 .aw-nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
   padding: var(--space-6) 0;
@@ -770,6 +1327,60 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-nav-links a:hover::after {
   transform: scaleX(1); transform-origin: bottom left;
 }
+/* --- 5. Floating Glass Dock (macOS Style) --- */
+.aw-glass-dock {
+  position: fixed; bottom: var(--space-8); left: 50%; transform: translateX(-50%);
+  display: flex; gap: var(--space-2); padding: var(--space-2);
+  background: var(--glass-bg); backdrop-filter: var(--blur-md); -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid var(--color-border); border-radius: 99px; z-index: 100;
+}
+.aw-dock-item {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--color-neutral); display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), margin 0.3s; cursor: pointer;
+}
+/* Scale hovered item */
+.aw-dock-item:hover { transform: scale(1.5); margin: 0 var(--space-4); background: var(--color-accent); color: var(--color-bg); }
+/* Scale adjacent siblings slightly utilizing modern :has selector */
+.aw-glass-dock:has(.aw-dock-item:hover) .aw-dock-item:not(:hover) { opacity: 0.6; }
+.aw-dock-item:has(+ .aw-dock-item:hover),
+.aw-dock-item:hover + .aw-dock-item {
+  transform: scale(1.2); margin: 0 var(--space-2);
+}
+/* --- 16. Premium Bracket Reveal Link --- */
+.aw-link-brackets {
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative; text-transform: uppercase; font-family: var(--aw-font-mono);
+  transition: color var(--trans-fast);
+}
+.aw-link-brackets::before, .aw-link-brackets::after {
+  position: absolute; opacity: 0; color: var(--color-accent);
+  transition: transform 0.4s var(--ease-expo), opacity 0.4s;
+}
+.aw-link-brackets::before { content: "["; left: -15px; transform: translateX(10px); }
+.aw-link-brackets::after { content: "]"; right: -15px; transform: translateX(-10px); }
+.aw-link-brackets:hover { color: var(--color-accent); }
+.aw-link-brackets:hover::before { opacity: 1; transform: translateX(0); }
+.aw-link-brackets:hover::after { opacity: 1; transform: translateX(0); }
+/* --- 91. Magnetic Background Pill (Native CSS :has trick) --- */
+.aw-nav-magnetic-group { display: flex; position: relative; gap: var(--space-4); }
+.aw-nav-magnetic-group::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: var(--color-neutral); border-radius: 99px; transition: all 0.4s var(--ease-expo); z-index: -1; }
+/* Width calculations require fixed width items natively, or mapped JS variables. Fallback below */
+.aw-nav-magnetic-group:hover::before { width: 100px; }
+/* --- 92. Blurring Siblings --- */
+.aw-nav-blur-group:has(.aw-link-blur:hover) .aw-link-blur:not(:hover) { filter: blur(4px); opacity: 0.3; transform: scale(0.95); }
+.aw-link-blur { transition: all 0.4s var(--ease-expo); display: inline-block; }
+/* --- 93. Cyber Laser Underline --- */
+.aw-link-cyber-line { position: relative; padding-bottom: 4px; }
+.aw-link-cyber-line::after { content: ""; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, transparent, #00F0FF); box-shadow: 0 0 8px #00F0FF; transition: width 0.4s var(--ease-expo); }
+.aw-link-cyber-line:hover::after { width: 100%; }
+/* --- 94. Vertical Text Swap --- */
+.aw-link-v-swap { position: relative; overflow: hidden; display: inline-flex; flex-direction: column; height: 1.2em; }
+.aw-link-v-swap span { transition: transform 0.4s var(--ease-expo); }
+.aw-link-v-swap::after { content: attr(data-text); position: absolute; top: 100%; color: var(--color-accent); transition: transform 0.4s var(--ease-expo); }
+.aw-link-v-swap:hover span, .aw-link-v-swap:hover::after { transform: translateY(-100%); }
+/* --- 95. Mix-Blend Difference Nav --- */
+.aw-nav-difference { mix-blend-mode: difference; color: #fff; z-index: 100; isolation: isolate; }
 /* High Impact Hero Layouts */
 .aw-hero {
   position: relative; width: 100%; height: 100vh;
@@ -859,6 +1470,132 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 @keyframes scrollVertical {
   to { transform: translateY(calc(-50% - (var(--space-8) / 2))); }
 }
+/* --- 6. Pure CSS Scroll Progress Bar --- */
+.aw-scroll-progress {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: var(--gradient-accent); z-index: 9999;
+  transform-origin: 0% 50%;
+}
+@supports (animation-timeline: scroll()) {
+  .aw-scroll-progress {
+    animation: scrollProgressFill linear forwards;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes scrollProgressFill {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+/* --- 18. Native Scroll Background Zoom --- */
+.aw-scroll-zoom-bg {
+  position: relative; width: 100%; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.aw-scroll-zoom-inner {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; z-index: -1;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-zoom-inner {
+    animation: zoomScrollImage linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 100%;
+  }
+}
+@keyframes zoomScrollImage {
+  0% { transform: scale(1.6); filter: blur(20px) brightness(0.2); }
+  50% { transform: scale(1.1); filter: blur(0px) brightness(0.6); }
+  100% { transform: scale(1); filter: blur(0px) brightness(1); }
+}
+/* --- 30. Native Scroll 3D Skew/Pitch --- */
+.aw-scroll-skew {
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-skew {
+    animation: skewOnScroll linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+@keyframes skewOnScroll {
+  /* Starts leaning backward, flattens in center, leans forward exiting */
+  0% { transform: perspective(1200px) rotateX(-25deg) scale(0.85); opacity: 0; filter: blur(10px); }
+  40%, 60% { transform: perspective(1200px) rotateX(0deg) scale(1); opacity: 1; filter: blur(0px); }
+  100% { transform: perspective(1200px) rotateX(25deg) scale(0.85); opacity: 0; filter: blur(10px); }
+}
+/* --- 56. Section Scale Up Entry --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-scale-up {
+    animation: sectionScaleUp linear both; animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+@keyframes sectionScaleUp {
+  0% { transform: scale(0.8); border-radius: 40px; opacity: 0; }
+  100% { transform: scale(1); border-radius: 0px; opacity: 1; }
+}
+/* --- 57. Cinematic Curtain Rise --- */
+.aw-scroll-curtain { position: relative; }
+.aw-scroll-curtain::after {
+  content: ""; position: absolute; inset: 0; background: #000; z-index: 10;
+  transform-origin: top;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-curtain::after {
+    animation: curtainRise linear both; animation-timeline: view();
+    animation-range: entry 20% cover 50%;
+  }
+}
+@keyframes curtainRise { to { transform: scaleY(0); } }
+/* --- 58. Native Background Parallax --- */
+.aw-section-parallax-bg {
+  background-attachment: fixed; background-position: center;
+  background-repeat: no-repeat; background-size: cover;
+}
+/* --- 59. Native Y-Axis Snap Container --- */
+.aw-scroll-snap-y-container {
+  height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.aw-scroll-snap-y-container::-webkit-scrollbar { display: none; }
+.aw-scroll-snap-y-item { height: 100vh; scroll-snap-align: start; }
+/* --- 60. Native Horizontal Sticky Wrap --- */
+.aw-section-sticky-horizontal {
+  display: flex; width: -moz-max-content; width: max-content; height: 100vh;
+}
+.aw-sticky-track {
+  position: sticky; top: 0; height: 100vh; overflow-x: hidden;
+}
+/* --- 101. Curved Horizon Entry --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-horizon { animation: horizonBend linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+}
+@keyframes horizonBend {
+  0% { border-radius: 50% 50% 0 0; transform: translateY(20%); }
+  100% { border-radius: 0; transform: translateY(0); }
+}
+/* --- 102. Massive Zoom-Out Fit --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-zoom-out-fit { animation: zoomOutFit linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+}
+@keyframes zoomOutFit { 0% { transform: scale(2); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+/* --- 103. 3D Section Fold Away (Exit Anim) --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-fold-away { transform-origin: top center; animation: foldAway linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+}
+@keyframes foldAway { to { transform: rotateX(45deg) scale(0.9); filter: brightness(0.2); } }
+/* --- 104. Timeline Color Spectrum Shift --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-color-shift { animation: hueShift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+}
+@keyframes hueShift { to { filter: hue-rotate(360deg); } }
+/* --- 105. Strict Section Grain (Base64 wrapper) --- */
+.aw-section-grain { position: relative; overflow: hidden; }
+.aw-section-grain::after { content: ""; position: absolute; inset: 0; background: url('data:image/svg+xml,...'); opacity: 0.05; pointer-events: none; mix-blend-mode: overlay; animation: noise 1s steps(2) infinite; }
 /* Awwwards Minimalist Inputs */
 .aw-input-group {
   position: relative; margin-bottom: var(--space-6); width: 100%;
@@ -881,6 +1618,45 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-input:valid ~ .aw-label {
   top: -12px; font-size: var(--text-xs); color: var(--color-accent);
 }
+/* --- Add to forms.css --- */
+/* --- 66. Radial Glow Border Input --- */
+.aw-input-glow-border {
+  position: relative; background: var(--color-neutral); border-radius: 8px;
+}
+.aw-input-glow-border::before {
+  content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 10px;
+  background: radial-gradient(80px circle at var(--mouse-x, 0) var(--mouse-y, 0), var(--color-accent), transparent);
+}
+.aw-input-glow-border input { background: var(--color-neutral); border: none; border-radius: 8px; padding: 1rem; width: 100%; color: var(--color-fg); }
+/* --- 67. Elastic Stretch Input Line --- */
+.aw-input-elastic {
+  border: none; border-bottom: 2px solid var(--color-border); background: transparent;
+  padding: 1rem 0; width: 100%; transition: transform 0.2s var(--ease-bounce-soft);
+}
+.aw-input-elastic:focus {
+  border-bottom-color: var(--color-accent); transform: scaleY(1.1); transform-origin: bottom;
+}
+/* --- 68. Liquid Fill Checkbox --- */
+.aw-checkbox-liquid { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 24px; height: 24px; border: 2px solid var(--color-border); border-radius: 6px; position: relative; cursor: pointer; overflow: hidden; }
+.aw-checkbox-liquid::before {
+  content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+  background: var(--color-accent); transition: height 0.4s var(--ease-bounce-soft);
+}
+.aw-checkbox-liquid:checked::before { height: 100%; }
+/* --- Add to accordion.css --- */
+/* --- 69. Sibling Glow Accordion Container --- */
+.aw-accordion-glow-wrap:has(.aw-accordion:hover) .aw-accordion:not(:hover) {
+  opacity: 0.4; filter: blur(2px);
+}
+.aw-accordion-glow-wrap .aw-accordion { transition: opacity 0.4s, filter 0.4s; }
+/* --- 70. Slide-Out Right Accordion --- */
+.aw-accordion-slide-out { display: flex; align-items: flex-start; }
+.aw-accordion-slide-out summary { width: 300px; flex-shrink: 0; }
+.aw-accordion-slide-out .aw-accordion-content {
+  grid-template-columns: 0fr; opacity: 0; transition: grid-template-columns 0.6s var(--ease-expo), opacity 0.6s;
+}
+.aw-accordion-slide-out[open] .aw-accordion-content { grid-template-columns: 1fr; opacity: 1; padding-left: var(--space-8); }
+.aw-accordion-slide-out .aw-accordion-content > div { width: -moz-max-content; width: max-content; }
 /* Custom Pure CSS Smooth Accordions */
 .aw-accordion-container {
   border-top: 1px solid var(--color-border);
@@ -918,6 +1694,52 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-accordion[open] .aw-accordion-content {
   grid-template-rows: 1fr; opacity: 1; padding-bottom: var(--space-8);
 }
+/* --- 20. Magnetic Center-Border Accordion --- */
+.aw-accordion-magnetic {
+  position: relative; width: 100%; margin-bottom: var(--space-4);
+}
+/* The animated border */
+.aw-accordion-magnetic::after {
+  content: ""; position: absolute; bottom: 0; left: 50%;
+  width: 0%; height: 1px; background: var(--color-accent);
+  transition: width 0.6s var(--ease-expo), left 0.6s var(--ease-expo);
+}
+.aw-accordion-magnetic:hover::after,
+.aw-accordion-magnetic[open]::after {
+  width: 100%; left: 0%;
+}
+.aw-accordion-magnetic summary {
+  padding: var(--space-6) 0; font-family: var(--aw-font-display);
+  font-size: var(--text-2xl); cursor: pointer; list-style: none;
+}
+.aw-accordion-magnetic summary::-webkit-details-marker { display: none; }
+.aw-accordion-magnetic[open] .aw-accordion-content {
+  padding-bottom: var(--space-6);
+}
+/* --- Add to forms.css --- */
+/* --- 111. Terminal Blinking Cursor Input --- */
+.aw-input-terminal { font-family: var(--aw-font-mono); background: #000; color: #0f0; border: none; outline: none; caret-color: transparent; position: relative; }
+.aw-input-terminal:focus { animation: blinkCursor 1s step-end infinite; border-right: 10px solid #0f0; }
+@keyframes blinkCursor { 50% { border-right-color: transparent; } }
+/* --- 112. Center-Draw Underline --- */
+.aw-input-draw-line { border: none; background: transparent; padding: 1rem 0; color: var(--color-fg); position: relative; outline: none; }
+.aw-input-draw-wrap { position: relative; }
+.aw-input-draw-wrap::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 0%; height: 2px; background: var(--color-accent); transition: width 0.4s var(--ease-expo), left 0.4s var(--ease-expo); }
+.aw-input-draw-line:focus + ::after, .aw-input-draw-wrap:focus-within::after { width: 100%; left: 0; }
+/* --- 113. Oversized Brutal Switch --- */
+.aw-checkbox-brutal { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 60px; height: 30px; border: 2px solid var(--color-fg); border-radius: 99px; position: relative; cursor: pointer; outline: none; background: var(--color-bg); transition: background 0.3s; }
+.aw-checkbox-brutal::before { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: var(--color-fg); border-radius: 50%; transition: transform 0.3s var(--ease-bounce-soft); }
+.aw-checkbox-brutal:checked { background: var(--color-accent); border-color: var(--color-accent); }
+.aw-checkbox-brutal:checked::before { transform: translateX(30px); background: var(--color-bg); }
+/* --- Add to accordion.css --- */
+/* --- 114. Cyber Slicing Accordion --- */
+.aw-accordion-cyber { border-left: 2px solid transparent; transition: border-color 0.4s; }
+.aw-accordion-cyber[open] { border-left-color: var(--color-accent); }
+.aw-accordion-cyber[open] summary { padding-left: var(--space-4); color: var(--color-accent); }
+/* --- 115. Marquee Header Accordion --- */
+.aw-accordion-marquee summary { overflow: hidden; white-space: nowrap; }
+.aw-accordion-marquee[open] summary { animation: marqueeText 4s linear infinite; }
+@keyframes marqueeText { 100% { transform: translateX(-50%); } }
 /* Scroll-snap container that hides native scrollbars but allows native momentum scrolling */
 .aw-gallery {
   display: flex; gap: var(--space-6); overflow-x: auto;
@@ -1007,6 +1829,138 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
   opacity: 1;
   filter: grayscale(0%);
 }
+/* --- 7. Native View-Timeline Image Parallax --- */
+.aw-img-parallax-wrap {
+  overflow: hidden; border-radius: 12px; height: 100%; width: 100%;
+}
+.aw-img-parallax {
+  width: 100%; height: 120%; /* Extra height to allow scrolling room */
+  -o-object-fit: cover;
+     object-fit: cover; transform-origin: center;
+}
+@supports (animation-timeline: view()) {
+  .aw-img-parallax {
+    animation: imageParallax linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 100%;
+  }
+}
+@keyframes imageParallax {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(10%); }
+}
+/* --- 17. Diagonal Stack Peel Reveal --- */
+.aw-img-stack-peel {
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  border-radius: 12px; cursor: pointer;
+}
+.aw-img-stack-peel img {
+  position: absolute; inset: 0; width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover;
+}
+.aw-img-stack-peel img.aw-peel-top {
+  z-index: 2; transform-origin: top left;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: clip-path 0.8s var(--ease-expo), filter 0.8s;
+}
+.aw-img-stack-peel:hover img.aw-peel-top {
+  /* Peels the top image diagonally to the top-left */
+  clip-path: polygon(0 0, 0 0, 0 0, 0 100%);
+  filter: blur(4px) brightness(0.5);
+}
+/* --- 28. 3D Orbiting Ring Gallery --- */
+.aw-ring-gallery {
+  perspective: 1500px; display: flex; align-items: center; justify-content: center; 
+  height: 60vh; overflow: hidden;
+}
+.aw-ring-inner {
+  width: 250px; height: 350px; transform-style: preserve-3d;
+  animation: rotateRing 24s infinite linear;
+}
+.aw-ring-item {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; border-radius: 12px; border: 2px solid var(--color-border);
+}
+/* Distribute 5 items mathematically in a circle */
+.aw-ring-item:nth-child(1) { transform: rotateY(0deg) translateZ(350px); }
+.aw-ring-item:nth-child(2) { transform: rotateY(72deg) translateZ(350px); }
+.aw-ring-item:nth-child(3) { transform: rotateY(144deg) translateZ(350px); }
+.aw-ring-item:nth-child(4) { transform: rotateY(216deg) translateZ(350px); }
+.aw-ring-item:nth-child(5) { transform: rotateY(288deg) translateZ(350px); }
+@keyframes rotateRing { to { transform: rotateY(-360deg); } }
+/* --- 29. Gradient Mask Image Wipe --- */
+.aw-mask-wipe {
+  position: relative; overflow: hidden; width: 100%; height: 100%;
+}
+.aw-mask-wipe img {
+  width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover;
+  -webkit-mask-image: linear-gradient(to right, black 45%, transparent 55%);
+  mask-image: linear-gradient(to right, black 45%, transparent 55%);
+  -webkit-mask-size: 250% 100%; mask-size: 250% 100%;
+  -webkit-mask-position: 100% 0; mask-position: 100% 0;
+  transition: -webkit-mask-position 1.2s var(--ease-expo), filter 1.2s;
+  filter: grayscale(100%);
+}
+.aw-mask-wipe:hover img {
+  -webkit-mask-position: 0 0; mask-position: 0 0;
+  filter: grayscale(0%);
+}
+/* --- 51. 3x3 Distort Grid Hover --- */
+.aw-img-distort-grid { position: relative; overflow: hidden; }
+.aw-img-distort-grid::before, .aw-img-distort-grid::after {
+  content: ""; position: absolute; inset: 0; background: inherit;
+  transition: transform 0.6s var(--ease-expo); z-index: 2;
+}
+.aw-img-distort-grid::before { clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%); }
+.aw-img-distort-grid::after { clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%); }
+.aw-img-distort-grid:hover::before { transform: translate(-10%, -10%); }
+.aw-img-distort-grid:hover::after { transform: translate(10%, 10%); }
+/* --- 52. Moving Lens Flare Overlay --- */
+.aw-img-lens-flare { position: relative; overflow: hidden; }
+.aw-img-lens-flare::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 60%);
+  transform: translate(-100%, -100%); transition: transform 0.8s ease-in-out;
+  mix-blend-mode: screen; pointer-events: none;
+}
+.aw-img-lens-flare:hover::after { transform: translate(100%, 100%); }
+/* --- 53. Cyber Diagonal Slicer --- */
+.aw-img-cyber-slice { position: relative; overflow: hidden; }
+.aw-img-cyber-slice img { transition: transform 0.5s var(--ease-bounce-soft); }
+.aw-img-cyber-slice:hover img {
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 40%, 0 60%, 100% 50%, 100% 100%, 0 100%);
+  transform: scale(1.05); filter: contrast(1.2);
+}
+/* --- 54. Cinematic Ken Burns --- */
+.aw-img-ken-burns { overflow: hidden; }
+.aw-img-ken-burns img {
+  transform: scale(1.2); transition: transform 10s ease-out; -o-object-position: left center; object-position: left center;
+}
+.aw-img-ken-burns:hover img { transform: scale(1) translate(2%, 2%); }
+/* --- 55. Iris Circle Reveal --- */
+.aw-img-reveal-circle img {
+  clip-path: circle(20% at 50% 50%); transition: clip-path 0.8s var(--ease-expo);
+}
+.aw-img-reveal-circle:hover img { clip-path: circle(100% at 50% 50%); }
+/* --- 96. Camera Shutter Polygon Reveal --- */
+.aw-img-shutter { position: relative; overflow: hidden; }
+.aw-img-shutter::before, .aw-img-shutter::after { content: ""; position: absolute; inset: 0; background: var(--color-bg); transition: transform 0.6s var(--ease-expo); z-index: 2; }
+.aw-img-shutter::before { clip-path: polygon(0 0, 100% 0, 0 100%); }
+.aw-img-shutter::after { clip-path: polygon(100% 100%, 0 100%, 100% 0); }
+.aw-img-shutter:hover::before { transform: translate(-100%, -100%); }
+.aw-img-shutter:hover::after { transform: translate(100%, 100%); }
+/* --- 97. Cinematic Film Strip Scroll --- */
+.aw-img-film-strip { height: 400px; width: 100%; background-image: url('strip.jpg'); background-size: cover; animation: filmRoll 20s linear infinite; }
+@keyframes filmRoll { 100% { background-position: 0 -1000px; } }
+/* --- 98. RGB Image Split Hover --- */
+.aw-img-rgb-hover img { transition: filter 0.3s; }
+.aw-img-rgb-hover:hover img { filter: drop-shadow(-4px 0px 0px red) drop-shadow(4px 0px 0px cyan); mix-blend-mode: screen; }
+/* --- 99. Pixelate Sharpness Scale --- */
+.aw-img-pixelate img { image-rendering: pixelated; filter: blur(2px) contrast(2); transform: scale(1.1); transition: all 0.8s; }
+.aw-img-pixelate:hover img { filter: blur(0) contrast(1); transform: scale(1); image-rendering: auto; }
+/* --- 100. Parallax Mask Speed Offset --- */
+.aw-img-mask-speed { -webkit-mask-image: linear-gradient(black, transparent); -webkit-mask-position: 0 100%; -webkit-mask-size: 100% 200%; transition: -webkit-mask-position 1.2s var(--ease-expo); }
+.aw-img-mask-speed:hover { -webkit-mask-position: 0 0; }
 /* --- Preloader --- */
 .aw-preloader {
   position: fixed; inset: 0; z-index: 9999;
@@ -1080,3 +2034,118 @@ mask-image: radial-gradient(circle 200px at var(--mouse-x, -50%) var(--mouse-y, 
 .aw-cylinder span:nth-child(2) { transform: translate(-50%, -50%) rotateX(120deg) translateZ(60px); }
 .aw-cylinder span:nth-child(3) { transform: translate(-50%, -50%) rotateX(240deg) translateZ(60px); }
 @keyframes spinCylinder { to { transform: rotateX(-360deg); } }
+/* --- 9. Organic Status Pulse Badge --- */
+.aw-badge-pulse {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #00F0FF; /* System green/blue */
+}
+.aw-badge-pulse::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: 50%; background: inherit;
+  animation: radarPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes radarPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+/* --- 10. Hover Sliding Pill Tabs --- */
+.aw-slide-tabs {
+  display: inline-flex; position: relative;
+  background: var(--color-neutral); padding: 4px; border-radius: 99px;
+  border: 1px solid var(--color-border);
+}
+.aw-tab {
+  position: relative; z-index: 2; padding: 0.5rem 1.5rem;
+  font-family: var(--aw-font-mono); font-size: var(--text-xs);
+  color: var(--color-fg); cursor: pointer; text-transform: uppercase;
+  transition: color var(--trans-fast);
+}
+/* The background pill that follows hover */
+.aw-slide-tabs::before {
+  content: ""; position: absolute; top: 4px; bottom: 4px; left: 4px;
+  width: calc(100% / 3 - 2px); /* Assuming 3 tabs. Adjust via inline style if needed */
+  background: var(--color-accent); border-radius: 99px;
+  z-index: 1; transition: transform 0.4s var(--ease-expo);
+}
+/* Mathematical transforms assuming 3 tabs of equal width */
+.aw-slide-tabs:has(.aw-tab:nth-child(1):hover)::before { transform: translateX(0%); }
+.aw-slide-tabs:has(.aw-tab:nth-child(2):hover)::before { transform: translateX(100%); }
+.aw-slide-tabs:has(.aw-tab:nth-child(3):hover)::before { transform: translateX(200%); }
+.aw-slide-tabs:has(.aw-tab:hover) .aw-tab:hover { color: var(--color-bg); }
+/* --- 71. 3D Ring Ticker (Horizontal Cylinder) --- */
+.aw-ticker-3d-wrap { perspective: 1000px; overflow: hidden; height: 200px; display: flex; align-items: center; }
+.aw-ticker-3d {
+  transform-style: preserve-3d; animation: rotateTicker3D 10s linear infinite; position: relative; width: 100%;
+}
+.aw-ticker-3d span {
+  position: absolute; left: 0; top: 50%; transform-origin: center;
+  font-size: 4rem; font-family: var(--aw-font-display); white-space: nowrap;
+}
+.aw-ticker-3d span:nth-child(1) { transform: translateY(-50%) rotateX(0deg) translateZ(100px); }
+.aw-ticker-3d span:nth-child(2) { transform: translateY(-50%) rotateX(120deg) translateZ(100px); }
+.aw-ticker-3d span:nth-child(3) { transform: translateY(-50%) rotateX(240deg) translateZ(100px); }
+@keyframes rotateTicker3D { to { transform: rotateX(-360deg); } }
+/* --- 72. Left/Right Preloader Slice --- */
+.aw-preloader-slice {
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none; display: flex;
+}
+.aw-preloader-slice::before, .aw-preloader-slice::after {
+  content: ""; width: 50%; height: 100%; background: var(--color-bg);
+  animation: sliceOpen 1.5s var(--ease-expo) 1s forwards;
+}
+.aw-preloader-slice::after { transform-origin: right; }
+@keyframes sliceOpen { to { transform: scaleX(0); } }
+/* --- 73. Native Mouse Follow Tooltip --- */
+.aw-tooltip-follow-wrap { position: relative; cursor: crosshair; }
+.aw-tooltip-follow {
+  position: absolute; top: 0; left: 0; pointer-events: none;
+  background: var(--color-accent); color: var(--color-bg); padding: 4px 8px; border-radius: 4px;
+  font-family: var(--aw-font-mono); font-size: 10px; opacity: 0; transition: opacity 0.2s;
+  /* Requires JS --mouse-x/y mapping */
+  transform: translate(calc(var(--mouse-x, 0) * 1px + 15px), calc(var(--mouse-y, 0) * 1px + 15px));
+}
+.aw-tooltip-follow-wrap:hover .aw-tooltip-follow { opacity: 1; }
+/* --- 74. CSS Difference/Invert Cursor Mask --- */
+.aw-cursor-invert {
+  mix-blend-mode: difference; background: white; color: black;
+  /* Using mix-blend-mode difference, anything white behind it turns black */
+}
+/* --- 75. Circular Path Text Anim --- */
+.aw-text-circular-path svg {
+  animation: spinCircleText 10s linear infinite; width: 150px; height: 150px;
+}
+.aw-text-circular-path text { font-family: var(--aw-font-mono); font-size: 12px; fill: var(--color-fg); text-transform: uppercase; }
+@keyframes spinCircleText { to { transform: rotate(360deg); } }
+/* --- 116. Radar Sweep Cursor --- */
+.aw-cursor-radar { position: fixed; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0,240,255,0.5); pointer-events: none; z-index: 9999; mix-blend-mode: screen; transform: translate(-50%, -50%); }
+.aw-cursor-radar::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 70%, rgba(0,240,255,0.8)); animation: spinCharge 2s linear infinite; }
+/* --- 117. Hover Grid Trail (Wrap multiple divs inside) --- */
+.aw-grid-trail-container { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; height: 100%; }
+.aw-grid-trail-box { border: 1px solid rgba(255,255,255,0.05); transition: background 1s ease-out; }
+.aw-grid-trail-box:hover { background: var(--color-accent); transition: background 0s; }
+/* --- 118. Wavy Text Ticker --- */
+.aw-ticker-wave { display: flex; gap: 4px; }
+.aw-ticker-wave span { animation: waveAnim 1s ease-in-out infinite alternate; }
+.aw-ticker-wave span:nth-child(2n) { animation-delay: 0.2s; }
+.aw-ticker-wave span:nth-child(3n) { animation-delay: 0.4s; }
+@keyframes waveAnim { 100% { transform: translateY(-10px); } }
+/* --- 119. Multi-Shutter Preloader --- */
+.aw-preloader-shutter { position: fixed; inset: 0; display: flex; z-index: 9999; }
+.aw-preloader-shutter div { flex: 1; background: var(--color-fg); transform-origin: top; animation: shutterClose 1s var(--ease-expo) forwards; }
+.aw-preloader-shutter div:nth-child(1) { animation-delay: 1s; }
+.aw-preloader-shutter div:nth-child(2) { animation-delay: 1.1s; }
+.aw-preloader-shutter div:nth-child(3) { animation-delay: 1.2s; }
+.aw-preloader-shutter div:nth-child(4) { animation-delay: 1.3s; }
+@keyframes shutterClose { to { transform: scaleY(0); } }
+/* --- 120. Pure CSS 3D Cube --- */
+.aw-cube-wrap { perspective: 800px; width: 100px; height: 100px; }
+.aw-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: spinCube 6s infinite linear; }
+.aw-cube-face { position: absolute; width: 100px; height: 100px; border: 2px solid var(--color-accent); background: rgba(0, 240, 255, 0.1); display: flex; align-items: center; justify-content: center; font-family: var(--aw-font-mono); }
+.aw-cube-face-front  { transform: rotateY(  0deg) translateZ(50px); }
+.aw-cube-face-right  { transform: rotateY( 90deg) translateZ(50px); }
+.aw-cube-face-back   { transform: rotateY(180deg) translateZ(50px); }
+.aw-cube-face-left   { transform: rotateY(-90deg) translateZ(50px); }
+.aw-cube-face-top    { transform: rotateX( 90deg) translateZ(50px); }
+.aw-cube-face-bottom { transform: rotateX(-90deg) translateZ(50px); }
+@keyframes spinCube { 100% { transform: rotateX(360deg) rotateY(360deg); } }

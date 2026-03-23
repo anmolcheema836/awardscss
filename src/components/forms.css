@@ -21,3 +21,46 @@
 .aw-input:valid ~ .aw-label {
   top: -12px; font-size: var(--text-xs); color: var(--color-accent);
 }
+/* --- Add to forms.css --- */
+/* --- 66. Radial Glow Border Input --- */
+.aw-input-glow-border {
+  position: relative; background: var(--color-neutral); border-radius: 8px;
+}
+.aw-input-glow-border::before {
+  content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 10px;
+  background: radial-gradient(80px circle at var(--mouse-x, 0) var(--mouse-y, 0), var(--color-accent), transparent);
+}
+.aw-input-glow-border input { background: var(--color-neutral); border: none; border-radius: 8px; padding: 1rem; width: 100%; color: var(--color-fg); }
+
+/* --- 67. Elastic Stretch Input Line --- */
+.aw-input-elastic {
+  border: none; border-bottom: 2px solid var(--color-border); background: transparent;
+  padding: 1rem 0; width: 100%; transition: transform 0.2s var(--ease-bounce-soft);
+}
+.aw-input-elastic:focus {
+  border-bottom-color: var(--color-accent); transform: scaleY(1.1); transform-origin: bottom;
+}
+
+/* --- 68. Liquid Fill Checkbox --- */
+.aw-checkbox-liquid { appearance: none; width: 24px; height: 24px; border: 2px solid var(--color-border); border-radius: 6px; position: relative; cursor: pointer; overflow: hidden; }
+.aw-checkbox-liquid::before {
+  content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+  background: var(--color-accent); transition: height 0.4s var(--ease-bounce-soft);
+}
+.aw-checkbox-liquid:checked::before { height: 100%; }
+
+/* --- Add to accordion.css --- */
+/* --- 69. Sibling Glow Accordion Container --- */
+.aw-accordion-glow-wrap:has(.aw-accordion:hover) .aw-accordion:not(:hover) {
+  opacity: 0.4; filter: blur(2px);
+}
+.aw-accordion-glow-wrap .aw-accordion { transition: opacity 0.4s, filter 0.4s; }
+
+/* --- 70. Slide-Out Right Accordion --- */
+.aw-accordion-slide-out { display: flex; align-items: flex-start; }
+.aw-accordion-slide-out summary { width: 300px; flex-shrink: 0; }
+.aw-accordion-slide-out .aw-accordion-content {
+  grid-template-columns: 0fr; opacity: 0; transition: grid-template-columns 0.6s var(--ease-expo), opacity 0.6s;
+}
+.aw-accordion-slide-out[open] .aw-accordion-content { grid-template-columns: 1fr; opacity: 1; padding-left: var(--space-8); }
+.aw-accordion-slide-out .aw-accordion-content > div { width: max-content; }

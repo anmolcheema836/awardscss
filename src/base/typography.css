@@ -118,3 +118,161 @@ p, .font-sans { font-family: var(--aw-font-sans); }
 .aw-inline-reveal-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
 .aw-inline-reveal-img { width: 0; opacity: 0; transition: width 0.6s var(--ease-expo), opacity 0.6s, margin 0.6s; border-radius: 99px; object-fit: cover; height: 0.9em; margin: 0; }
 .aw-inline-reveal-wrap:hover .aw-inline-reveal-img { width: 2em; opacity: 1; margin: 0 0.15em; }
+/* --- 1. Premium Sweep Shine Text --- */
+.aw-text-shine {
+  background: linear-gradient(
+    110deg,
+    var(--color-fg) 20%,
+    var(--color-accent) 40%,
+    var(--color-accent) 60%,
+    var(--color-fg) 80%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shineText 4s linear infinite;
+}
+
+@keyframes shineText {
+  to { background-position: 200% center; }
+}
+/* --- 11. Kinetic Sliced Typography --- */
+.aw-text-kinetic-slice {
+  position: relative; display: inline-block;
+  color: transparent; font-family: var(--aw-font-display);
+}
+.aw-text-kinetic-slice::before,
+.aw-text-kinetic-slice::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0;
+  color: var(--color-fg); transition: transform 0.6s var(--ease-expo);
+}
+/* Top half */
+.aw-text-kinetic-slice::before {
+  clip-path: inset(0 0 50% 0);
+}
+/* Bottom half */
+.aw-text-kinetic-slice::after {
+  clip-path: inset(50% 0 0 0);
+}
+.aw-text-kinetic-slice:hover::before { transform: translate(-4px, -2px) skewX(-5deg); color: var(--color-accent); }
+.aw-text-kinetic-slice:hover::after { transform: translate(4px, 2px) skewX(-5deg); }
+
+/* --- 12. Breathing Stroke Fill --- */
+.aw-text-pulse-stroke {
+  -webkit-text-stroke: 1px var(--color-fg);
+  background: var(--gradient-accent);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pulseFill 4s ease-in-out infinite alternate;
+}
+@keyframes pulseFill {
+  0% { background-position: 0% 50%; opacity: 0.2; }
+  100% { background-position: 100% 50%; opacity: 1; -webkit-text-stroke: 1px transparent; }
+}
+/* --- 21. Cinematic Blur Scroll Reveal --- */
+.aw-text-blur-reveal {
+  filter: blur(20px); opacity: 0; transform: translateY(40px);
+  will-change: filter, opacity, transform;
+}
+@supports (animation-timeline: view()) {
+  .aw-text-blur-reveal {
+    animation: blurReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 40%;
+  }
+}
+@keyframes blurReveal {
+  to { filter: blur(0px); opacity: 1; transform: translateY(0); }
+}
+
+/* --- 22. Crisp Stroke-to-Solid Wipe --- */
+.aw-text-stroke-wipe {
+  position: relative; display: inline-block;
+  -webkit-text-stroke: 1px var(--color-fg); color: transparent;
+}
+.aw-text-stroke-wipe::after {
+  content: attr(data-text); position: absolute; left: 0; top: 0;
+  color: var(--color-accent); -webkit-text-stroke: 0px transparent;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path 0.8s var(--ease-expo);
+}
+.aw-text-stroke-wipe:hover::after {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+/* --- 31. Kinetic Text Echo --- */
+.aw-text-echo {
+  transition: text-shadow 0.6s var(--ease-bounce-soft), transform 0.6s;
+}
+.aw-text-echo:hover {
+  transform: translate(-4px, -4px);
+  text-shadow: 4px 4px 0px rgba(0, 240, 255, 0.5), 8px 8px 0px rgba(112, 0, 255, 0.3);
+}
+
+/* --- 32. Angled Mask Reveal --- */
+.aw-text-reveal-mask {
+  position: relative; overflow: hidden; display: inline-block;
+}
+.aw-text-reveal-mask::after {
+  content: ""; position: absolute; inset: 0; background: var(--color-fg);
+  transform-origin: right; transform: skewX(-20deg) translateX(120%);
+  transition: transform 0.8s var(--ease-expo);
+}
+.aw-text-reveal-mask:hover::after { transform: skewX(-20deg) translateX(-120%); }
+
+/* --- 33. Exclusion Blend Text --- */
+.aw-text-blend-exclusion {
+  color: #fff; mix-blend-mode: exclusion;
+  font-family: var(--aw-font-display);
+}
+
+/* --- 34. Cyber Glitch Clip --- */
+.aw-text-glitch-clip {
+  position: relative; color: var(--color-fg);
+}
+.aw-text-glitch-clip:hover {
+  animation: clipGlitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--color-accent);
+}
+@keyframes clipGlitch {
+  0% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); }
+  50% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+  100% { clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%); }
+}
+
+/* --- 35. 3D Stagger Split --- */
+.aw-text-stagger-split {
+  display: flex; overflow: hidden; perspective: 500px;
+}
+.aw-text-stagger-split span {
+  display: inline-block; transform-origin: bottom;
+  transition: transform 0.6s var(--ease-bounce-soft);
+}
+.aw-text-stagger-split:hover span {
+  transform: rotateX(360deg);
+}
+.aw-text-stagger-split span:nth-child(even) { transition-delay: 0.1s; }/* --- 76. Cinematic Smoke Reveal --- */
+.aw-text-smoke { filter: blur(15px); opacity: 0; transform: translateY(20px); transition: filter 1.2s var(--ease-expo), opacity 1.2s, transform 1.2s; }
+.aw-text-smoke.is-visible, .aw-text-smoke:hover { filter: blur(0px); opacity: 1; transform: translateY(0); }
+
+/* --- 77. RGB Glitch Split Hover --- */
+.aw-text-rgb-split { position: relative; display: inline-block; transition: text-shadow 0.3s var(--ease-bounce-soft); }
+.aw-text-rgb-split:hover { text-shadow: -4px 0px 0px #FF007A, 4px 0px 0px #00F0FF; color: transparent; }
+
+/* --- 78. 3D Hinge Fold Drop --- */
+.aw-text-hinge { display: inline-block; transform-origin: top left; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+.aw-text-hinge:hover { transform: rotateX(-90deg) skewX(15deg); opacity: 0.5; }
+
+/* --- 79. Hover Kinetic Marquee --- */
+.aw-text-marquee-hover { display: inline-flex; overflow: hidden; white-space: nowrap; max-width: 100%; position: relative; }
+.aw-text-marquee-hover span { display: inline-block; transition: transform 0.4s var(--ease-expo); }
+.aw-text-marquee-hover::after { content: attr(data-text); position: absolute; left: 100%; padding-left: 1rem; }
+.aw-text-marquee-hover:hover span { transform: translateX(-100%); padding-right: 1rem; }
+.aw-text-marquee-hover:hover::after { animation: slideMarquee 2s linear infinite; }
+@keyframes slideMarquee { 100% { transform: translateX(-100%); } }
+
+/* --- 80. Perspective Shadow Cast --- */
+.aw-text-perspective-cast { transition: text-shadow 0.6s var(--ease-expo), transform 0.6s; transform-origin: bottom center; }
+.aw-text-perspective-cast:hover { transform: scaleY(1.1); text-shadow: 0px 40px 10px rgba(0,0,0,0.5); }

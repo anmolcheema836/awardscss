@@ -79,3 +79,134 @@
 @keyframes scrollVertical {
   to { transform: translateY(calc(-50% - (var(--space-8) / 2))); }
 }
+/* --- 6. Pure CSS Scroll Progress Bar --- */
+.aw-scroll-progress {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: var(--gradient-accent); z-index: 9999;
+  transform-origin: 0% 50%;
+}
+@supports (animation-timeline: scroll()) {
+  .aw-scroll-progress {
+    animation: scrollProgressFill linear forwards;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes scrollProgressFill {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+/* --- 18. Native Scroll Background Zoom --- */
+.aw-scroll-zoom-bg {
+  position: relative; width: 100%; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.aw-scroll-zoom-inner {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: -1;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-zoom-inner {
+    animation: zoomScrollImage linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 100%;
+  }
+}
+@keyframes zoomScrollImage {
+  0% { transform: scale(1.6); filter: blur(20px) brightness(0.2); }
+  50% { transform: scale(1.1); filter: blur(0px) brightness(0.6); }
+  100% { transform: scale(1); filter: blur(0px) brightness(1); }
+}
+/* --- 30. Native Scroll 3D Skew/Pitch --- */
+.aw-scroll-skew {
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-skew {
+    animation: skewOnScroll linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+@keyframes skewOnScroll {
+  /* Starts leaning backward, flattens in center, leans forward exiting */
+  0% { transform: perspective(1200px) rotateX(-25deg) scale(0.85); opacity: 0; filter: blur(10px); }
+  40%, 60% { transform: perspective(1200px) rotateX(0deg) scale(1); opacity: 1; filter: blur(0px); }
+  100% { transform: perspective(1200px) rotateX(25deg) scale(0.85); opacity: 0; filter: blur(10px); }
+}/* --- 56. Section Scale Up Entry --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-scale-up {
+    animation: sectionScaleUp linear both; animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+@keyframes sectionScaleUp {
+  0% { transform: scale(0.8); border-radius: 40px; opacity: 0; }
+  100% { transform: scale(1); border-radius: 0px; opacity: 1; }
+}
+
+/* --- 57. Cinematic Curtain Rise --- */
+.aw-scroll-curtain { position: relative; }
+.aw-scroll-curtain::after {
+  content: ""; position: absolute; inset: 0; background: #000; z-index: 10;
+  transform-origin: top;
+}
+@supports (animation-timeline: view()) {
+  .aw-scroll-curtain::after {
+    animation: curtainRise linear both; animation-timeline: view();
+    animation-range: entry 20% cover 50%;
+  }
+}
+@keyframes curtainRise { to { transform: scaleY(0); } }
+
+/* --- 58. Native Background Parallax --- */
+.aw-section-parallax-bg {
+  background-attachment: fixed; background-position: center;
+  background-repeat: no-repeat; background-size: cover;
+}
+
+/* --- 59. Native Y-Axis Snap Container --- */
+.aw-scroll-snap-y-container {
+  height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.aw-scroll-snap-y-container::-webkit-scrollbar { display: none; }
+.aw-scroll-snap-y-item { height: 100vh; scroll-snap-align: start; }
+
+/* --- 60. Native Horizontal Sticky Wrap --- */
+.aw-section-sticky-horizontal {
+  display: flex; width: max-content; height: 100vh;
+}
+.aw-sticky-track {
+  position: sticky; top: 0; height: 100vh; overflow-x: hidden;
+}/* --- 101. Curved Horizon Entry --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-horizon { animation: horizonBend linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+}
+@keyframes horizonBend {
+  0% { border-radius: 50% 50% 0 0; transform: translateY(20%); }
+  100% { border-radius: 0; transform: translateY(0); }
+}
+
+/* --- 102. Massive Zoom-Out Fit --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-zoom-out-fit { animation: zoomOutFit linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+}
+@keyframes zoomOutFit { 0% { transform: scale(2); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+/* --- 103. 3D Section Fold Away (Exit Anim) --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-fold-away { transform-origin: top center; animation: foldAway linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+}
+@keyframes foldAway { to { transform: rotateX(45deg) scale(0.9); filter: brightness(0.2); } }
+
+/* --- 104. Timeline Color Spectrum Shift --- */
+@supports (animation-timeline: view()) {
+  .aw-scroll-color-shift { animation: hueShift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+}
+@keyframes hueShift { to { filter: hue-rotate(360deg); } }
+
+/* --- 105. Strict Section Grain (Base64 wrapper) --- */
+.aw-section-grain { position: relative; overflow: hidden; }
+.aw-section-grain::after { content: ""; position: absolute; inset: 0; background: url('data:image/svg+xml,...'); opacity: 0.05; pointer-events: none; mix-blend-mode: overlay; animation: noise 1s steps(2) infinite; }

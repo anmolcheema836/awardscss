@@ -43,3 +43,52 @@
 .aw-accordion[open] .aw-accordion-content {
   grid-template-rows: 1fr; opacity: 1; padding-bottom: var(--space-8);
 }
+/* --- 20. Magnetic Center-Border Accordion --- */
+.aw-accordion-magnetic {
+  position: relative; width: 100%; margin-bottom: var(--space-4);
+}
+/* The animated border */
+.aw-accordion-magnetic::after {
+  content: ""; position: absolute; bottom: 0; left: 50%;
+  width: 0%; height: 1px; background: var(--color-accent);
+  transition: width 0.6s var(--ease-expo), left 0.6s var(--ease-expo);
+}
+.aw-accordion-magnetic:hover::after,
+.aw-accordion-magnetic[open]::after {
+  width: 100%; left: 0%;
+}
+.aw-accordion-magnetic summary {
+  padding: var(--space-6) 0; font-family: var(--aw-font-display);
+  font-size: var(--text-2xl); cursor: pointer; list-style: none;
+}
+.aw-accordion-magnetic summary::-webkit-details-marker { display: none; }
+.aw-accordion-magnetic[open] .aw-accordion-content {
+  padding-bottom: var(--space-6);
+}/* --- Add to forms.css --- */
+/* --- 111. Terminal Blinking Cursor Input --- */
+.aw-input-terminal { font-family: var(--aw-font-mono); background: #000; color: #0f0; border: none; outline: none; caret-color: transparent; position: relative; }
+.aw-input-terminal:focus { animation: blinkCursor 1s step-end infinite; border-right: 10px solid #0f0; }
+@keyframes blinkCursor { 50% { border-right-color: transparent; } }
+
+/* --- 112. Center-Draw Underline --- */
+.aw-input-draw-line { border: none; background: transparent; padding: 1rem 0; color: var(--color-fg); position: relative; outline: none; }
+.aw-input-draw-wrap { position: relative; }
+.aw-input-draw-wrap::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 0%; height: 2px; background: var(--color-accent); transition: width 0.4s var(--ease-expo), left 0.4s var(--ease-expo); }
+.aw-input-draw-line:focus + ::after, .aw-input-draw-wrap:focus-within::after { width: 100%; left: 0; }
+
+/* --- 113. Oversized Brutal Switch --- */
+.aw-checkbox-brutal { appearance: none; width: 60px; height: 30px; border: 2px solid var(--color-fg); border-radius: 99px; position: relative; cursor: pointer; outline: none; background: var(--color-bg); transition: background 0.3s; }
+.aw-checkbox-brutal::before { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: var(--color-fg); border-radius: 50%; transition: transform 0.3s var(--ease-bounce-soft); }
+.aw-checkbox-brutal:checked { background: var(--color-accent); border-color: var(--color-accent); }
+.aw-checkbox-brutal:checked::before { transform: translateX(30px); background: var(--color-bg); }
+
+/* --- Add to accordion.css --- */
+/* --- 114. Cyber Slicing Accordion --- */
+.aw-accordion-cyber { border-left: 2px solid transparent; transition: border-color 0.4s; }
+.aw-accordion-cyber[open] { border-left-color: var(--color-accent); }
+.aw-accordion-cyber[open] summary { padding-left: var(--space-4); color: var(--color-accent); }
+
+/* --- 115. Marquee Header Accordion --- */
+.aw-accordion-marquee summary { overflow: hidden; white-space: nowrap; }
+.aw-accordion-marquee[open] summary { animation: marqueeText 4s linear infinite; }
+@keyframes marqueeText { 100% { transform: translateX(-50%); } }
