@@ -4,8 +4,8 @@
   "description": "High-end CSS library for Awwwards-level design",
   "main": "dist/awardscss.min.css",
   "scripts": {
-    "dev": "postcss src/main.css -o dist/awardscss.css -w",
-    "build": "postcss src/main.css -o dist/awardscss.min.css"
+    "dev": "node api.js && postcss src/main.css -o dist/awardscss.css -w",
+    "build": "node api.js && postcss src/main.css -o dist/awardscss.min.css"
   },
   "keywords": [
     "css",
