@@ -8,3 +8,5 @@ yarn-error.log*
 
 # Optional: Ignore the dist folder if you only want people to build it themselves
 # (But for a CSS framework, keeping dist/ is usually good so people can use the CDN link)
+temp_auto_push.bat
+temp_interactive_push.bat
